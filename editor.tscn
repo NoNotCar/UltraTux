@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dvutmqo5bfgru"]
+
+[ext_resource type="Script" path="res://editor.gd" id="1_1pbdi"]
+[ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_rnuw8"]
+
+[node name="Editor" type="Node2D"]
+script = ExtResource("1_1pbdi")
+
+[node name="Level" parent="." instance=ExtResource("2_rnuw8")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
