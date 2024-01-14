@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cd7d0wx4gbxj5"]
+
+[ext_resource type="Script" path="res://tux/tux_cam.gd" id="1_gidu6"]
+
+[node name="TuxCam" type="Camera2D"]
+limit_bottom = 8
+script = ExtResource("1_gidu6")

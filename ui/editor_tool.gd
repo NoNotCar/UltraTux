@@ -3,7 +3,11 @@ class_name EditorTool
 
 signal selected
 
-var is_selected: set = set_selected, get = get_selected;
+var is_selected: bool:
+	set(value):
+		$Selected.visible = value;
+	get:
+		return $Selected.value
 
 func place_single(pos: Vector2i, lvl: Level):
 	pass
@@ -14,11 +18,6 @@ func place_multi(pos: Vector2i, lvl: Level):
 func place_drag(spos:Vector2i, epos: Vector2i, lvl: Level):
 	pass
 	
-func set_selected(new: bool):
-	$Selected.visible = new;
-
-func get_selected():
-	return $Selected.visible
 
 
 func _gui_input(event):

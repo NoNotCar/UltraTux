@@ -16,10 +16,11 @@ func _ready():
 		tool.connect("selected", func (): select_tool(tool))
 
 func get_grid_pos(pos: Vector2):
-	var res = Vector2i((pos + mouse_offset) / 16) 
-	if pos.x <= 0:
+	var off = (pos + mouse_offset)
+	var res = Vector2i(off / 16) 
+	if off.x <= 0:
 		res += Vector2i.LEFT
-	if pos.y <= 0:
+	if off.y <= 0:
 		res += Vector2i.UP
 	return res
 
@@ -30,6 +31,9 @@ func _process(delta):
 		currentTool.place_multi(mpos, $Level)
 	elif enableErasing and Input.is_action_pressed("editor_erase"):
 		$Level.clear_terrain(mpos)
+	var dx = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
+	var dy = Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
+	$Camera2D.position = $Camera2D.get_screen_center_position() + Vector2(dx,dy) * delta * 128
 		
 func _unhandled_input(event):
 	if event.is_action_pressed("editor_place"):
@@ -44,3 +48,12 @@ func _unhandled_input(event):
 		enableErasing = false
 		
 	
+
+
+func _on_play_gui_input(event):
+	if event.is_action_pressed("editor_place") and get_tree().get_first_node_in_group("Spawn"):
+		var fname = "user://temp.lvl"
+		$Level.save(fname)
+		Globals.current_level = fname
+		get_tree().change_scene_to_file("res://game.tscn")
+		

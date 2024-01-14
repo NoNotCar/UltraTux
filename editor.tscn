@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dvutmqo5bfgru"]
+[gd_scene load_steps=11 format=3 uid="uid://dvutmqo5bfgru"]
 
 [ext_resource type="Script" path="res://editor.gd" id="1_1pbdi"]
 [ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_rnuw8"]
@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://ges81is1xgqf" path="res://ui/object_tool.tscn" id="5_vl1mc"]
 [ext_resource type="Texture2D" uid="uid://d3shcuadayn3h" path="res://objects/spawns/iglooIcon.png" id="6_20r4w"]
 [ext_resource type="PackedScene" uid="uid://b2o3hi54g7cx6" path="res://objects/spawns/igloo.tscn" id="7_dil6n"]
+[ext_resource type="Texture2D" uid="uid://1clkjyucer1o" path="res://enemies/snowball/icon.png" id="8_6dvmb"]
+[ext_resource type="Texture2D" uid="uid://dhka36oph3d8l" path="res://ui/play.png" id="8_t3j5c"]
+[ext_resource type="PackedScene" uid="uid://b3qcciyddontm" path="res://enemies/snowball/snowball.tscn" id="9_3tgpu"]
 
 [node name="Editor" type="Node2D"]
 script = ExtResource("1_1pbdi")
@@ -15,6 +18,7 @@ script = ExtResource("1_1pbdi")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(3, 3)
+limit_bottom = 8
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -33,7 +37,21 @@ mouse_filter = 1
 texture = ExtResource("4_skonm")
 terrain = "snow"
 
-[node name="ObjectTool" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
+[node name="Igloo" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
 layout_mode = 2
 texture = ExtResource("6_20r4w")
 scene = ExtResource("7_dil6n")
+
+[node name="Snowball" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("8_6dvmb")
+scene = ExtResource("9_3tgpu")
+
+[node name="Play" type="TextureRect" parent="UI/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("8_t3j5c")
+expand_mode = 2
+stretch_mode = 5
+
+[connection signal="gui_input" from="UI/HBoxContainer/Play" to="." method="_on_play_gui_input"]

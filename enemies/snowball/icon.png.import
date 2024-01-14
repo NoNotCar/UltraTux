@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bwq5ebdgwhp5m"
-path="res://.godot/imported/testMountain.png-0a26f6b252693e5bba0ead27e11cbad3.ctex"
+uid="uid://1clkjyucer1o"
+path="res://.godot/imported/icon.png-26162837abe5efe073703c58dd6fcf50.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://testMountain.png"
-dest_files=["res://.godot/imported/testMountain.png-0a26f6b252693e5bba0ead27e11cbad3.ctex"]
+source_file="res://enemies/snowball/icon.png"
+dest_files=["res://.godot/imported/icon.png-26162837abe5efe073703c58dd6fcf50.ctex"]
 
 [params]
 

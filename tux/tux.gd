@@ -1,29 +1,25 @@
 extends CharacterBody2D
-
+class_name Tux
 
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-var gravity=200
+static var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var jump=0
 var flip=false: set = set_flipped
 var falling=true
 var missile=false: set = set_missile
 var last_falling=true
-var starbar=[]
 var mat: Material
-var can_respawn = true
-const death_barrier = 150
+var dying = false
+const death_barrier = 32
 const MPOS = Vector2(7.5,4)
 const SMOKE_SPEED = 96.0
-signal reached_goal
-signal perma_dead
-
 
 func _physics_process(delta):
-	#if $DeathTween.is_active() or not visible:
-		#$RunSmoke.emitting = false
-		#return
+	if dying or not visible:
+		$RunSmoke.emitting = false
+		return
 	var dx = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
 	var running=Input.is_action_pressed("run")
 	$Sprite.speed_scale=1.5 if running else 1.0
@@ -32,7 +28,7 @@ func _physics_process(delta):
 	var jump_pressed = Input.is_action_pressed("jump")
 	if jump:
 		if jump_pressed:
-			velocity+=Vector2.UP*45
+			velocity+=Vector2.UP*55
 		jump-=1
 	if missile and jump_pressed:
 		velocity+=Vector2.UP*gravity*0.5*delta
@@ -41,7 +37,7 @@ func _physics_process(delta):
 		$Missile.animation="default"
 	velocity*=Vector2(pow(0.1,delta),pow(0.5,delta))
 	move_and_slide()
-	#$RunSmoke.emitting = running and is_on_floor() and abs(velocity.x)>SMOKE_SPEED
+	$RunSmoke.emitting = running and is_on_floor() and abs(velocity.x)>SMOKE_SPEED
 	for s in get_slide_collision_count():
 		var coll = get_slide_collision(s)
 		var normal = coll.get_normal()
@@ -71,8 +67,8 @@ func _physics_process(delta):
 	if position.y>death_barrier:
 		die()
 func _input(event):
-	#if $DeathTween.is_active() or not visible:
-		#return
+	if dying or not visible:
+		return
 	if event.is_action("jump"):
 		if not falling:
 			jump=4
@@ -101,16 +97,20 @@ func set_flipped(new:bool):
 	#$Missile.flip_h=new
 
 func respawn():
-	var pipe=get_tree().get_nodes_in_group("Spawn")[0]
+	var spawn=get_tree().get_first_node_in_group("Spawn")
 	#set_missile(false)
 	#$Clouds.n=0
-	get_parent().remove_child(self)
-	position=pipe.position
-	pipe.to_spawn.append(self)
+	var parent = get_parent()
+	parent.remove_child(self)
+	position=spawn.position
 	velocity=Vector2.ZERO
+	enable_collision()
+	parent.call_deferred("add_child",self)
+	
 func disable_collision():
 	collision_layer=0
 	collision_mask=0
+	
 func enable_collision():
 	collision_layer=2
 	collision_mask=3
@@ -128,20 +128,21 @@ func spike():
 
 func die():
 	disable_collision()
-	$DeathTween.interpolate_property($Sprite,"scale",null,Vector2.ZERO,0.5,Tween.TRANS_QUAD,Tween.EASE_IN)
-	$DeathTween.interpolate_property($Sprite,"rotation",0,randf_range(-6,6),0.5,Tween.TRANS_QUAD,Tween.EASE_IN)
-	$DeathTween.start()
+	var deathTween = get_tree().create_tween()
+	deathTween.tween_property($Sprite,"scale",Vector2.ZERO,0.5)\
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	deathTween.parallel().tween_property($Sprite,"rotation",randf_range(-6,6),0.5)\
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	deathTween.finished.connect(_on_deathTween_finished)
+	dying = true
 	$Sprite.play("dying")
 
-func _on_DeathTween_tween_all_completed():
-	if can_respawn:
-		$Sprite.scale=Vector2.ONE
-		$Sprite.rotation=0
-		$Sprite.play("sit")
-		respawn()
-	else:
-		emit_signal("perma_dead")
-		queue_free()
+func _on_deathTween_finished():
+	dying = false
+	$Sprite.scale=Vector2.ONE
+	$Sprite.rotation=0
+	$Sprite.play("sit")
+	respawn()
 	
 
 func on_goal(goal:Node2D,points:int):

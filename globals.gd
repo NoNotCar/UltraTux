@@ -1,6 +1,7 @@
 extends Node
 
 
+var current_level:="user://temp.lvl"
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	AudioServer.set_bus_volume_db(0,-10)

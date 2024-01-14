@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://25wecg71820"]
+
+[ext_resource type="Script" path="res://Game.gd" id="1_daifq"]
+[ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_a4w4e"]
+[ext_resource type="PackedScene" uid="uid://cd7d0wx4gbxj5" path="res://tux/tux_cam.tscn" id="3_akrfn"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_daifq")
+
+[node name="Level" parent="." instance=ExtResource("2_a4w4e")]
+
+[node name="TuxCam" parent="." instance=ExtResource("3_akrfn")]
+
+[connection signal="loaded" from="Level" to="." method="_on_level_loaded"]

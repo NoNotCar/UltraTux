@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bigasmirfw0j5"]
+
+[ext_resource type="Texture2D" uid="uid://day8dn4irpr27" path="res://tiles/void.png" id="1_o4lmh"]
+
+[node name="DeathBarrier" type="Sprite2D"]
+z_index = 100
+texture = ExtResource("1_o4lmh")
