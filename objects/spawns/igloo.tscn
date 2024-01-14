@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://b2o3hi54g7cx6"]
+
+[ext_resource type="Texture2D" uid="uid://cawsikcikdvb1" path="res://objects/spawns/iglooFront.png" id="1_0snfx"]
+[ext_resource type="Texture2D" uid="uid://w06q7j6oojgx" path="res://objects/spawns/iglooBack.png" id="2_b3kk2"]
+
+[node name="Igloo" type="Node2D"]
+
+[node name="Front" type="Sprite2D" parent="."]
+z_index = 5
+position = Vector2(8, -10)
+texture = ExtResource("1_0snfx")
+
+[node name="Back" type="Sprite2D" parent="."]
+z_index = -5
+position = Vector2(8, -10)
+texture = ExtResource("2_b3kk2")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(0, 8)
+polygon = PackedVector2Array(-32, 0, -31, -13, -26, -23, -19, -30, -9, -35, 0, -36, 9, -35, 19, -30, 26, -23, 29, -17, 43, -17, 43, -15, 28, -15, 24, -22, 17, -29, 9, -33, 0, -35, -9, -33, -17, -29, -25, -21, -29, -12, -30, 0)

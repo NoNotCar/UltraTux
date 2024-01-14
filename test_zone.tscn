@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://pxvx7wtohf60"]
+
+[ext_resource type="Texture2D" uid="uid://bwq5ebdgwhp5m" path="res://testMountain.png" id="1_qwaj8"]
+[ext_resource type="PackedScene" uid="uid://dv07k2xjb87b6" path="res://tux/tux.tscn" id="2_60ahu"]
+
+[node name="TestZone" type="Node2D"]
+
+[node name="Mountain" type="StaticBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Mountain"]
+texture = ExtResource("1_qwaj8")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Mountain"]
+polygon = PackedVector2Array(-38, 10, -19, 8, 0, 9, 0, -5, 9, -18, 17, -24, 25, -23, 30, -19, 33, -11, 33, 29, -36, 29)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+
+[node name="Tux" parent="." instance=ExtResource("2_60ahu")]
+position = Vector2(-30, -3)

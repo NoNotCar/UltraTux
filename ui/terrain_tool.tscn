@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmngluvyh6i2g"]
+
+[ext_resource type="PackedScene" uid="uid://bch4j5u8kguw8" path="res://ui/editor_tool.tscn" id="1_qh8f3"]
+[ext_resource type="Script" path="res://ui/terrain_tool.gd" id="2_3lkdu"]
+
+[node name="TerrainTool" instance=ExtResource("1_qh8f3")]
+script = ExtResource("2_3lkdu")
+terrain = ""

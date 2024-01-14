@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://bch4j5u8kguw8"]
+
+[ext_resource type="Script" path="res://ui/editor_tool.gd" id="1_jibxw"]
+[ext_resource type="Texture2D" uid="uid://cjcdxo18py03y" path="res://ui/selected.png" id="2_wu5bx"]
+
+[node name="EditorTool" type="TextureRect" groups=["Tools"]]
+custom_minimum_size = Vector2(64, 64)
+mouse_filter = 0
+stretch_mode = 5
+script = ExtResource("1_jibxw")
+
+[node name="Selected" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -16.0
+offset_right = 16.0
+offset_bottom = 32.0
+grow_horizontal = 2
+texture = ExtResource("2_wu5bx")
+stretch_mode = 4

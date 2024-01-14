@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://ges81is1xgqf"]
+
+[ext_resource type="PackedScene" uid="uid://bch4j5u8kguw8" path="res://ui/editor_tool.tscn" id="1_wwjvk"]
+[ext_resource type="Script" path="res://ui/object_tool.gd" id="2_767v8"]
+
+[node name="ObjectTool" instance=ExtResource("1_wwjvk")]
+script = ExtResource("2_767v8")
+scene = null
