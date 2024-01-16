@@ -1,10 +1,14 @@
 extends Node2D
 
-@export var to_repeat: PackedScene
+var to_repeat: Node2D
 @export var repeat_every = 16
 var spawned = []
 
 func _ready():
+	for child in get_children():
+		if child is Node2D:
+			to_repeat = child
+			break
 	respawn()
 	get_viewport().size_changed.connect(respawn)
 
@@ -13,14 +17,16 @@ func respawn():
 		obj.queue_free()
 	spawned.clear()
 	var bounds = get_viewport_rect().size;
-	var sx = -(bounds.x / repeat_every / 2) - 1
+	var sx = -(bounds.x / repeat_every / 2) - 2
 	var ex = (bounds.x / repeat_every / 2) + 1
 	for tx in range(sx, ex+1):
-		var inst = to_repeat.instantiate()
-		inst.position = Vector2(tx * 16, 0)
-		add_child(inst)
+		if tx:
+			var inst = to_repeat.duplicate()
+			inst.position = Vector2(tx * repeat_every, 0)
+			add_child(inst)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	position.x = Lib.idiv(get_viewport_rect().get_center().x, repeat_every)
+	var cx = get_viewport().get_camera_2d().get_screen_center_position().x
+	position.x = Lib.idiv(cx, repeat_every) * repeat_every

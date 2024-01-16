@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://behf42qr3lubm"]
+
+[ext_resource type="Texture2D" uid="uid://clgax730kopyv" path="res://themes/antarctic/icebergs.png" id="1_s1vlg"]
+
+[node name="IceShelf" type="Sprite2D"]
+modulate = Color(0.878431, 0.878431, 0.878431, 1)
+texture = ExtResource("1_s1vlg")
+offset = Vector2(0, -90)

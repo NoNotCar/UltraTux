@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://cw5vt43r3r4hg"]
+
+[ext_resource type="PackedScene" uid="uid://k5j6cm7dii5q" path="res://common/endless_row.tscn" id="1_f6jr0"]
+[ext_resource type="PackedScene" uid="uid://behf42qr3lubm" path="res://themes/antarctic/ice_shelf.tscn" id="2_a1mu3"]
+[ext_resource type="PackedScene" uid="uid://dunwevlymwwsl" path="res://themes/water.tscn" id="3_dqc5x"]
+[ext_resource type="AudioStream" uid="uid://5si4ei1ntxh5" path="res://themes/antarctic/moving.ogg" id="4_ohsrg"]
+
+[node name="Antarctic" type="Node2D"]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.5, 0.5)
+motion_offset = Vector2(0, 112)
+
+[node name="EndlessRow" parent="ParallaxBackground/ParallaxLayer" instance=ExtResource("1_f6jr0")]
+repeat_every = 320
+
+[node name="IceShelf" parent="ParallaxBackground/ParallaxLayer/EndlessRow" instance=ExtResource("2_a1mu3")]
+
+[node name="EndlessRow" parent="." instance=ExtResource("1_f6jr0")]
+position = Vector2(0, -60)
+repeat_every = 24
+
+[node name="Water" parent="EndlessRow" instance=ExtResource("3_dqc5x")]
+water_depth = 68
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ohsrg")
+autoplay = true

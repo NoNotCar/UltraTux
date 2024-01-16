@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://bt3lun5hkoyeq"]
+[gd_scene load_steps=8 format=3 uid="uid://bt3lun5hkoyeq"]
 
 [ext_resource type="Script" path="res://level.gd" id="1_fhian"]
 [ext_resource type="Texture2D" uid="uid://d1kf5sqnppsv5" path="res://tiles/snow/snow.png" id="2_8nwcg"]
 [ext_resource type="PackedScene" uid="uid://k5j6cm7dii5q" path="res://common/endless_row.tscn" id="3_ndtwn"]
 [ext_resource type="PackedScene" uid="uid://bigasmirfw0j5" path="res://tiles/death_barrier.tscn" id="4_8cuus"]
+[ext_resource type="PackedScene" uid="uid://cw5vt43r3r4hg" path="res://themes/antarctic/antarctic.tscn" id="5_pmlpd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_41df0"]
 resource_name = "snow"
@@ -129,4 +130,7 @@ format = 2
 
 [node name="EndlessRow" parent="." instance=ExtResource("3_ndtwn")]
 position = Vector2(0, 4)
-to_repeat = ExtResource("4_8cuus")
+
+[node name="DeathBarrier" parent="EndlessRow" instance=ExtResource("4_8cuus")]
+
+[node name="Antarctic" parent="." instance=ExtResource("5_pmlpd")]

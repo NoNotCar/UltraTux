@@ -1,0 +1,27 @@
+[gd_scene load_steps=6 format=3 uid="uid://dunwevlymwwsl"]
+
+[ext_resource type="Script" path="res://themes/water.gd" id="1_8scro"]
+[ext_resource type="Shader" path="res://themes/water.gdshader" id="1_mfleu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_pd1wg"]
+shader = ExtResource("1_mfleu")
+shader_parameter/surface_colour = Color(0, 0.803922, 0.976471, 1)
+
+[sub_resource type="Gradient" id="Gradient_8h5cl"]
+colors = PackedColorArray(0, 0.411765, 0.666667, 1, 0, 0.596078, 0.862745, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8yfju"]
+gradient = SubResource("Gradient_8h5cl")
+width = 24
+height = 12
+fill_from = Vector2(1, 1)
+
+[node name="Water" type="Node2D"]
+modulate = Color(1, 1, 1, 0.501961)
+z_index = 5
+script = ExtResource("1_8scro")
+
+[node name="Surface" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_pd1wg")
+position = Vector2(0, -6)
+texture = SubResource("GradientTexture2D_8yfju")
