@@ -15,29 +15,48 @@ var dying = false
 const death_barrier = 32
 const MPOS = Vector2(7.5,4)
 const SMOKE_SPEED = 96.0
+const GROUND_DAMPING = 0.1
+const AIR_DAMPING = 0.5
+const SHORE_DAMPING = 0.01
+const WATER_DAMPING = 0.05
+const WATER_ROTATE_SPEED = 8.0
 
 func _physics_process(delta):
 	if dying or not visible:
 		$RunSmoke.emitting = false
 		return
-	var dx = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")
-	var running=Input.is_action_pressed("run")
-	$Sprite.speed_scale=1.5 if running else 1.0
-	velocity+=Vector2.RIGHT*dx*delta*200*(int(running)+1)*(0.75 if falling else 1.0)
-	velocity+=Vector2.DOWN*gravity*delta
-	var jump_pressed = Input.is_action_pressed("jump")
-	if jump:
-		if jump_pressed:
-			velocity+=Vector2.UP*55
-		jump-=1
-	if missile and jump_pressed:
-		velocity+=Vector2.UP*gravity*0.5*delta
-		$Missile.animation="fire"
-	elif missile:
-		$Missile.animation="default"
-	velocity*=Vector2(pow(0.1,delta),pow(0.5,delta))
+	var depth = Globals.get_water_depth(position + Vector2.DOWN * 6)
+	var submerge = clamp(depth/16, 0, 1)
+	var immersed = submerge >= 1
+	var input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var dx = input.x
+	if immersed:
+		var jump_pressed = Input.is_action_just_pressed("jump")
+		if (jump_pressed):
+			var dir = Vector2.UP.rotated($Sprite.rotation)
+			var push = 150 + abs(dir.cross(velocity)) * 0.5
+			velocity+= dir*push
+			$Sprite.play("swim")
+	else:
+		var running=Input.is_action_pressed("run")
+		$Sprite.speed_scale=1.5 if running else 1.0
+		velocity+=Vector2.RIGHT*dx*delta*200*(int(running)+1)*(0.75 if falling else 1.0)
+		velocity+=Vector2.DOWN*gravity*delta*(1-submerge)
+		var jump_pressed = Input.is_action_pressed("jump")
+		if jump:
+			if jump_pressed:
+				velocity+=Vector2.UP*55
+			jump-=1
+		if missile and jump_pressed:
+			velocity+=Vector2.UP*gravity*0.5*delta
+			$Missile.animation="fire"
+		elif missile:
+			$Missile.animation="default"
+		$RunSmoke.emitting = running and not submerge and is_on_floor() and abs(velocity.x)>SMOKE_SPEED
+	var x_damp = lerp(GROUND_DAMPING, WATER_DAMPING if immersed else SHORE_DAMPING, submerge)
+	var y_damp = lerp(AIR_DAMPING, WATER_DAMPING, submerge)
+	velocity*=Vector2(pow(x_damp,delta),pow(y_damp,delta))
 	move_and_slide()
-	$RunSmoke.emitting = running and is_on_floor() and abs(velocity.x)>SMOKE_SPEED
 	for s in get_slide_collision_count():
 		var coll = get_slide_collision(s)
 		var normal = coll.get_normal()
@@ -57,13 +76,25 @@ func _physics_process(delta):
 	var f=not is_on_floor()
 	falling = f and last_falling
 	last_falling=f
-	if dx:
-		$Sprite.animation="walk"
-		set_flipped(dx<0)
+	if immersed:
+		if ($Sprite.animation != "swim"):
+			$Sprite.animation="float"
+		if (input.length_squared() > 0.1):
+			var tr = Vector2.UP.angle_to(input)
+			var da = Lib.signed_angle($Sprite.rotation, tr)
+			if delta * WATER_ROTATE_SPEED > abs(da):
+				$Sprite.rotation = tr;
+			else:
+				$Sprite.rotate(delta * sign(da) * WATER_ROTATE_SPEED)
 	else:
-		$Sprite.animation="sit"
-	if falling:
-		$Sprite.animation="jump_up" if velocity.y<0 else "jump_down"
+		$Sprite.rotation = 0
+		set_flipped(dx<0)
+		if falling:
+			$Sprite.animation="jump_up" if velocity.y<0 else "jump_down"
+		elif dx:
+			$Sprite.animation="walk"
+		else:
+			$Sprite.animation="sit"
 	if position.y>death_barrier:
 		die()
 func _input(event):

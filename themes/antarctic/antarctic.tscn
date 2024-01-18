@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://cw5vt43r3r4hg"]
+[gd_scene load_steps=6 format=3 uid="uid://cw5vt43r3r4hg"]
 
+[ext_resource type="Script" path="res://themes/theme.gd" id="1_aieke"]
 [ext_resource type="PackedScene" uid="uid://k5j6cm7dii5q" path="res://common/endless_row.tscn" id="1_f6jr0"]
 [ext_resource type="PackedScene" uid="uid://behf42qr3lubm" path="res://themes/antarctic/ice_shelf.tscn" id="2_a1mu3"]
 [ext_resource type="PackedScene" uid="uid://dunwevlymwwsl" path="res://themes/water.tscn" id="3_dqc5x"]
 [ext_resource type="AudioStream" uid="uid://5si4ei1ntxh5" path="res://themes/antarctic/moving.ogg" id="4_ohsrg"]
 
 [node name="Antarctic" type="Node2D"]
+script = ExtResource("1_aieke")
+water_level = -70.0
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 

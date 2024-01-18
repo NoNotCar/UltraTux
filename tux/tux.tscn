@@ -1,9 +1,10 @@
-[gd_scene load_steps=30 format=3 uid="uid://dv07k2xjb87b6"]
+[gd_scene load_steps=34 format=3 uid="uid://dv07k2xjb87b6"]
 
 [ext_resource type="Script" path="res://tux/tux.gd" id="1_ih05e"]
 [ext_resource type="Texture2D" uid="uid://c46ycaw5cq2k2" path="res://tux/dying.png" id="2_7rmrh"]
 [ext_resource type="Texture2D" uid="uid://dd6pji6dn4lor" path="res://tux/side.png" id="2_pge2p"]
 [ext_resource type="AudioStream" uid="uid://de2fbr2eky10d" path="res://tux/jump.wav" id="3_gbiab"]
+[ext_resource type="Texture2D" uid="uid://dusshlpuy146k" path="res://tux/swim.png" id="3_tt8t7"]
 [ext_resource type="Texture2D" uid="uid://disndxt0jrh6u" path="res://tux/runsmoke.png" id="4_jrtl1"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w3sl5"]
@@ -34,6 +35,10 @@ region = Rect2(64, 0, 16, 16)
 atlas = ExtResource("2_7rmrh")
 region = Rect2(80, 0, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvbfs"]
+atlas = ExtResource("3_tt8t7")
+region = Rect2(48, 0, 16, 16)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_5wnk1"]
 atlas = ExtResource("2_pge2p")
 region = Rect2(176, 0, 16, 16)
@@ -45,6 +50,22 @@ region = Rect2(160, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_cgg3q"]
 atlas = ExtResource("2_pge2p")
 region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3uor"]
+atlas = ExtResource("3_tt8t7")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8x606"]
+atlas = ExtResource("3_tt8t7")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5fror"]
+atlas = ExtResource("3_tt8t7")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_girea"]
+atlas = ExtResource("3_tt8t7")
+region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2g8f5"]
 atlas = ExtResource("2_pge2p")
@@ -105,6 +126,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_kvbfs")
+}],
+"loop": true,
+"name": &"float",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_5wnk1")
 }],
 "loop": true,
@@ -126,6 +155,23 @@ animations = [{
 "loop": true,
 "name": &"sit",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3uor")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8x606")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5fror")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_girea")
+}],
+"loop": false,
+"name": &"swim",
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -157,10 +203,6 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_q3h4q"]
-
-[sub_resource type="CurveTexture" id="CurveTexture_4uetn"]
-
 [sub_resource type="Curve" id="Curve_1qv7a"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.47253, 0.0, 0, 0]
 point_count = 2
@@ -169,19 +211,15 @@ point_count = 2
 curve = SubResource("Curve_1qv7a")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mrj0j"]
-particle_flag_disable_z = true
 emission_shape = 1
 emission_sphere_radius = 1.0
+particle_flag_disable_z = true
+direction = Vector3(0, 0, 0)
+gravity = Vector3(0, 0, 0)
+orbit_velocity_min = 0.0
+orbit_velocity_max = 0.0
 angle_min = -180.0
 angle_max = 180.0
-direction = Vector3(0, 0, 0)
-directional_velocity_min = -8.0
-directional_velocity_max = 8.0
-directional_velocity_curve = SubResource("CurveXYZTexture_q3h4q")
-radial_velocity_min = -16.0
-radial_velocity_max = 16.0
-radial_velocity_curve = SubResource("CurveTexture_4uetn")
-gravity = Vector3(0, 0, 0)
 scale_min = 0.5
 scale_curve = SubResource("CurveTexture_lryox")
 
@@ -194,9 +232,8 @@ shape = SubResource("CapsuleShape2D_w3sl5")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_uju4h")
-animation = &"dying"
+animation = &"swim"
 autoplay = "sit"
-frame_progress = 0.0287948
 
 [node name="Jump" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_gbiab")

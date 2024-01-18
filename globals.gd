@@ -2,6 +2,7 @@ extends Node
 
 
 var current_level:=""
+var global_water_level: float
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	AudioServer.set_bus_volume_db(0,-10)
@@ -10,3 +11,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+func get_water_depth(pos: Vector2):
+	return max(0, pos.y - global_water_level)
