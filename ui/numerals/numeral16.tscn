@@ -9,4 +9,3 @@ offset_bottom = 40.0
 texture = ExtResource("1_ldjql")
 stretch_mode = 5
 script = ExtResource("2_gj2qs")
-digit = 1
