@@ -24,6 +24,7 @@ func respawn():
 			var inst = to_repeat.duplicate()
 			inst.position = Vector2(tx * repeat_every, 0)
 			add_child(inst)
+			spawned.append(inst)
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

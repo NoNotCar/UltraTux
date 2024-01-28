@@ -30,16 +30,16 @@ func _physics_process(delta):
 	var immersed = submerge >= 1
 	var input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var dx = input.x
+	var running=Input.is_action_pressed("run")
+	$Sprite.speed_scale=1.5 if running else 1.0
 	if immersed:
-		var jump_pressed = Input.is_action_just_pressed("jump")
-		if (jump_pressed):
+		var ready_to_swim = $Sprite.animation == "float" or not $Sprite.is_playing()
+		if ready_to_swim and Input.is_action_pressed("jump"):
 			var dir = Vector2.UP.rotated($Sprite.rotation)
-			var push = 150 + abs(dir.cross(velocity)) * 0.5
+			var push = (100 if running else 75) + abs(dir.cross(velocity)) * 0.5
 			velocity+= dir*push
 			$Sprite.play("swim")
 	else:
-		var running=Input.is_action_pressed("run")
-		$Sprite.speed_scale=1.5 if running else 1.0
 		velocity+=Vector2.RIGHT*dx*delta*200*(int(running)+1)*(0.75 if falling else 1.0)
 		velocity+=Vector2.DOWN*gravity*delta*(1-submerge)
 		var jump_pressed = Input.is_action_pressed("jump")
@@ -77,15 +77,19 @@ func _physics_process(delta):
 	falling = f and last_falling
 	last_falling=f
 	if immersed:
-		if ($Sprite.animation != "swim"):
-			$Sprite.animation="float"
+		
+		var tr = null
 		if (input.length_squared() > 0.1):
-			var tr = Vector2.UP.angle_to(input)
+			tr = Vector2.UP.angle_to(input)
 			var da = Lib.signed_angle($Sprite.rotation, tr)
 			if delta * WATER_ROTATE_SPEED > abs(da):
 				$Sprite.rotation = tr;
 			else:
 				$Sprite.rotate(delta * sign(da) * WATER_ROTATE_SPEED)
+		if ($Sprite.animation != "swim"):
+			$Sprite.animation="float"
+			if tr != null:
+				$Sprite.rotation = tr
 	else:
 		$Sprite.rotation = 0
 		set_flipped(dx<0)
@@ -167,6 +171,9 @@ func die():
 	deathTween.finished.connect(_on_deathTween_finished)
 	dying = true
 	$Sprite.play("dying")
+
+func collect_coins(coins: int):
+	Globals.coins += coins
 
 func _on_deathTween_finished():
 	dying = false

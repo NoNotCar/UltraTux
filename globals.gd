@@ -3,6 +3,12 @@ extends Node
 
 var current_level:=""
 var global_water_level: float
+
+signal coins_updated
+var coins = 0:
+	set(value):
+		coins = value
+		emit_signal("coins_updated", value)
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	AudioServer.set_bus_volume_db(0,-10)

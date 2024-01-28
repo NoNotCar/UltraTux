@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1dq8wph2dlfq"]
+
+[ext_resource type="Texture2D" uid="uid://d1r44ci01w300" path="res://objects/coins/coinIcon.png" id="1_cx2jx"]
+[ext_resource type="Script" path="res://ui/coin_counter.gd" id="1_n0wo1"]
+[ext_resource type="PackedScene" uid="uid://bfaak8pruls41" path="res://ui/numerals/numeral16.tscn" id="2_thcxm"]
+
+[node name="CoinCounter" type="HBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+grow_horizontal = 0
+script = ExtResource("1_n0wo1")
+
+[node name="Coin" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+texture = ExtResource("1_cx2jx")
+stretch_mode = 5
+
+[node name="Tens" parent="." instance=ExtResource("2_thcxm")]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Ones" parent="." instance=ExtResource("2_thcxm")]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2

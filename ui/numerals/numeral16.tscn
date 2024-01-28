@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfaak8pruls41"]
+
+[ext_resource type="Texture2D" uid="uid://dg168g0ef4kd4" path="res://ui/numerals/numerals16_1.png" id="1_ldjql"]
+[ext_resource type="Script" path="res://ui/numerals/numeral16.gd" id="2_gj2qs"]
+
+[node name="Numeral16" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_ldjql")
+stretch_mode = 5
+script = ExtResource("2_gj2qs")
+digit = 1

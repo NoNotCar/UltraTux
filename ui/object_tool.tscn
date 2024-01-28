@@ -6,3 +6,4 @@
 [node name="ObjectTool" instance=ExtResource("1_wwjvk")]
 script = ExtResource("2_767v8")
 scene = null
+allow_drag = false

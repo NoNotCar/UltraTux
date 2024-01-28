@@ -1,12 +1,21 @@
 extends Node2D
 class_name Level
 
-const terrain_ids = {
-	"snow": 1
+const terrains = {
+	"snow": {
+		"type": "ut",
+		"id": 1,
+		"variants": 3
+	},
+	"bluepipe": {
+		"type": "pipe",
+		"id": 0,
+		"sticky": true
+	}
 }
-const variants = {
-	"snow": 3
-}
+
+const pipe_connect = [[Vector2i.UP, 1], [Vector2i.RIGHT, 2], [Vector2i.DOWN, 4], [Vector2i.LEFT, 8]]
+
 var terrain = {}
 var to_fix = {}
 var objects = {}
@@ -35,7 +44,7 @@ func _ready():
 			
 
 func set_terrain(pos: Vector2i, name: String):
-	if !terrain_ids.has(name): return
+	if !terrains.has(name): return
 	if terrain.get(pos) == name: return
 	terrain[pos] = name
 	for x in range(-1,2):
@@ -54,34 +63,50 @@ func clear_terrain(pos: Vector2i):
 		for y in range(-1,2):
 			to_fix[pos + Vector2i(x,y)] = true
 
+func terrain_connected(pos: Vector2i, target: String):
+	var dest = terrain.get(pos)
+	var info = terrains.get(target)
+	return dest if info.get("sticky") else dest == target
+
 func update_terrain(pos: Vector2i):
 	var t = terrain.get(pos)
+	var info = terrains.get(t)
+	if !t:
+		$Terrain16.set_cell(0, pos)
+	elif info.type == "pipe":
+		var i = 0
+		for c in pipe_connect:
+			if terrain_connected(pos + c[0], t):
+				i += c[1]
+		$Terrain16.set_cell(0, pos, info.id, Vector2i(i%4, i/4))
+		return
 	for x in 2:
 		for y in 2:
 			var tpos = pos * 2 + Vector2i(x,y) - Vector2i.ONE
 			if !t:
-				$Terrain.set_cell(0,tpos)
-			else:
+				$Terrain8.set_cell(0,tpos)
+			elif info.type == "ut":
 				var i = 0
 				var v = Vector2i.RIGHT * (x * 2 - 1)
 				var h = Vector2i.DOWN * (y * 2 - 1)
-				if terrain.get(pos + v):
+				if terrain_connected(pos + v, t):
 					i += 1
-				if terrain.get(pos + h):
+				if terrain_connected(pos + h, t):
 					i += 2
-				if i == 3 and terrain.get(pos + v + h):
-					for _v in variants.get(t, 1):
+				if i == 3 and terrain_connected(pos + v + h, t):
+					for _v in info.get("variants", 1):
 						i += 1;
 						if randf() > 0.2:
 							break
-				$Terrain.set_cell(0,tpos,terrain_ids[t],Vector2i(i*2 + x, y))
+				$Terrain8.set_cell(0,tpos,info.id,Vector2i(i*2 + x, y))
 
 func spawn_object(scene: PackedScene, pos: Vector2i):
-	var instance = scene.instantiate()
-	instance.position = pos * 16
-	add_child(instance)
-	objects[pos] = instance;
-	return instance
+	if not objects.has(pos):
+		var instance = scene.instantiate()
+		instance.position = pos * 16
+		add_child(instance)
+		objects[pos] = instance;
+		return instance
 
 func save(to: String):
 	var f = FileAccess.open(to,FileAccess.WRITE)
