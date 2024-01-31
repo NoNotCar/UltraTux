@@ -19,4 +19,6 @@ offset_left = -82.0
 offset_right = -2.0
 offset_bottom = 32.0
 
+[node name="Music" type="AudioStreamPlayer" parent="."]
+
 [connection signal="loaded" from="Level" to="." method="_on_level_loaded"]

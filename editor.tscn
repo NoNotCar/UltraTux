@@ -1,8 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://dvutmqo5bfgru"]
+[gd_scene load_steps=22 format=3 uid="uid://dvutmqo5bfgru"]
 
 [ext_resource type="Script" path="res://editor.gd" id="1_1pbdi"]
 [ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_rnuw8"]
+[ext_resource type="Texture2D" uid="uid://b2c8wqwfpxmcy" path="res://ui/open.png" id="3_7offu"]
 [ext_resource type="PackedScene" uid="uid://bmngluvyh6i2g" path="res://ui/terrain_tool.tscn" id="3_vkrg3"]
+[ext_resource type="Texture2D" uid="uid://cm1ax48yf3uqx" path="res://ui/save.png" id="4_q5obg"]
 [ext_resource type="Texture2D" uid="uid://b5pl42dwi4u24" path="res://tiles/snow/snowicon.png" id="4_skonm"]
 [ext_resource type="PackedScene" uid="uid://ges81is1xgqf" path="res://ui/object_tool.tscn" id="5_vl1mc"]
 [ext_resource type="Texture2D" uid="uid://gaj2o10xqdg" path="res://tiles/pipe/blueicon.png" id="5_yi6m2"]
@@ -16,7 +18,9 @@
 [ext_resource type="PackedScene" uid="uid://7ofhkyrk0lpi" path="res://objects/coins/coin.tscn" id="12_0tii7"]
 [ext_resource type="PackedScene" uid="uid://d21cr5pklt6yq" path="res://enemies/fish/fish.tscn" id="12_ngsgl"]
 [ext_resource type="Texture2D" uid="uid://cloigdeedcmwx" path="res://objects/coins/tenIcon.png" id="13_2417f"]
+[ext_resource type="Texture2D" uid="uid://cfix1sjtqjndh" path="res://objects/blocks/crate.png" id="13_nurij"]
 [ext_resource type="PackedScene" uid="uid://csi5suuqq0k8c" path="res://objects/coins/ten_coin.tscn" id="14_cjxpq"]
+[ext_resource type="PackedScene" uid="uid://d1yby3xo7nv8j" path="res://objects/blocks/crate.tscn" id="14_h2mqu"]
 
 [node name="Editor" type="Node2D"]
 script = ExtResource("1_1pbdi")
@@ -37,6 +41,20 @@ offset_bottom = 32.0
 grow_horizontal = 2
 theme_override_constants/separation = 2
 alignment = 1
+
+[node name="Open" type="TextureRect" parent="UI/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("3_7offu")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Save" type="TextureRect" parent="UI/HBoxContainer"]
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("4_q5obg")
+expand_mode = 2
+stretch_mode = 5
 
 [node name="Snow" parent="UI/HBoxContainer" instance=ExtResource("3_vkrg3")]
 layout_mode = 2
@@ -65,6 +83,12 @@ layout_mode = 2
 texture = ExtResource("11_7rhsc")
 scene = ExtResource("12_ngsgl")
 
+[node name="Crate" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("13_nurij")
+scene = ExtResource("14_h2mqu")
+allow_drag = true
+
 [node name="Coin" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
 layout_mode = 2
 texture = ExtResource("11_7qhdk")
@@ -83,4 +107,23 @@ texture = ExtResource("8_t3j5c")
 expand_mode = 2
 stretch_mode = 5
 
+[node name="SaveDialog" type="FileDialog" parent="UI"]
+title = "Save Level"
+size = Vector2i(392, 159)
+ok_button_text = "Save"
+access = 1
+filters = PackedStringArray("*.lvl ; Level Files")
+
+[node name="OpenDialog" type="FileDialog" parent="UI"]
+title = "Open Level"
+size = Vector2i(392, 159)
+ok_button_text = "Open"
+file_mode = 0
+access = 1
+filters = PackedStringArray("*.lvl ; Level Files")
+
+[connection signal="gui_input" from="UI/HBoxContainer/Open" to="." method="_on_open_gui_input"]
+[connection signal="gui_input" from="UI/HBoxContainer/Save" to="." method="_on_save_gui_input"]
 [connection signal="gui_input" from="UI/HBoxContainer/Play" to="." method="_on_play_gui_input"]
+[connection signal="file_selected" from="UI/SaveDialog" to="." method="_on_save_dialog_file_selected"]
+[connection signal="file_selected" from="UI/OpenDialog" to="." method="_on_open_dialog_file_selected"]

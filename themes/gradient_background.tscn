@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://6vtsy4hr3gcq"]
+
+[ext_resource type="Script" path="res://themes/gradient_background.gd" id="1_o7f4j"]
+
+[node name="GradientBackground" type="CanvasLayer"]
+layer = -128
+script = ExtResource("1_o7f4j")
+
+[node name="Background" type="TextureRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

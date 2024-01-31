@@ -3,6 +3,8 @@ extends Node
 
 var current_level:=""
 var global_water_level: float
+var editing = true
+
 
 signal coins_updated
 var coins = 0:
@@ -20,3 +22,9 @@ func _process(delta):
 
 func get_water_depth(pos: Vector2):
 	return max(0, pos.y - global_water_level)
+	
+func load_theme(theme: String)->PackedScene:
+	match theme:
+		"antarctic":
+			return load("res://themes/antarctic/antarctic.tscn")
+	return null

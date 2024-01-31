@@ -2,8 +2,6 @@ extends Node2D
 
 const TuxScene = preload("res://tux/tux.tscn")
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -12,6 +10,8 @@ func _process(delta):
 
 
 func _on_level_loaded():
+	$Music.stream = $Level.music
+	$Music.play()
 	call_deferred("spawn_tux")
 	
 func spawn_tux():

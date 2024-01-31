@@ -1,6 +1,7 @@
 extends Node
 
 @export var water_level: float
+@export var music: AudioStream
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if water_level:

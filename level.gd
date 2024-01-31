@@ -19,8 +19,19 @@ const pipe_connect = [[Vector2i.UP, 1], [Vector2i.RIGHT, 2], [Vector2i.DOWN, 4],
 var terrain = {}
 var to_fix = {}
 var objects = {}
+var music: AudioStream
+var theme = "antarctic"
+var theme_instance: Node
 
 signal loaded
+
+func load_theme():
+	if theme_instance:
+		theme_instance.queue_free()
+	var scene = Globals.load_theme(theme)
+	theme_instance = scene.instantiate()
+	add_child(theme_instance)
+	music = theme_instance.music
 
 func _ready():
 	if Globals.current_level:
@@ -29,17 +40,22 @@ func _ready():
 		var objectCache = {}
 		while f.get_position() < flen:
 			var thing = f.get_pascal_string()
-			if thing.ends_with(".tscn"):
+			if thing.begins_with("layer"):
+				theme = f.get_pascal_string()
+				load_theme()
+			elif thing.ends_with(".tscn"):
 				var scene = objectCache.get(thing, load(thing))
 				objectCache[thing] = scene
 				var inst = spawn_object(scene, Vector2i(f.get_64(), f.get_64()))
 				var data = f.get_var()
 				if inst.has_method("load_data"):
 					inst.load_data(data)
-				if inst.has_method("start"):
+				if not Globals.editing and inst.has_method("start"):
 					inst.start()
 			else:
 				set_terrain(Vector2i(f.get_64(), f.get_64()), thing)
+	if not theme_instance:
+		load_theme()
 	emit_signal("loaded")
 			
 
@@ -110,6 +126,8 @@ func spawn_object(scene: PackedScene, pos: Vector2i):
 
 func save(to: String):
 	var f = FileAccess.open(to,FileAccess.WRITE)
+	f.store_pascal_string("layer1")
+	f.store_pascal_string(theme)
 	for t in terrain:
 		f.store_pascal_string(terrain[t])
 		f.store_64(t.x)

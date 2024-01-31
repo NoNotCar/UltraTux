@@ -16,7 +16,6 @@ const textures = [
 @export_range(0,9) var digit = 0:
 	set(value):
 		digit = value
-		print(value)
 		texture = textures[value]
 
 # Called when the node enters the scene tree for the first time.

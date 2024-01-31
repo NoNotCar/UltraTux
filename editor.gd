@@ -4,12 +4,14 @@ var currentTool: EditorTool
 var enablePlacing = false
 var enableErasing = false
 var mouse_offset = Vector2(8,8)
+const FILE_DIALOG_SIZE = Vector2(600,400)
 
 func select_tool(newTool: EditorTool):
 	if currentTool:
 		currentTool.is_selected = false
 	currentTool = newTool
 	newTool.is_selected = true
+	
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	for tool in get_tree().get_nodes_in_group("Tools"):
@@ -55,5 +57,25 @@ func _on_play_gui_input(event):
 		var fname = "user://temp.lvl"
 		$Level.save(fname)
 		Globals.current_level = fname
+		Globals.editing = false
 		get_tree().change_scene_to_file("res://game.tscn")
 		
+
+
+func _on_save_gui_input(event):
+	if event.is_action_pressed("editor_place"):
+		$UI/SaveDialog.popup_centered(FILE_DIALOG_SIZE)
+
+
+func _on_open_gui_input(event):
+	if event.is_action_pressed("editor_place"):
+		$UI/OpenDialog.popup_centered(FILE_DIALOG_SIZE)
+
+
+func _on_open_dialog_file_selected(path):
+	Globals.current_level = path
+	get_tree().reload_current_scene()
+
+
+func _on_save_dialog_file_selected(path):
+	$Level.save(path)

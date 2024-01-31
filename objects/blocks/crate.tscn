@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://d1yby3xo7nv8j"]
+
+[ext_resource type="Texture2D" uid="uid://cfix1sjtqjndh" path="res://objects/blocks/crate.png" id="1_sjlpm"]
+[ext_resource type="Script" path="res://objects/blocks/crate.gd" id="1_ynkox"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qvv30"]
+size = Vector2(16, 16)
+
+[node name="Crate" type="StaticBody2D"]
+script = ExtResource("1_ynkox")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_sjlpm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_qvv30")

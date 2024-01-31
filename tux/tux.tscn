@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://dv07k2xjb87b6"]
+[gd_scene load_steps=38 format=3 uid="uid://dv07k2xjb87b6"]
 
 [ext_resource type="Script" path="res://tux/tux.gd" id="1_ih05e"]
 [ext_resource type="Texture2D" uid="uid://c46ycaw5cq2k2" path="res://tux/dying.png" id="2_7rmrh"]
@@ -6,6 +6,9 @@
 [ext_resource type="AudioStream" uid="uid://de2fbr2eky10d" path="res://tux/jump.wav" id="3_gbiab"]
 [ext_resource type="Texture2D" uid="uid://dusshlpuy146k" path="res://tux/swim.png" id="3_tt8t7"]
 [ext_resource type="Texture2D" uid="uid://disndxt0jrh6u" path="res://tux/runsmoke.png" id="4_jrtl1"]
+[ext_resource type="AudioStream" uid="uid://b6qcidk5pfv7o" path="res://tux/superjump.wav" id="7_uc577"]
+[ext_resource type="AudioStream" uid="uid://caoxl8l7syndw" path="res://tux/superrun.wav" id="8_7l8bg"]
+[ext_resource type="AudioStream" uid="uid://s5w8ie2ylaeu" path="res://tux/pound.wav" id="9_uqiaa"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w3sl5"]
 radius = 4.0
@@ -46,6 +49,10 @@ region = Rect2(176, 0, 16, 16)
 [sub_resource type="AtlasTexture" id="AtlasTexture_tjwi5"]
 atlas = ExtResource("2_pge2p")
 region = Rect2(160, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2nryu"]
+atlas = ExtResource("2_pge2p")
+region = Rect2(192, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cgg3q"]
 atlas = ExtResource("2_pge2p")
@@ -150,6 +157,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_2nryu")
+}],
+"loop": true,
+"name": &"pound",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_cgg3q")
 }],
 "loop": true,
@@ -232,7 +247,7 @@ shape = SubResource("CapsuleShape2D_w3sl5")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_uju4h")
-animation = &"swim"
+animation = &"pound"
 autoplay = "sit"
 
 [node name="Jump" type="AudioStreamPlayer" parent="."]
@@ -245,3 +260,13 @@ amount = 24
 process_material = SubResource("ParticleProcessMaterial_mrj0j")
 texture = ExtResource("4_jrtl1")
 fixed_fps = 60
+
+[node name="SuperJump" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_uc577")
+
+[node name="SuperRun" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_7l8bg")
+volume_db = -5.0
+
+[node name="Pound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_uqiaa")

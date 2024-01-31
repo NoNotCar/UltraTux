@@ -12,7 +12,8 @@ var missile=false: set = set_missile
 var last_falling=true
 var mat: Material
 var dying = false
-const death_barrier = 32
+var pounding = 0.0
+const death_barrier = 16
 const MPOS = Vector2(7.5,4)
 const SMOKE_SPEED = 96.0
 const GROUND_DAMPING = 0.1
@@ -20,6 +21,7 @@ const AIR_DAMPING = 0.5
 const SHORE_DAMPING = 0.01
 const WATER_DAMPING = 0.05
 const WATER_ROTATE_SPEED = 8.0
+const FULL_POUND = 0.2
 
 func _physics_process(delta):
 	if dying or not visible:
@@ -40,19 +42,41 @@ func _physics_process(delta):
 			velocity+= dir*push
 			$Sprite.play("swim")
 	else:
-		velocity+=Vector2.RIGHT*dx*delta*200*(int(running)+1)*(0.75 if falling else 1.0)
-		velocity+=Vector2.DOWN*gravity*delta*(1-submerge)
 		var jump_pressed = Input.is_action_pressed("jump")
-		if jump:
-			if jump_pressed:
-				velocity+=Vector2.UP*55
-			jump-=1
-		if missile and jump_pressed:
-			velocity+=Vector2.UP*gravity*0.5*delta
-			$Missile.animation="fire"
-		elif missile:
-			$Missile.animation="default"
-		$RunSmoke.emitting = running and not submerge and is_on_floor() and abs(velocity.x)>SMOKE_SPEED
+		if pounding:
+			if is_on_floor():
+				if (pounding == FULL_POUND):
+					$Pound.play()
+				pounding = max(pounding-delta, 0)
+				if jump_pressed:
+					jump=5
+					pounding = 0
+					$SuperJump.play()
+				elif abs(dx)>0.5 and running:
+					pounding = 0
+					velocity+=Vector2.RIGHT*dx*150
+					$SuperRun.play()
+			velocity.x *= pow(0.01,delta)
+			velocity+=Vector2.DOWN*gravity*delta*(1-submerge)*2
+		elif input.y > 0.5 and not is_on_floor():
+			pounding = FULL_POUND
+			velocity+=Vector2.DOWN*55
+		if !pounding:
+			velocity+=Vector2.RIGHT*dx*delta*200*(int(running)+1)*(0.75 if falling else 1.0)
+			velocity+=Vector2.DOWN*gravity*delta*(1-submerge)
+			if !jump and jump_pressed and is_on_floor():
+				jump=4
+				$Jump.play()
+			if jump:
+				if jump_pressed:
+					velocity+=Vector2.UP*55
+				jump-=1
+			if missile and jump_pressed:
+				velocity+=Vector2.UP*gravity*0.5*delta
+				$Missile.animation="fire"
+			elif missile:
+				$Missile.animation="default"
+	$RunSmoke.emitting = not submerge and (pounding or (running and is_on_floor() and abs(velocity.x)>SMOKE_SPEED))
 	var x_damp = lerp(GROUND_DAMPING, WATER_DAMPING if immersed else SHORE_DAMPING, submerge)
 	var y_damp = lerp(AIR_DAMPING, WATER_DAMPING, submerge)
 	velocity*=Vector2(pow(x_damp,delta),pow(y_damp,delta))
@@ -61,15 +85,21 @@ func _physics_process(delta):
 		var coll = get_slide_collision(s)
 		var normal = coll.get_normal()
 		var collider = coll.get_collider()
-		if normal.dot(Vector2.UP)>0.5 and collider.has_method("squish"):
+		var is_down = normal.dot(Vector2.UP)>0.5
+		if is_down and pounding and collider.has_method("pound"):
+			collider.pound(self)
+			pounding = 0 if input.y < 0.5 else FULL_POUND
+			if not pounding:
+				$Pound.play()
+		elif is_down and collider.has_method("squish"):
 			collider.squish(self)
 			if not jump:
 				velocity+=Vector2.UP*40
 				jump=3
 		elif normal.dot(Vector2.DOWN)>0.5 and collider.has_method("bash"):
-			collider.bash()
+			collider.bash(self)
 			velocity+=Vector2.DOWN*20
-			$Bash.play()
+			$Pound.play()
 		elif "hurts" in collider:
 			spike()
 			return
@@ -77,7 +107,7 @@ func _physics_process(delta):
 	falling = f and last_falling
 	last_falling=f
 	if immersed:
-		
+		pounding = 0
 		var tr = null
 		if (input.length_squared() > 0.1):
 			tr = Vector2.UP.angle_to(input)
@@ -93,7 +123,9 @@ func _physics_process(delta):
 	else:
 		$Sprite.rotation = 0
 		set_flipped(dx<0)
-		if falling:
+		if pounding:
+			$Sprite.animation = "pound"
+		elif falling:
 			$Sprite.animation="jump_up" if velocity.y<0 else "jump_down"
 		elif dx:
 			$Sprite.animation="walk"
@@ -104,10 +136,6 @@ func _physics_process(delta):
 func _input(event):
 	if dying or not visible:
 		return
-	if event.is_action("jump"):
-		if not falling:
-			jump=4
-			$Jump.play()
 		#elif get_clouds() and velocity.y>0:
 			#var c = Cloud.instance()
 			#c.position=position+Vector2.DOWN*16
