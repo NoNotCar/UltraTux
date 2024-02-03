@@ -18,3 +18,7 @@ func _on_area_2d_body_entered(body):
 		var tween = get_tree().create_tween()
 		tween.tween_property($Sprite,"scale",Vector2.ZERO,0.1).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
 		body.collect_coins(10)
+
+
+func _on_collect_sound_finished():
+	queue_free()

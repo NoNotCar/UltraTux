@@ -1,0 +1,84 @@
+[gd_scene load_steps=7 format=3 uid="uid://c7j1je1dw4622"]
+
+[ext_resource type="PackedScene" uid="uid://bfaak8pruls41" path="res://ui/numerals/numeral16.tscn" id="1_asfx2"]
+[ext_resource type="Script" path="res://ui/classic_info_screen.gd" id="1_yrwkn"]
+[ext_resource type="Texture2D" uid="uid://dit6utkdtjoly" path="res://ui/numerals/minus16.png" id="2_gy3r1"]
+[ext_resource type="Texture2D" uid="uid://de8ym00f7shhm" path="res://tux/life.png" id="3_dekjp"]
+[ext_resource type="Texture2D" uid="uid://dsqcg66bg3jpb" path="res://ui/numerals/times16.png" id="4_otk01"]
+[ext_resource type="PackedScene" uid="uid://byi4fy4gnopo6" path="res://ui/numerals/number.tscn" id="6_go70d"]
+
+[node name="ClassicInfoScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_yrwkn")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="Level" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="WorldDigit" parent="CenterContainer/VBoxContainer/Level" instance=ExtResource("1_asfx2")]
+custom_minimum_size = Vector2(40, 64)
+layout_mode = 2
+
+[node name="Hyphen" type="TextureRect" parent="CenterContainer/VBoxContainer/Level"]
+custom_minimum_size = Vector2(40, 64)
+layout_mode = 2
+texture = ExtResource("2_gy3r1")
+stretch_mode = 5
+
+[node name="LevelDigit" parent="CenterContainer/VBoxContainer/Level" instance=ExtResource("1_asfx2")]
+custom_minimum_size = Vector2(40, 64)
+layout_mode = 2
+
+[node name="Lives" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Tux" type="TextureRect" parent="CenterContainer/VBoxContainer/Lives"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("3_dekjp")
+stretch_mode = 5
+
+[node name="Times" type="TextureRect" parent="CenterContainer/VBoxContainer/Lives"]
+custom_minimum_size = Vector2(40, 64)
+layout_mode = 2
+texture = ExtResource("4_otk01")
+stretch_mode = 5
+
+[node name="Number" parent="CenterContainer/VBoxContainer/Lives" instance=ExtResource("6_go70d")]
+layout_mode = 2
+pixel_scale = 4
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

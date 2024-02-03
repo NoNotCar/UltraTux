@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://dt05b3ae0e8g0"]
+
+[ext_resource type="PackedScene" uid="uid://k5j6cm7dii5q" path="res://common/endless_row.tscn" id="1_7w22n"]
+[ext_resource type="Script" path="res://themes/endless_water.gd" id="1_k58xl"]
+[ext_resource type="PackedScene" uid="uid://dunwevlymwwsl" path="res://themes/water.tscn" id="2_qqsca"]
+
+[node name="EndlessWater" type="Node2D"]
+script = ExtResource("1_k58xl")
+
+[node name="EndlessRow" parent="." instance=ExtResource("1_7w22n")]
+repeat_every = 24
+
+[node name="Water" parent="EndlessRow" instance=ExtResource("2_qqsca")]

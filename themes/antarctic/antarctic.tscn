@@ -3,16 +3,15 @@
 [ext_resource type="Script" path="res://themes/theme.gd" id="1_aieke"]
 [ext_resource type="PackedScene" uid="uid://k5j6cm7dii5q" path="res://common/endless_row.tscn" id="1_f6jr0"]
 [ext_resource type="PackedScene" uid="uid://6vtsy4hr3gcq" path="res://themes/gradient_background.tscn" id="2_2dtfn"]
-[ext_resource type="PackedScene" uid="uid://behf42qr3lubm" path="res://themes/antarctic/ice_shelf.tscn" id="2_a1mu3"]
-[ext_resource type="PackedScene" uid="uid://dunwevlymwwsl" path="res://themes/water.tscn" id="3_dqc5x"]
 [ext_resource type="AudioStream" uid="uid://5si4ei1ntxh5" path="res://themes/antarctic/moving.ogg" id="4_ohsrg"]
+[ext_resource type="Texture2D" uid="uid://clgax730kopyv" path="res://themes/antarctic/icebergs.png" id="5_kpqo4"]
+[ext_resource type="PackedScene" uid="uid://dt05b3ae0e8g0" path="res://themes/endless_water.tscn" id="6_l3iqg"]
 
 [sub_resource type="Gradient" id="Gradient_tcypy"]
 colors = PackedColorArray(0.580392, 0.992157, 1, 1, 0.0470588, 0.945098, 1, 1)
 
 [node name="Antarctic" type="Node2D"]
 script = ExtResource("1_aieke")
-water_level = -74.0
 music = ExtResource("4_ohsrg")
 
 [node name="GradientBackground" parent="." instance=ExtResource("2_2dtfn")]
@@ -22,17 +21,13 @@ gradient = SubResource("Gradient_tcypy")
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2(0.5, 0.5)
-motion_offset = Vector2(0, 112)
 
 [node name="EndlessRow" parent="ParallaxBackground/ParallaxLayer" instance=ExtResource("1_f6jr0")]
 repeat_every = 320
+parallax = 0.5
 
-[node name="IceShelf" parent="ParallaxBackground/ParallaxLayer/EndlessRow" instance=ExtResource("2_a1mu3")]
-offset = Vector2(0, -120)
+[node name="Icebergs" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer/EndlessRow"]
+texture = ExtResource("5_kpqo4")
 
-[node name="EndlessRow" parent="." instance=ExtResource("1_f6jr0")]
+[node name="EndlessWater" parent="." instance=ExtResource("6_l3iqg")]
 position = Vector2(0, -60)
-repeat_every = 24
-
-[node name="Water" parent="EndlessRow" instance=ExtResource("3_dqc5x")]
-water_depth = 68

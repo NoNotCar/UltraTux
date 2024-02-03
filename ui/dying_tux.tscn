@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://bmm66c5muedvv"]
+
+[ext_resource type="Texture2D" uid="uid://c46ycaw5cq2k2" path="res://tux/dying.png" id="1_28rgf"]
+[ext_resource type="Script" path="res://ui/dying_tux.gd" id="2_683lb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vvjo"]
+atlas = ExtResource("1_28rgf")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hmnfl"]
+atlas = ExtResource("1_28rgf")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awk0a"]
+atlas = ExtResource("1_28rgf")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ujjs0"]
+atlas = ExtResource("1_28rgf")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iegkr"]
+atlas = ExtResource("1_28rgf")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwx70"]
+atlas = ExtResource("1_28rgf")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6l6mm"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7vvjo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hmnfl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awk0a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ujjs0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iegkr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kwx70")
+}],
+"loop": true,
+"name": &"default",
+"speed": 20.0
+}]
+
+[node name="DyingTux" type="AnimatedSprite2D"]
+modulate = Color(1, 1, 1, 0.501961)
+sprite_frames = SubResource("SpriteFrames_6l6mm")
+autoplay = "default"
+frame_progress = 0.625793
+offset = Vector2(0, -1)
+script = ExtResource("2_683lb")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

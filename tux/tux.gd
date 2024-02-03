@@ -10,6 +10,7 @@ var flip=false: set = set_flipped
 var falling=true
 var missile=false: set = set_missile
 var last_falling=true
+var immersed = false
 var mat: Material
 var dying = false
 var pounding = 0.0
@@ -19,7 +20,7 @@ const SMOKE_SPEED = 96.0
 const GROUND_DAMPING = 0.1
 const AIR_DAMPING = 0.5
 const SHORE_DAMPING = 0.01
-const WATER_DAMPING = 0.05
+const WATER_DAMPING = 0.1
 const WATER_ROTATE_SPEED = 8.0
 const FULL_POUND = 0.2
 
@@ -28,8 +29,13 @@ func _physics_process(delta):
 		$RunSmoke.emitting = false
 		return
 	var depth = Globals.get_water_depth(position + Vector2.DOWN * 6)
-	var submerge = clamp(depth/16, 0, 1)
-	var immersed = submerge >= 1
+	var submerge = clamp(depth/8, 0, 1)
+	if immersed and not submerge:
+		immersed = false
+		velocity+=Vector2.UP*30
+	elif not immersed and submerge >= 1:
+		immersed = true
+		velocity.y *= 0.5
 	var input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var dx = input.x
 	var running=Input.is_action_pressed("run")
@@ -38,7 +44,7 @@ func _physics_process(delta):
 		var ready_to_swim = $Sprite.animation == "float" or not $Sprite.is_playing()
 		if ready_to_swim and Input.is_action_pressed("jump"):
 			var dir = Vector2.UP.rotated($Sprite.rotation)
-			var push = (100 if running else 75) + abs(dir.cross(velocity)) * 0.5
+			var push = (50 if running else 40) + abs(dir.cross(velocity)) * 0.5
 			velocity+= dir*push
 			$Sprite.play("swim")
 	else:
@@ -202,13 +208,16 @@ func die():
 
 func collect_coins(coins: int):
 	Globals.coins += coins
+	if Globals.coins >= 100:
+		Globals.coins -= 100
+		Globals.lives += 1
 
 func _on_deathTween_finished():
-	dying = false
-	$Sprite.scale=Vector2.ONE
-	$Sprite.rotation=0
-	$Sprite.play("sit")
-	respawn()
+	Globals.lives -= 1
+	if Globals.lives:
+		get_tree().change_scene_to_file("res://ui/classic_info_screen.tscn")
+	else:
+		get_tree().change_scene_to_file("res://ui/game_over.tscn")
 	
 
 func on_goal(goal:Node2D,points:int):

@@ -1,9 +1,10 @@
 extends Node
 
 
-var current_level:=""
+var current_level = ""
 var global_water_level: float
 var editing = true
+var lives = 10
 
 
 signal coins_updated

@@ -1,0 +1,57 @@
+[gd_scene load_steps=4 format=3 uid="uid://bw03qpofcvaix"]
+
+[ext_resource type="Script" path="res://ui/game_over.gd" id="1_dfqst"]
+[ext_resource type="AudioStream" uid="uid://ceo37756ditfi" path="res://ui/credits.ogg" id="1_iqbfs"]
+[ext_resource type="PackedScene" uid="uid://bmm66c5muedvv" path="res://ui/dying_tux.tscn" id="2_iqaoj"]
+
+[node name="GameOver" type="Node"]
+script = ExtResource("1_dfqst")
+
+[node name="Backdrop" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="Backdrop"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "GAME OVER"
+
+[node name="Title" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Title"
+
+[node name="Quit" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Quit
+"
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_iqbfs")
+autoplay = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(4, 4)
+
+[node name="DyingTux" parent="." instance=ExtResource("2_iqaoj")]
+
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Title" to="." method="_on_title_pressed"]
+[connection signal="pressed" from="CanvasLayer/CenterContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

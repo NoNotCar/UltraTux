@@ -7,12 +7,14 @@ const TuxScene = preload("res://tux/tux.tscn")
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
-
-
-func _on_level_loaded():
+	
+func _ready():
+	$Level.load_level(Globals.current_level)
 	$Music.stream = $Level.music
 	$Music.play()
 	call_deferred("spawn_tux")
+
+
 	
 func spawn_tux():
 	var spawn = get_tree().get_first_node_in_group("Spawn")

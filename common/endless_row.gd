@@ -2,6 +2,7 @@ extends Node2D
 
 var to_repeat: Node2D
 @export var repeat_every = 16
+@export var parallax = 1.0
 var spawned = []
 
 func _ready():
@@ -29,5 +30,5 @@ func respawn():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var cx = get_viewport().get_camera_2d().get_screen_center_position().x
+	var cx = get_viewport().get_camera_2d().get_screen_center_position().x * parallax
 	position.x = Lib.idiv(cx, repeat_every) * repeat_every

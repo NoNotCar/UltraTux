@@ -23,7 +23,6 @@ var music: AudioStream
 var theme = "antarctic"
 var theme_instance: Node
 
-signal loaded
 
 func load_theme():
 	if theme_instance:
@@ -32,31 +31,31 @@ func load_theme():
 	theme_instance = scene.instantiate()
 	add_child(theme_instance)
 	music = theme_instance.music
+	
+func load_level(level: String):
+	var f = FileAccess.open(level, FileAccess.READ)
+	var flen = f.get_length()
+	var objectCache = {}
+	while f.get_position() < flen:
+		var thing = f.get_pascal_string()
+		if thing.begins_with("layer"):
+			theme = f.get_pascal_string()
+			load_theme()
+		elif thing.ends_with(".tscn"):
+			var scene = objectCache.get(thing, load(thing))
+			objectCache[thing] = scene
+			var inst = spawn_object(scene, Vector2i(f.get_64(), f.get_64()))
+			var data = f.get_var()
+			if inst.has_method("load_data"):
+				inst.load_data(data)
+			if not Globals.editing and inst.has_method("start"):
+				inst.start()
+		else:
+			set_terrain(Vector2i(f.get_64(), f.get_64()), thing)
 
 func _ready():
-	if Globals.current_level:
-		var f = FileAccess.open(Globals.current_level, FileAccess.READ)
-		var flen = f.get_length()
-		var objectCache = {}
-		while f.get_position() < flen:
-			var thing = f.get_pascal_string()
-			if thing.begins_with("layer"):
-				theme = f.get_pascal_string()
-				load_theme()
-			elif thing.ends_with(".tscn"):
-				var scene = objectCache.get(thing, load(thing))
-				objectCache[thing] = scene
-				var inst = spawn_object(scene, Vector2i(f.get_64(), f.get_64()))
-				var data = f.get_var()
-				if inst.has_method("load_data"):
-					inst.load_data(data)
-				if not Globals.editing and inst.has_method("start"):
-					inst.start()
-			else:
-				set_terrain(Vector2i(f.get_64(), f.get_64()), thing)
 	if not theme_instance:
 		load_theme()
-	emit_signal("loaded")
 			
 
 func set_terrain(pos: Vector2i, name: String):

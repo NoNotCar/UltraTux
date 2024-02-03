@@ -1,0 +1,57 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxrddpcdh6rc1"]
+
+[ext_resource type="Script" path="res://title.gd" id="1_ry2lq"]
+[ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_pb0s8"]
+[ext_resource type="AudioStream" uid="uid://divskmluo7rps" path="res://ui/intro.ogg" id="3_5u5ku"]
+
+[node name="Title" type="Node"]
+script = ExtResource("1_ry2lq")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -138.5
+offset_top = 32.0
+offset_right = 138.5
+offset_bottom = 201.0
+grow_horizontal = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "ULTRATUX"
+horizontal_alignment = 1
+
+[node name="Classic" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Classic"
+
+[node name="Editor" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Editor"
+
+[node name="Level" parent="." instance=ExtResource("2_pb0s8")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+limit_bottom = 8
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_5u5ku")
+autoplay = true
+
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Classic" to="." method="_on_classic_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Editor" to="." method="_on_editor_pressed"]

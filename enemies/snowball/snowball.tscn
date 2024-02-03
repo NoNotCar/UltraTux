@@ -144,3 +144,6 @@ shape = SubResource("CapsuleShape2D_5a0i7")
 [node name="FloorCast" type="RayCast2D" parent="."]
 position = Vector2(-12, 0)
 target_position = Vector2(0, 16)
+
+[node name="WallCast" type="RayCast2D" parent="."]
+target_position = Vector2(-14, 0)
