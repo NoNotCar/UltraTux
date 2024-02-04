@@ -3,10 +3,11 @@ extends Node2D
 const TuxScene = preload("res://tux/tux.tscn")
 # Called when the node enters the scene tree for the first time.
 var ten_coins = [false, false, false]
+var time = 0.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+func _physics_process(delta):
+	time += delta
 	
 func _ready():
 	$Level.load_level(Globals.current_level)
@@ -34,6 +35,7 @@ func collect_ten_coin(n: int):
 	
 
 func complete_level():
+	Globals.best_time = min(Globals.best_time, time)
 	$Music.stop()
 	$Victory.play()
 	await $Victory.finished

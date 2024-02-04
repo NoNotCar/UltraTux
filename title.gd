@@ -4,6 +4,9 @@ extends Node
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Level.load_level("res://levels/title/1-title.lvl")
+	if Globals.best_time != INF:
+		$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Classic.text = \
+		"Classic - Best time %.2fs" % Globals.best_time
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

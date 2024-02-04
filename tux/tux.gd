@@ -60,9 +60,12 @@ func _physics_process(delta):
 	var submerge = clamp(depth/8, 0, 1)
 	if immersed and not submerge:
 		immersed = false
-		velocity+=Vector2.UP*40
+		jump = 2
 		$AirCollider.set_deferred("disabled", false)
 		$WaterCollider.set_deferred("disabled", true)
+		$Sprite.play("jump_up")
+		if Input.is_action_pressed("jump"):
+			$Jump.play()
 	elif not immersed and submerge >= 1:
 		immersed = true
 		velocity.y *= 0.5
@@ -75,7 +78,7 @@ func _physics_process(delta):
 		var ready_to_swim = $Sprite.animation == "float" or not $Sprite.is_playing()
 		if ready_to_swim and Input.is_action_pressed("jump"):
 			var dir = Vector2.UP.rotated($Sprite.rotation)
-			var push = (50 if running else 40) + abs(dir.cross(velocity)) * 0.5
+			var push = (50 if running else 40) + abs(dir.cross(velocity)) * 0.25
 			velocity+= dir*push
 			$Sprite.play("swim")
 	else:
@@ -95,7 +98,7 @@ func _physics_process(delta):
 					$SuperRun.play()
 			velocity.x *= pow(0.01,delta)
 			velocity+=Vector2.DOWN*gravity*delta*(1-submerge)*2
-		elif input.y > 0.5 and not is_on_floor():
+		elif input.y > 0.5 and not jump and not is_on_floor():
 			pounding = FULL_POUND
 			velocity+=Vector2.DOWN*55
 		if !pounding:
@@ -130,7 +133,7 @@ func _physics_process(delta):
 				$Pound.play()
 		elif is_down and collider.has_method("squish"):
 			collider.squish(self)
-			if not jump:
+			if not (jump or pounding):
 				velocity+=Vector2.UP*40
 				jump=3
 		elif normal.dot(Vector2.DOWN)>0.5 and collider.has_method("bash"):

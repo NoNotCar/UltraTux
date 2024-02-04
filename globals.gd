@@ -5,6 +5,7 @@ var current_level = ""
 var global_water_level: float
 var editing = true
 var lives = 10
+var best_time = INF
 
 
 signal coins_updated
