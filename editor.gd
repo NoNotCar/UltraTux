@@ -3,7 +3,6 @@ extends Node2D
 var currentTool: EditorTool
 var enablePlacing = false
 var enableErasing = false
-var mouse_offset = Vector2(8,8)
 const FILE_DIALOG_SIZE = Vector2(600,400)
 
 func select_tool(newTool: EditorTool):
@@ -17,18 +16,10 @@ func _ready():
 	for tool in get_tree().get_nodes_in_group("Tools"):
 		tool.connect("selected", func (): select_tool(tool))
 
-func get_grid_pos(pos: Vector2):
-	var off = (pos + mouse_offset)
-	var res = Vector2i(off / 16) 
-	if off.x <= 0:
-		res += Vector2i.LEFT
-	if off.y <= 0:
-		res += Vector2i.UP
-	return res
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var mpos = get_grid_pos(get_global_mouse_position())
+	var mpos = Lib.grid_pos(get_global_mouse_position())
 	if enablePlacing and Input.is_action_pressed("editor_place") and currentTool:
 		currentTool.place_multi(mpos, $Level)
 	elif enableErasing and Input.is_action_pressed("editor_erase"):
@@ -41,7 +32,7 @@ func _unhandled_input(event):
 	if event.is_action_pressed("editor_place"):
 		enablePlacing = true
 		if currentTool:
-			currentTool.place_single(get_grid_pos(get_global_mouse_position()), $Level)
+			currentTool.place_single(Lib.grid_pos(get_global_mouse_position()), $Level)
 	elif event.is_action_pressed("editor_erase"):
 		enableErasing = true
 	elif event.is_action_released("editor_place"):
@@ -73,8 +64,7 @@ func _on_open_gui_input(event):
 
 
 func _on_open_dialog_file_selected(path):
-	Globals.current_level = path
-	get_tree().reload_current_scene()
+	$Level.load_level(path)
 
 
 func _on_save_dialog_file_selected(path):

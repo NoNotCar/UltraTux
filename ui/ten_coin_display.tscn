@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://b64scow5ppf3o"]
+
+[ext_resource type="Script" path="res://ui/ten_coin_display.gd" id="1_q7mbg"]
+[ext_resource type="Texture2D" uid="uid://bv0hwpq120hmb" path="res://objects/coins/emptyTen.png" id="1_x57ik"]
+
+[node name="TenCoinDisplay" type="HBoxContainer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 16.0
+grow_horizontal = 2
+script = ExtResource("1_q7mbg")
+
+[node name="Coin1" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("1_x57ik")
+stretch_mode = 5
+
+[node name="Coin2" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("1_x57ik")
+stretch_mode = 5
+
+[node name="Coin3" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+texture = ExtResource("1_x57ik")
+stretch_mode = 5

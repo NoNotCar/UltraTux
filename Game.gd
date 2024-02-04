@@ -2,7 +2,7 @@ extends Node2D
 
 const TuxScene = preload("res://tux/tux.tscn")
 # Called when the node enters the scene tree for the first time.
-
+var ten_coins = [false, false, false]
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -26,4 +26,16 @@ func spawn_tux():
 func _input(event):
 	if event.is_action_pressed("exit_testing"):
 		get_tree().change_scene_to_file("res://editor.tscn")
+		
+func collect_ten_coin(n: int):
+	if n > 0 and n < 4:
+		ten_coins[n-1] = true
+		$UI/TenCoinDisplay.collect(n)
+	
+
+func complete_level():
+	$Music.stop()
+	$Victory.play()
+	await $Victory.finished
+	get_tree().change_scene_to_file("res://title.tscn")
 	

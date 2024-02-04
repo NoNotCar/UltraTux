@@ -1,8 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://csi5suuqq0k8c"]
+[gd_scene load_steps=19 format=3 uid="uid://csi5suuqq0k8c"]
 
 [ext_resource type="Script" path="res://objects/coins/ten_coin.gd" id="1_ceg75"]
 [ext_resource type="Texture2D" uid="uid://bog24mlce6nk" path="res://objects/coins/10coin.png" id="2_v8br4"]
 [ext_resource type="AudioStream" uid="uid://cecpueb33i7ta" path="res://objects/coins/ten.wav" id="3_tog6f"]
+[ext_resource type="PackedScene" uid="uid://cau27yxfsho0c" path="res://ui/number_selector.tscn" id="4_glbmf"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fl3e8"]
 radius = 15.0
@@ -119,6 +120,11 @@ frame_progress = 0.34365
 
 [node name="CollectSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_tog6f")
+
+[node name="NumberSelector" parent="." instance=ExtResource("4_glbmf")]
+position = Vector2(8, -12)
+max_value = 3
+min_value = 1
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="finished" from="CollectSound" to="." method="_on_collect_sound_finished"]

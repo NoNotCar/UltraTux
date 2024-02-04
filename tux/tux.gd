@@ -14,6 +14,9 @@ var immersed = false
 var mat: Material
 var dying = false
 var pounding = 0.0
+var entering_pipe = false
+var pipe_layer: int
+var pipe_entry = {}
 const death_barrier = 16
 const MPOS = Vector2(7.5,4)
 const SMOKE_SPEED = 96.0
@@ -25,18 +28,46 @@ const WATER_ROTATE_SPEED = 8.0
 const FULL_POUND = 0.2
 
 func _physics_process(delta):
-	if dying or not visible:
+	if dying or entering_pipe or not visible:
 		$RunSmoke.emitting = false
 		return
+	var input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	for dir in pipe_entry.keys():
+		if input.dot(dir) > 0.5:
+			entering_pipe = true
+			pipe_layer = pipe_entry[dir]
+			$Sprite.animation="float"
+			$Sprite.rotation = Vector2.UP.angle_to(dir)
+			$Pipe.play()
+			var snapped_pos = Lib.snap_to_grid(position)
+			var tween = create_tween()
+			tween.tween_property(self, "position", snapped_pos + dir * 16, 0.5).from(snapped_pos).set_ease(Tween.EASE_IN)
+			var target_pos = snapped_pos
+			var target_dir = -dir
+			for exit in get_tree().get_nodes_in_group("PipeExits"):
+				if exit.layer == pipe_layer and snapped_pos.distance_squared_to(exit.position)\
+				 > snapped_pos.distance_squared_to(target_pos):
+					target_pos = exit.position
+					target_dir = Vector2.DOWN.rotated(exit.rotation)
+			tween.tween_callback($Sprite.set_rotation.bind(Vector2.DOWN.angle_to(target_dir)))
+			tween.tween_property(self, "position", target_pos, 0.5).from(target_pos + target_dir * 16)
+			await tween.finished
+			entering_pipe = false
+			velocity = Vector2.ZERO
+			pounding = false
+			return
 	var depth = Globals.get_water_depth(position + Vector2.DOWN * 6)
 	var submerge = clamp(depth/8, 0, 1)
 	if immersed and not submerge:
 		immersed = false
-		velocity+=Vector2.UP*30
+		velocity+=Vector2.UP*40
+		$AirCollider.set_deferred("disabled", false)
+		$WaterCollider.set_deferred("disabled", true)
 	elif not immersed and submerge >= 1:
 		immersed = true
 		velocity.y *= 0.5
-	var input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
+		$AirCollider.set_deferred("disabled", true)
+		$WaterCollider.set_deferred("disabled", false)
 	var dx = input.x
 	var running=Input.is_action_pressed("run")
 	$Sprite.speed_scale=1.5 if running else 1.0

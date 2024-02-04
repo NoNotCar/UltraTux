@@ -1,0 +1,46 @@
+[gd_scene load_steps=7 format=3 uid="uid://bxcyfp71fymag"]
+
+[ext_resource type="Script" path="res://objects/warp/pipe_entrance.gd" id="1_djkj5"]
+[ext_resource type="PackedScene" uid="uid://cau27yxfsho0c" path="res://ui/number_selector.tscn" id="2_1ak18"]
+[ext_resource type="Texture2D" uid="uid://b05m1b08j38up" path="res://objects/warp/entryExit.png" id="3_w5x0j"]
+[ext_resource type="PackedScene" uid="uid://ctlryxi2krbpr" path="res://common/clickable_area.tscn" id="4_x232y"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vqo6l"]
+radius = 2.0
+height = 6.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_jsjjc"]
+radius = 5.0
+height = 18.0
+
+[node name="PipeEntrance" type="Node2D"]
+script = ExtResource("1_djkj5")
+
+[node name="ActiveArea" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ActiveArea"]
+position = Vector2(0, 6)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_vqo6l")
+
+[node name="NumberSelector" parent="." instance=ExtResource("2_1ak18")]
+position = Vector2(0, 4)
+
+[node name="ModeSprite" type="Sprite2D" parent="."]
+position = Vector2(0, -6)
+texture = ExtResource("3_w5x0j")
+hframes = 3
+frame = 2
+
+[node name="Toggle" parent="." instance=ExtResource("4_x232y")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Toggle"]
+position = Vector2(0, -6)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_jsjjc")
+
+[connection signal="body_entered" from="ActiveArea" to="." method="_on_active_area_body_entered"]
+[connection signal="body_exited" from="ActiveArea" to="." method="_on_active_area_body_exited"]
+[connection signal="pressed" from="Toggle" to="." method="_on_toggle_pressed"]

@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://25wecg71820"]
+[gd_scene load_steps=7 format=3 uid="uid://25wecg71820"]
 
 [ext_resource type="Script" path="res://Game.gd" id="1_daifq"]
 [ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_a4w4e"]
 [ext_resource type="PackedScene" uid="uid://cd7d0wx4gbxj5" path="res://tux/tux_cam.tscn" id="3_akrfn"]
 [ext_resource type="PackedScene" uid="uid://b1dq8wph2dlfq" path="res://ui/coin_counter.tscn" id="4_efu8a"]
+[ext_resource type="PackedScene" uid="uid://b64scow5ppf3o" path="res://ui/ten_coin_display.tscn" id="5_6yyw2"]
+[ext_resource type="AudioStream" uid="uid://6gn7s3nsqmwi" path="res://victory.ogg" id="5_xnnkj"]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node2D" groups=["Game"]]
 script = ExtResource("1_daifq")
 
 [node name="Level" parent="." instance=ExtResource("2_a4w4e")]
@@ -19,4 +21,9 @@ offset_left = -82.0
 offset_right = -2.0
 offset_bottom = 32.0
 
+[node name="TenCoinDisplay" parent="UI" instance=ExtResource("5_6yyw2")]
+
 [node name="Music" type="AudioStreamPlayer" parent="."]
+
+[node name="Victory" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_xnnkj")
