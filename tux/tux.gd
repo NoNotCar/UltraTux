@@ -17,6 +17,7 @@ var pounding = 0.0
 var entering_pipe = false
 var pipe_layer: int
 var pipe_entry = {}
+var current_layer = 1
 const death_barrier = 16
 const MPOS = Vector2(7.5,4)
 const SMOKE_SPEED = 96.0
@@ -42,20 +43,35 @@ func _physics_process(delta):
 			var snapped_pos = Lib.snap_to_grid(position)
 			var tween = create_tween()
 			tween.tween_property(self, "position", snapped_pos + dir * 16, 0.5).from(snapped_pos).set_ease(Tween.EASE_IN)
-			var target_pos = snapped_pos
-			var target_dir = -dir
-			for exit in get_tree().get_nodes_in_group("PipeExits"):
-				if exit.layer == pipe_layer and snapped_pos.distance_squared_to(exit.position)\
-				 > snapped_pos.distance_squared_to(target_pos):
-					target_pos = exit.position
-					target_dir = Vector2.DOWN.rotated(exit.rotation)
-			tween.tween_callback($Sprite.set_rotation.bind(Vector2.DOWN.angle_to(target_dir)))
-			tween.tween_property(self, "position", target_pos, 0.5).from(target_pos + target_dir * 16)
+			var best_pos = snapped_pos
+			var target_exit
 			await tween.finished
-			entering_pipe = false
-			velocity = Vector2.ZERO
-			pounding = false
-			return
+			for exit in get_tree().get_nodes_in_group("PipeExits"):
+				if exit.pipe_layer == pipe_layer and snapped_pos.distance_squared_to(exit.position)\
+				 > snapped_pos.distance_squared_to(best_pos):
+					target_exit = exit
+					best_pos = exit.position
+			if target_exit:
+				exit_pipe(target_exit)
+				return
+			# trans-dimensional transport
+			var level: Level = get_tree().get_first_node_in_group("Level")
+			for p in level.pipes[pipe_layer]:
+				if p[1] == current_layer:
+					target_exit = p[0]
+				else:
+					await level.fade_out()
+					get_parent().remove_child(self)
+					var new_layer = await level.switch_layer(p[1])
+					new_layer.add_child(self)
+					current_layer = p[1]
+					level.fade_in()
+					exit_pipe(p[0])
+					return
+			if target_exit:
+				exit_pipe(target_exit)
+				return
+			push_error("CAN'T ESCAPE THE TUBE!")
 	var depth = Globals.get_water_depth(position + Vector2.DOWN * 6)
 	var submerge = clamp(depth/8, 0, 1)
 	if immersed and not submerge:
@@ -173,9 +189,22 @@ func _physics_process(delta):
 			$Sprite.animation="sit"
 	if position.y>death_barrier:
 		die()
-func _input(event):
-	if dying or not visible:
-		return
+		
+func exit_pipe(exit):
+	var target_pos = exit.position
+	var target_dir = Vector2.DOWN.rotated(exit.rotation)
+	var tween = create_tween()
+	tween.tween_callback($Sprite.set_rotation.bind(Vector2.DOWN.angle_to(target_dir)))
+	tween.tween_property(self, "position", target_pos, 0.5).from(target_pos + target_dir * 16)
+	await tween.finished
+	entering_pipe = false
+	velocity = Vector2.ZERO
+	pounding = false
+	
+	
+#func _input(event):
+	#if dying or not visible:
+		#return
 		#elif get_clouds() and velocity.y>0:
 			#var c = Cloud.instance()
 			#c.position=position+Vector2.DOWN*16

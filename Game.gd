@@ -11,8 +11,6 @@ func _physics_process(delta):
 	
 func _ready():
 	$Level.load_level(Globals.current_level)
-	$Music.stream = $Level.music
-	$Music.play()
 	call_deferred("spawn_tux")
 
 
@@ -36,8 +34,9 @@ func collect_ten_coin(n: int):
 
 func complete_level():
 	Globals.best_time = min(Globals.best_time, time)
-	$Music.stop()
+	$Level/Music.stop()
 	$Victory.play()
 	await $Victory.finished
+	await $Level.fade_out()
 	get_tree().change_scene_to_file("res://title.tscn")
 	

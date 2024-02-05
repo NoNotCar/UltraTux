@@ -1,147 +1,93 @@
 extends Node2D
 class_name Level
 
-const terrains = {
-	"snow": {
-		"type": "ut",
-		"id": 1,
-		"variants": 3
-	},
-	"bluepipe": {
-		"type": "pipe",
-		"id": 0,
-		"sticky": true
-	}
-}
+const layer_scene = preload("res://layer.tscn")
+var layers = {}
+var pipes = {}
+var current_layer: Layer
+const SILENT = -100.0
 
-const pipe_connect = [[Vector2i.UP, 1], [Vector2i.RIGHT, 2], [Vector2i.DOWN, 4], [Vector2i.LEFT, 8]]
+func fade_in():
+	var tween = create_tween()
+	tween.tween_property($CanvasLayer/ColorRect, "modulate",Color.TRANSPARENT, 0.5).set_ease(Tween.EASE_IN)
+	await tween.finished
+	$CanvasLayer/ColorRect.visible = false
+	
+func fade_out():
+	var tween = create_tween()
+	tween.set_parallel()
+	$CanvasLayer/ColorRect.visible = true
+	tween.tween_property($CanvasLayer/ColorRect, "modulate",Color.WHITE, 0.5).set_ease(Tween.EASE_OUT)
+	tween.tween_property($Music, "volume_db", SILENT, 0.5).set_ease(Tween.EASE_OUT)
+	await tween.finished
+	
+func _ready():
+	fade_in()
 
-var terrain = {}
-var to_fix = {}
-var objects = {}
-var music: AudioStream
-var theme = "antarctic"
-var theme_instance: Node
-
-
-func load_theme():
-	if theme_instance:
-		theme_instance.queue_free()
-	var scene = Globals.load_theme(theme)
-	theme_instance = scene.instantiate()
-	add_child(theme_instance)
-	music = theme_instance.music
+func load_empty():
+	current_layer = layer_scene.instantiate()
+	layers[1] = current_layer
+	add_child(current_layer)
 	
 func load_level(level: String):
+	for p in 11:
+		pipes[p] = []
 	var f = FileAccess.open(level, FileAccess.READ)
 	var flen = f.get_length()
 	var objectCache = {}
+	var loading_layer: int
 	while f.get_position() < flen:
 		var thing = f.get_pascal_string()
 		if thing.begins_with("layer"):
-			theme = f.get_pascal_string()
-			load_theme()
+			current_layer = layer_scene.instantiate()
+			loading_layer = int(thing.lstrip("layer"))
+			layers[loading_layer] = current_layer
+			current_layer.theme = f.get_pascal_string()
 		elif thing.ends_with(".tscn"):
 			var scene = objectCache.get(thing, load(thing))
 			objectCache[thing] = scene
-			var inst = spawn_object(scene, Vector2i(f.get_64(), f.get_64()))
+			var inst = current_layer.spawn_object(scene, Vector2i(f.get_64(), f.get_64()))
 			var data = f.get_var()
 			if inst.has_method("load_data"):
 				inst.load_data(data)
 			if not Globals.editing and inst.has_method("start"):
 				inst.start()
+			if "pipe_layer" in inst:
+				pipes[inst.pipe_layer].append([inst, loading_layer])
 		else:
-			set_terrain(Vector2i(f.get_64(), f.get_64()), thing)
+			current_layer.set_terrain(Vector2i(f.get_64(), f.get_64()), thing)
+	add_child(layers[1])
+	current_layer = layers[1]
+	if not Globals.editing:
+		$Music.stream = current_layer.music
+		$Music.play()
 
-func _ready():
-	if not theme_instance:
-		load_theme()
-			
-
-func set_terrain(pos: Vector2i, name: String):
-	if !terrains.has(name): return
-	if terrain.get(pos) == name: return
-	terrain[pos] = name
-	for x in range(-1,2):
-		for y in range(-1,2):
-			to_fix[pos + Vector2i(x,y)] = true
-
-func clear_terrain(pos: Vector2i):
-	var obj = objects.get(pos)
-	if obj:
-		obj.queue_free()
-		objects.erase(pos)
-	if !terrain.has(pos): return
-	terrain.erase(pos)
-		
-	for x in range(-1,2):
-		for y in range(-1,2):
-			to_fix[pos + Vector2i(x,y)] = true
-
-func terrain_connected(pos: Vector2i, target: String):
-	var dest = terrain.get(pos)
-	var info = terrains.get(target)
-	return dest if info.get("sticky") else dest == target
-
-func update_terrain(pos: Vector2i):
-	var t = terrain.get(pos)
-	var info = terrains.get(t)
-	if !t:
-		$Terrain16.set_cell(0, pos)
-	elif info.type == "pipe":
-		var i = 0
-		for c in pipe_connect:
-			if terrain_connected(pos + c[0], t):
-				i += c[1]
-		$Terrain16.set_cell(0, pos, info.id, Vector2i(i%4, i/4))
-		return
-	for x in 2:
-		for y in 2:
-			var tpos = pos * 2 + Vector2i(x,y) - Vector2i.ONE
-			if !t:
-				$Terrain8.set_cell(0,tpos)
-			elif info.type == "ut":
-				var i = 0
-				var v = Vector2i.RIGHT * (x * 2 - 1)
-				var h = Vector2i.DOWN * (y * 2 - 1)
-				if terrain_connected(pos + v, t):
-					i += 1
-				if terrain_connected(pos + h, t):
-					i += 2
-				if i == 3 and terrain_connected(pos + v + h, t):
-					for _v in info.get("variants", 1):
-						i += 1;
-						if randf() > 0.2:
-							break
-				$Terrain8.set_cell(0,tpos,info.id,Vector2i(i*2 + x, y))
-
-func spawn_object(scene: PackedScene, pos: Vector2i):
-	if not objects.has(pos):
-		var instance = scene.instantiate()
-		instance.position = pos * 16
-		add_child(instance)
-		objects[pos] = instance;
-		return instance
 
 func save(to: String):
 	var f = FileAccess.open(to,FileAccess.WRITE)
-	f.store_pascal_string("layer1")
-	f.store_pascal_string(theme)
-	for t in terrain:
-		f.store_pascal_string(terrain[t])
-		f.store_64(t.x)
-		f.store_64(t.y)
-	for o in objects:
-		var obj = objects[o]
-		f.store_pascal_string(obj.scene_file_path)
-		f.store_64(o.x)
-		f.store_64(o.y)
-		f.store_var(obj.save_data() if obj.has_method("save_data") else null)
+	for l in layers:
+		f.store_pascal_string("layer%s" % l)
+		layers[l].save(f)
 
-func _process(delta):
-	for p in to_fix:
-		update_terrain(p)
-	to_fix.clear()
+func add_layer():
+	for i in range(1, 10):
+		if not layers.has(i):
+			var new_layer = layer_scene.instantiate()
+			layers[i] = new_layer
+			return i
+
+func switch_layer(to: int):
+	var to_switch_to = layers.get(to)
+	if to_switch_to and to_switch_to != current_layer:
+		$Music.stop()
+		remove_child(current_layer)
+		add_child(to_switch_to)
+		current_layer = to_switch_to
+		if not Globals.editing:
+			$Music.stream = current_layer.music
+			$Music.volume_db = 0.0
+			$Music.play()
+	return current_layer
 		
 	
 	

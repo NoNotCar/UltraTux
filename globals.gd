@@ -23,10 +23,14 @@ func _process(delta):
 	pass
 
 func get_water_depth(pos: Vector2):
+	if not global_water_level:
+		return 0
 	return max(0, pos.y - global_water_level)
 	
 func load_theme(theme: String)->PackedScene:
 	match theme:
 		"antarctic":
 			return load("res://themes/antarctic/antarctic.tscn")
+		"cave":
+			return load("res://themes/cave/cave.tscn")
 	return null

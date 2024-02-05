@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dv07k2xjb87b6"]
+[gd_scene load_steps=38 format=3 uid="uid://dv07k2xjb87b6"]
 
 [ext_resource type="Script" path="res://tux/tux.gd" id="1_ih05e"]
 [ext_resource type="Texture2D" uid="uid://c46ycaw5cq2k2" path="res://tux/dying.png" id="2_7rmrh"]
@@ -222,23 +222,9 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="Curve" id="Curve_1qv7a"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), -2.47253, 0.0, 0, 0]
+[sub_resource type="Curve" id="Curve_pfviq"]
+_data = [Vector2(0, 0.505494), 0.0, 4.06255, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_lryox"]
-curve = SubResource("Curve_1qv7a")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mrj0j"]
-particle_flag_disable_z = true
-emission_shape = 1
-emission_sphere_radius = 1.0
-angle_min = -180.0
-angle_max = 180.0
-direction = Vector3(0, 0, 0)
-gravity = Vector3(0, 0, 0)
-scale_min = 0.5
-scale_curve = SubResource("CurveTexture_lryox")
 
 [node name="Tux" type="CharacterBody2D"]
 collision_layer = 2
@@ -261,13 +247,21 @@ autoplay = "sit"
 [node name="Jump" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_gbiab")
 
-[node name="RunSmoke" type="GPUParticles2D" parent="."]
+[node name="RunSmoke" type="CPUParticles2D" parent="."]
 position = Vector2(0, 6)
 emitting = false
 amount = 24
-process_material = SubResource("ParticleProcessMaterial_mrj0j")
-texture = ExtResource("4_jrtl1")
+randomness = 0.5
 fixed_fps = 60
+draw_order = 1
+texture = ExtResource("4_jrtl1")
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 4.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.5
+scale_amount_curve = SubResource("Curve_pfviq")
 
 [node name="SuperJump" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_uc577")

@@ -6,3 +6,6 @@ func _ready():
 	$EndlessRow/Water.water_depth = -position.y + 8
 	$EndlessRow.respawn()
 	Globals.global_water_level = position.y - 4
+
+func _exit_tree():
+	Globals.global_water_level = 0
