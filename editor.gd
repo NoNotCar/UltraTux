@@ -3,6 +3,7 @@ extends Node2D
 var currentTool: EditorTool
 var enablePlacing = false
 var enableErasing = false
+var spos: Vector2i
 const FILE_DIALOG_SIZE = Vector2(600,400)
 const LayerButton = preload("res://ui/layer_button.tscn")
 
@@ -48,11 +49,15 @@ func _unhandled_input(event):
 	if event.is_action_pressed("editor_place"):
 		enablePlacing = true
 		if currentTool:
-			currentTool.place_single(Lib.grid_pos(get_global_mouse_position()), $Level.current_layer)
+			spos = Lib.grid_pos(get_global_mouse_position())
+			currentTool.place_single(spos, $Level.current_layer)
 	elif event.is_action_pressed("editor_erase"):
 		enableErasing = true
 	elif event.is_action_released("editor_place"):
 		enablePlacing = false
+		var epos = Lib.grid_pos(get_global_mouse_position())
+		if currentTool and spos != null and spos != epos:
+			currentTool.place_drag(spos, epos, $Level.current_layer)
 	elif event.is_action_released("editor_erase"):
 		enableErasing = false
 		
@@ -81,6 +86,11 @@ func _on_open_gui_input(event):
 
 func _on_open_dialog_file_selected(path):
 	$Level.load_level(path)
+	for button in $UI/Layers.get_children():
+		if button != $UI/Layers/AddLayer:
+			button.queue_free()
+	for layer in $Level.layers:
+		setup_layer_button(layer)
 
 
 func _on_save_dialog_file_selected(path):

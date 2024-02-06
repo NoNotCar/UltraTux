@@ -1,0 +1,57 @@
+[gd_scene load_steps=6 format=3 uid="uid://b2pb3jnft053d"]
+
+[ext_resource type="Texture2D" uid="uid://c086ysl83bojt" path="res://objects/girder/girder.png" id="1_7s241"]
+[ext_resource type="Script" path="res://objects/girder/girder.gd" id="1_en32l"]
+[ext_resource type="Texture2D" uid="uid://2xql8pf24o4o" path="res://objects/girder/terminus.png" id="2_jgwjk"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ddsjq"]
+radius = 4.0
+height = 16.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kgqj6"]
+size = Vector2(4, 16)
+
+[node name="Girder" type="Node2D"]
+script = ExtResource("1_en32l")
+
+[node name="Girder" type="StaticBody2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="Girder"]
+texture_repeat = 2
+texture = ExtResource("1_7s241")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 12)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Girder"]
+one_way_collision = true
+
+[node name="LeftTerminus" type="StaticBody2D" parent="."]
+
+[node name="Terminus" type="Sprite2D" parent="LeftTerminus"]
+position = Vector2(-4, 0)
+texture = ExtResource("2_jgwjk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftTerminus"]
+position = Vector2(-4, 0)
+shape = SubResource("CapsuleShape2D_ddsjq")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="LeftTerminus"]
+position = Vector2(-6, 0)
+shape = SubResource("RectangleShape2D_kgqj6")
+
+[node name="RightTerminus" type="StaticBody2D" parent="."]
+position = Vector2(32, 16)
+
+[node name="Terminus" type="Sprite2D" parent="RightTerminus"]
+position = Vector2(4, 0)
+texture = ExtResource("2_jgwjk")
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightTerminus"]
+position = Vector2(4, 0)
+shape = SubResource("CapsuleShape2D_ddsjq")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RightTerminus"]
+position = Vector2(6, 0)
+shape = SubResource("RectangleShape2D_kgqj6")

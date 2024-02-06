@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dvutmqo5bfgru"]
+[gd_scene load_steps=31 format=3 uid="uid://dvutmqo5bfgru"]
 
 [ext_resource type="Script" path="res://editor.gd" id="1_1pbdi"]
 [ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_rnuw8"]
@@ -26,6 +26,9 @@
 [ext_resource type="PackedScene" uid="uid://bseen7li3ld5h" path="res://objects/cage/cage.tscn" id="14_317ef"]
 [ext_resource type="PackedScene" uid="uid://csi5suuqq0k8c" path="res://objects/coins/ten_coin.tscn" id="14_cjxpq"]
 [ext_resource type="PackedScene" uid="uid://d1yby3xo7nv8j" path="res://objects/blocks/crate.tscn" id="14_h2mqu"]
+[ext_resource type="PackedScene" uid="uid://4ctxnue57w2w" path="res://ui/tools/girder_tool.tscn" id="16_fx5rh"]
+[ext_resource type="Texture2D" uid="uid://cgcr4npbynbfj" path="res://enemies/jumpy/icon.png" id="21_7qj7l"]
+[ext_resource type="PackedScene" uid="uid://dxvjoeiqe237y" path="res://enemies/jumpy/jumpy.tscn" id="22_iriq5"]
 [ext_resource type="Texture2D" uid="uid://cxpadew1dakq" path="res://ui/numerals/plus16.png" id="26_5r5cs"]
 
 [node name="Editor" type="Node2D"]
@@ -96,6 +99,9 @@ layout_mode = 2
 texture = ExtResource("13_dmuhs")
 scene = ExtResource("14_317ef")
 
+[node name="GirderTool" parent="UI/HBoxContainer" instance=ExtResource("16_fx5rh")]
+layout_mode = 2
+
 [node name="Snowball" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
 layout_mode = 2
 texture = ExtResource("8_6dvmb")
@@ -105,6 +111,11 @@ scene = ExtResource("9_3tgpu")
 layout_mode = 2
 texture = ExtResource("11_7rhsc")
 scene = ExtResource("12_ngsgl")
+
+[node name="Jumpy" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("21_7qj7l")
+scene = ExtResource("22_iriq5")
 
 [node name="Crate" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
 layout_mode = 2

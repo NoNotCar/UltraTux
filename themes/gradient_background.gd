@@ -6,6 +6,9 @@ extends CanvasLayer
 func _ready():
 	redraw()
 	get_viewport().size_changed.connect(redraw)
+	
+func _exit_tree():
+	get_viewport().size_changed.disconnect(redraw)
 
 func redraw():
 	var texture = GradientTexture2D.new()

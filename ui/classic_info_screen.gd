@@ -11,9 +11,7 @@ func _ready():
 	$CenterContainer/VBoxContainer/Lives/Number.number = Globals.lives
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+
 
 
 func _on_timer_timeout():

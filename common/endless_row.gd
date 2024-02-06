@@ -29,6 +29,6 @@ func respawn():
 	
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	var cx = get_viewport().get_camera_2d().get_screen_center_position().x * parallax
 	position.x = Lib.idiv(cx, repeat_every) * repeat_every

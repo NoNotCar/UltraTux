@@ -7,7 +7,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if current_coins != Globals.coins:
 		current_coins += 1
 		current_coins %= 100

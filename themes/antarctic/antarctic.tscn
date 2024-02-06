@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://themes/theme.gd" id="1_aieke"]
 [ext_resource type="PackedScene" uid="uid://k5j6cm7dii5q" path="res://common/endless_row.tscn" id="1_f6jr0"]
 [ext_resource type="PackedScene" uid="uid://6vtsy4hr3gcq" path="res://themes/gradient_background.tscn" id="2_2dtfn"]
-[ext_resource type="Script" path="res://themes/parallax_base.gd" id="4_icffw"]
+[ext_resource type="PackedScene" uid="uid://jr7okk835dks" path="res://themes/bottom_parallax.tscn" id="4_2p8b1"]
 [ext_resource type="AudioStream" uid="uid://5si4ei1ntxh5" path="res://themes/antarctic/moving.ogg" id="4_ohsrg"]
 [ext_resource type="Texture2D" uid="uid://clgax730kopyv" path="res://themes/antarctic/icebergs.png" id="5_kpqo4"]
 [ext_resource type="PackedScene" uid="uid://dt05b3ae0e8g0" path="res://themes/endless_water.tscn" id="6_l3iqg"]
@@ -20,15 +20,13 @@ gradient = SubResource("Gradient_tcypy")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0.5, 0.5)
-script = ExtResource("4_icffw")
+[node name="ParallaxLayer" parent="ParallaxBackground" instance=ExtResource("4_2p8b1")]
 
 [node name="EndlessRow" parent="ParallaxBackground/ParallaxLayer" instance=ExtResource("1_f6jr0")]
 repeat_every = 320
 parallax = 0.5
 
-[node name="Icebergs" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer/EndlessRow"]
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer/EndlessRow"]
 texture = ExtResource("5_kpqo4")
 offset = Vector2(0, -120)
 

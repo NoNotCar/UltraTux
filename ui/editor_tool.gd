@@ -9,13 +9,13 @@ var is_selected: bool:
 	get:
 		return $Selected.value
 
-func place_single(pos: Vector2i, l: Layer):
+func place_single(_pos: Vector2i, _l: Layer):
 	pass
 	
-func place_multi(pos: Vector2i, l: Layer):
+func place_multi(_pos: Vector2i, _l: Layer):
 	pass
 
-func place_drag(spos:Vector2i, epos: Vector2i, l: Layer):
+func place_drag(_spos:Vector2i, _epos: Vector2i, _l: Layer):
 	pass
 	
 

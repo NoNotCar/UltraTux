@@ -15,9 +15,7 @@ func _ready():
 		$Toggle.queue_free()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+
 
 func save_data():
 	return [0, mode, $NumberSelector.number]

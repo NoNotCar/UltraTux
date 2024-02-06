@@ -141,10 +141,10 @@ func _physics_process(delta):
 		var coll = get_slide_collision(s)
 		var normal = coll.get_normal()
 		var collider = coll.get_collider()
-		var is_down = normal.dot(Vector2.UP)>0.5
+		var is_down = normal.dot(Vector2.UP)>0.2
 		if is_down and pounding and collider.has_method("pound"):
 			collider.pound(self)
-			pounding = 0 if input.y < 0.5 else FULL_POUND
+			pounding = 0.0 if input.y < 0.5 else FULL_POUND
 			if not pounding:
 				$Pound.play()
 		elif is_down and collider.has_method("squish"):
@@ -164,18 +164,18 @@ func _physics_process(delta):
 	last_falling=f
 	if immersed:
 		pounding = 0
-		var tr = null
+		var target_r = null
 		if (input.length_squared() > 0.1):
-			tr = Vector2.UP.angle_to(input)
-			var da = Lib.signed_angle($Sprite.rotation, tr)
+			target_r = Vector2.UP.angle_to(input)
+			var da = Lib.signed_angle($Sprite.rotation, target_r)
 			if delta * WATER_ROTATE_SPEED > abs(da):
-				$Sprite.rotation = tr;
+				$Sprite.rotation = target_r;
 			else:
 				$Sprite.rotate(delta * sign(da) * WATER_ROTATE_SPEED)
 		if ($Sprite.animation != "swim"):
 			$Sprite.animation="float"
-			if tr != null:
-				$Sprite.rotation = tr
+			if target_r != null:
+				$Sprite.rotation = target_r
 	else:
 		$Sprite.rotation = 0
 		set_flipped(dx<0)
@@ -247,7 +247,7 @@ func enable_collision():
 	collision_layer=2
 	collision_mask=3
 
-func squish(squisher):
+func squish(_squisher):
 	velocity+=Vector2.DOWN*50
 
 #func set_clouds(new:int):
@@ -283,10 +283,4 @@ func _on_deathTween_finished():
 		get_tree().change_scene_to_file("res://ui/game_over.tscn")
 	
 
-func on_goal(goal:Node2D,points:int):
-	collision_layer=0
-	collision_mask=0
-	position=goal.position
-	emit_signal("reached_goal")
-	hide()
 	

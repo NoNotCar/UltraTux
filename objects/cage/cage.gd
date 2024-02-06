@@ -3,10 +3,10 @@ extends StaticBody2D
 var broken = false
 
 	
-func bash(tux: Tux):
+func bash(_tux: Tux):
 	destroy()
 
-func pound(tux: Tux):
+func pound(_tux: Tux):
 	destroy()
 
 func destroy():

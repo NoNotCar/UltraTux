@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d1kf5sqnppsv5" path="res://tiles/snow/snow.png" id="2_wgeic"]
 [ext_resource type="Texture2D" uid="uid://d3u1jtx4odym1" path="res://tiles/pipe/blue.png" id="3_cf08o"]
 [ext_resource type="PackedScene" uid="uid://k5j6cm7dii5q" path="res://common/endless_row.tscn" id="4_ij480"]
-[ext_resource type="PackedScene" uid="uid://bigasmirfw0j5" path="res://tiles/death_barrier.tscn" id="5_0xmrb"]
+[ext_resource type="Texture2D" uid="uid://day8dn4irpr27" path="res://tiles/void.png" id="5_lysy5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_41df0"]
 resource_name = "snow"
@@ -213,7 +213,17 @@ position = Vector2(-8, -8)
 tile_set = SubResource("TileSet_om5ou")
 format = 2
 
-[node name="EndlessRow" parent="." instance=ExtResource("4_ij480")]
+[node name="DeathBarrier" parent="." instance=ExtResource("4_ij480")]
+z_index = 10
 position = Vector2(0, 4)
 
-[node name="DeathBarrier" parent="EndlessRow" instance=ExtResource("5_0xmrb")]
+[node name="Void" type="Sprite2D" parent="DeathBarrier"]
+texture = ExtResource("5_lysy5")
+
+[node name="TopBarrier" parent="." instance=ExtResource("4_ij480")]
+z_index = 10
+position = Vector2(0, -4)
+
+[node name="Void" type="Sprite2D" parent="TopBarrier"]
+texture = ExtResource("5_lysy5")
+flip_v = true

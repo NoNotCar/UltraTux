@@ -11,9 +11,7 @@ func _ready():
 		"Classic - Best time %.2fs" % Globals.best_time
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+
 
 
 func _on_editor_pressed():
@@ -28,7 +26,7 @@ func _on_classic_pressed():
 
 
 func _on_test_zone_pressed():
-	Globals.current_level = "user://layer_test.lvl"
+	Globals.current_level = "user://1-2.lvl"
 	Globals.lives = 5
 	Globals.editing = false
 	get_tree().change_scene_to_file("res://game.tscn")

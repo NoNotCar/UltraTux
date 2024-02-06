@@ -12,6 +12,4 @@ func reposition():
 	motion_offset = Vector2.DOWN * (bounds.y*(motion_scale.y/2 - 0.085) + 8)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+

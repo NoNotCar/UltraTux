@@ -18,7 +18,7 @@ func _ready():
 	zoom=Vector2.ONE*z
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	#cam_offset = lerp(cam_offset,player.get_rstick()*K_OFF,5.0*delta)
 	if not is_instance_valid(target):
 		return

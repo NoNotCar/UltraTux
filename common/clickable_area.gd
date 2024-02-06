@@ -10,9 +10,7 @@ func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
+
 
 
 func _on_mouse_entered():
@@ -25,7 +23,7 @@ func _on_mouse_exited():
 	emit_signal("hover_changed", false)
 
 
-func _on_input_event(viewport, event, shape_idx):
+func _on_input_event(_viewport, event, _shape_idx):
 	if event.is_action_pressed("editor_place"):
 		if hovered:
 			get_viewport().set_input_as_handled()

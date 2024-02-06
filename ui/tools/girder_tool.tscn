@@ -1,0 +1,9 @@
+[gd_scene load_steps=4 format=3 uid="uid://4ctxnue57w2w"]
+
+[ext_resource type="PackedScene" uid="uid://bch4j5u8kguw8" path="res://ui/editor_tool.tscn" id="1_nypvj"]
+[ext_resource type="Texture2D" uid="uid://bwetqeqfeijdg" path="res://objects/girder/icon.png" id="2_d3h7m"]
+[ext_resource type="Script" path="res://ui/tools/girder_tool.gd" id="3_47a7e"]
+
+[node name="GirderTool" instance=ExtResource("1_nypvj")]
+texture = ExtResource("2_d3h7m")
+script = ExtResource("3_47a7e")

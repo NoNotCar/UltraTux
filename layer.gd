@@ -22,6 +22,7 @@ var objects = {}
 var music: AudioStream
 var theme = "antarctic"
 var theme_instance: Node
+var max_height: int
 
 func _ready():
 	if not theme_instance:
@@ -34,12 +35,18 @@ func load_theme():
 	theme_instance = scene.instantiate()
 	add_child(theme_instance)
 	music = theme_instance.music
+	max_height = theme_instance.max_height
+	if max_height:
+		$TopBarrier.position = Vector2.UP*(max_height * 16 + 4)
+		$TopBarrier.show()
+	else:
+		$TopBarrier.hide()
 			
 
-func set_terrain(pos: Vector2i, name: String):
-	if !terrains.has(name): return
-	if terrain.get(pos) == name: return
-	terrain[pos] = name
+func set_terrain(pos: Vector2i, terrain_name: String):
+	if !terrains.has(terrain_name): return
+	if terrain.get(pos) == terrain_name: return
+	terrain[pos] = terrain_name
 	for x in range(-1,2):
 		for y in range(-1,2):
 			to_fix[pos + Vector2i(x,y)] = true
@@ -57,6 +64,10 @@ func clear_terrain(pos: Vector2i):
 			to_fix[pos + Vector2i(x,y)] = true
 
 func terrain_connected(pos: Vector2i, target: String):
+	if pos.y > 0:
+		return true
+	elif max_height and pos.y < -max_height:
+		return true
 	var dest = terrain.get(pos)
 	var info = terrains.get(target)
 	return dest if info.get("sticky") else dest == target
@@ -102,7 +113,7 @@ func spawn_object(scene: PackedScene, pos: Vector2i):
 		return instance
 		
 
-func _process(delta):
+func _process(_delta):
 	for p in to_fix:
 		update_terrain(p)
 	to_fix.clear()

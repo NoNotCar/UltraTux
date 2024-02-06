@@ -25,11 +25,17 @@ func _ready():
 	fade_in()
 
 func load_empty():
+	for l in layers.values():
+		l.queue_free()
+	layers.clear()
 	current_layer = layer_scene.instantiate()
 	layers[1] = current_layer
 	add_child(current_layer)
 	
 func load_level(level: String):
+	for l in layers.values():
+		l.queue_free()
+	layers.clear()
 	for p in 11:
 		pipes[p] = []
 	var f = FileAccess.open(level, FileAccess.READ)
