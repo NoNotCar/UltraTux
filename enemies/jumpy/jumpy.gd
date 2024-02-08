@@ -21,7 +21,7 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	else:
-		velocity += JUMP_VELOCITY * get_floor_normal()
+		velocity += (JUMP_VELOCITY + randf_range(-10, 10)) * get_floor_normal()
 		$AnimatedSprite2D.play("jump")
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://dv07k2xjb87b6"]
+[gd_scene load_steps=39 format=3 uid="uid://dv07k2xjb87b6"]
 
 [ext_resource type="Script" path="res://tux/tux.gd" id="1_ih05e"]
 [ext_resource type="Texture2D" uid="uid://c46ycaw5cq2k2" path="res://tux/dying.png" id="2_7rmrh"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://caoxl8l7syndw" path="res://tux/superrun.wav" id="8_7l8bg"]
 [ext_resource type="AudioStream" uid="uid://s5w8ie2ylaeu" path="res://tux/pound.wav" id="9_uqiaa"]
 [ext_resource type="AudioStream" uid="uid://ixqer8olq5qq" path="res://tux/pipe.wav" id="10_7vi7c"]
+[ext_resource type="AudioStream" uid="uid://bx0uxre1yhd1v" path="res://tux/lifeup.wav" id="11_7nba4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_w3sl5"]
 radius = 4.0
@@ -275,3 +276,6 @@ stream = ExtResource("9_uqiaa")
 
 [node name="Pipe" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_7vi7c")
+
+[node name="ExtraLife" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_7nba4")

@@ -28,9 +28,14 @@ func load_empty():
 	for l in layers.values():
 		l.queue_free()
 	layers.clear()
-	current_layer = layer_scene.instantiate()
-	layers[1] = current_layer
-	add_child(current_layer)
+	layers[1] = set_layer(layer_scene.instantiate())
+	
+func set_layer(l:Layer):
+	add_child(l)
+	current_layer = l
+	for cam in get_tree().get_nodes_in_group("TuxCam"):
+		cam.height_limit = -l.max_height * 16.0 - 8.0 if l.max_height else 0.0
+	return l
 	
 func load_level(level: String):
 	for l in layers.values():
@@ -62,8 +67,7 @@ func load_level(level: String):
 				pipes[inst.pipe_layer].append([inst, loading_layer])
 		else:
 			current_layer.set_terrain(Vector2i(f.get_64(), f.get_64()), thing)
-	add_child(layers[1])
-	current_layer = layers[1]
+	set_layer(layers[1])
 	if not Globals.editing:
 		$Music.stream = current_layer.music
 		$Music.play()
@@ -87,8 +91,7 @@ func switch_layer(to: int):
 	if to_switch_to and to_switch_to != current_layer:
 		$Music.stop()
 		remove_child(current_layer)
-		add_child(to_switch_to)
-		current_layer = to_switch_to
+		set_layer(to_switch_to)
 		if not Globals.editing:
 			$Music.stream = current_layer.music
 			$Music.volume_db = 0.0

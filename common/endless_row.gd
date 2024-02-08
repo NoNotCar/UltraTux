@@ -11,7 +11,12 @@ func _ready():
 			to_repeat = child
 			break
 	respawn()
+	
+func _enter_tree():
 	get_viewport().size_changed.connect(respawn)
+	
+func _exit_tree():
+	get_viewport().size_changed.disconnect(respawn)
 
 func respawn():
 	for obj in spawned:

@@ -23,7 +23,7 @@ func spawn_tux():
 	$TuxCam.target = tux
 
 func _input(event):
-	if event.is_action_pressed("exit_testing"):
+	if Globals.game_mode == Globals.GAME_MODE.SINGLE_STAGE and event.is_action_pressed("exit_testing"):
 		get_tree().change_scene_to_file("res://editor.tscn")
 		
 func collect_ten_coin(n: int):
@@ -33,10 +33,11 @@ func collect_ten_coin(n: int):
 	
 
 func complete_level():
-	Globals.best_time = min(Globals.best_time, time)
 	$Level/Music.stop()
 	$Victory.play()
 	await $Victory.finished
 	await $Level.fade_out()
-	get_tree().change_scene_to_file("res://title.tscn")
+	Globals.big_coins += ten_coins.reduce(func(acc: int, got: bool): return acc + (1 if got else 0), 0)
+	print(Globals.big_coins)
+	Globals.to_next_level()
 	

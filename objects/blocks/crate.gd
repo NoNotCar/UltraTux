@@ -10,12 +10,12 @@ func _ready():
 
 	
 func bash(_tux: Tux):
-	destroy()
+	kill()
 
 func pound(_tux: Tux):
-	destroy()
+	kill()
 
-func destroy():
+func kill():
 	if breaking:
 		return
 	breaking = true

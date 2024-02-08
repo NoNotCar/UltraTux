@@ -9,13 +9,25 @@ extends Camera2D
 #var new_ground=0
 var target: Tux
 var arrow:TextureRect
+var height_limit = 0.0:
+	set(value):
+		height_limit = value
+		if value:
+			limit_top = value
+		else:
+			limit_top = -1e6
 const ARROW_GROW=0.2
 const K_OFF = 32.0
+const MAX_HEIGHT = 16 * 16
 #var cam_offset = Vector2.ZERO
 # Called when the  node enters the scene tree for the first time.
 func _ready():
-	var z = 3
-	zoom=Vector2.ONE*z
+	rezoom()
+	get_viewport().size_changed.connect(rezoom)
+	
+func rezoom():
+	var vs = get_viewport_rect().size
+	zoom=Vector2.ONE * max(3.0, vs.y / MAX_HEIGHT)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

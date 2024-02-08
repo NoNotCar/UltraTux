@@ -35,10 +35,10 @@ func _on_toggle_pressed():
 
 
 func _on_active_area_body_entered(body):
-	if body is Tux:
+	if body is Tux and not mode % 2:
 		body.pipe_entry[dir] = pipe_layer
 
 
 func _on_active_area_body_exited(body):
-	if body is Tux:
+	if body is Tux and not mode % 2:
 		body.pipe_entry.erase(dir)

@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://b1sjrqilvamg0"]
+
+[ext_resource type="Script" path="res://objects/girder/moving_girder.gd" id="1_k88ee"]
+[ext_resource type="Texture2D" uid="uid://cxi8rvp8miu7u" path="res://objects/girder/movingGirder.png" id="2_snyyl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q8l20"]
+size = Vector2(48, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ohep7"]
+size = Vector2(48, 1)
+
+[node name="MovingGirder" type="AnimatableBody2D"]
+script = ExtResource("1_k88ee")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_snyyl")
+vframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_q8l20")
+one_way_collision = true
+
+[node name="LeftCast" type="RayCast2D" parent="."]
+position = Vector2(-20, 0)
+target_position = Vector2(-8, 0)
+
+[node name="RightCast" type="RayCast2D" parent="."]
+position = Vector2(20, 0)
+target_position = Vector2(8, 0)
+
+[node name="SwitchZone" type="Area2D" parent="."]
+collision_layer = 6
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SwitchZone"]
+position = Vector2(0, -6.5)
+shape = SubResource("RectangleShape2D_ohep7")

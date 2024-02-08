@@ -58,6 +58,8 @@ radius = 5.0
 height = 16.0
 
 [node name="Jumpy" type="CharacterBody2D"]
+collision_layer = 5
+collision_mask = 5
 script = ExtResource("1_xbfxy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

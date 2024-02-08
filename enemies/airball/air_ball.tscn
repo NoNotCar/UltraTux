@@ -1,0 +1,168 @@
+[gd_scene load_steps=23 format=3 uid="uid://bj5lm3jvi1sps"]
+
+[ext_resource type="Texture2D" uid="uid://bubh2w07yj1tl" path="res://enemies/airball/airballAngry.png" id="1_n60k8"]
+[ext_resource type="Script" path="res://enemies/airball/air_ball.gd" id="1_quhk1"]
+[ext_resource type="Texture2D" uid="uid://08jgl81tyoa5" path="res://enemies/airball/airballSquished.png" id="2_jkdkr"]
+[ext_resource type="Texture2D" uid="uid://cxrneddk11ybh" path="res://enemies/airball/airball.png" id="3_fs317"]
+[ext_resource type="AudioStream" uid="uid://bh8tnd4hqcrah" path="res://enemies/airball/alarm.wav" id="4_4amm4"]
+[ext_resource type="Texture2D" uid="uid://c15xkckcto311" path="res://enemies/airball/blackSmoke.png" id="5_eojnw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rt74k"]
+atlas = ExtResource("1_n60k8")
+region = Rect2(0, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sd5pa"]
+atlas = ExtResource("1_n60k8")
+region = Rect2(16, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3s5mg"]
+atlas = ExtResource("1_n60k8")
+region = Rect2(32, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ak8xq"]
+atlas = ExtResource("1_n60k8")
+region = Rect2(48, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f467v"]
+atlas = ExtResource("1_n60k8")
+region = Rect2(64, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q2u1i"]
+atlas = ExtResource("1_n60k8")
+region = Rect2(80, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2pjfu"]
+atlas = ExtResource("3_fs317")
+region = Rect2(0, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7fsxv"]
+atlas = ExtResource("3_fs317")
+region = Rect2(16, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h7qg6"]
+atlas = ExtResource("3_fs317")
+region = Rect2(32, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jx1x1"]
+atlas = ExtResource("3_fs317")
+region = Rect2(48, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mdim0"]
+atlas = ExtResource("3_fs317")
+region = Rect2(64, 0, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aso03"]
+atlas = ExtResource("3_fs317")
+region = Rect2(80, 0, 16, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fo23t"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rt74k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sd5pa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3s5mg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ak8xq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f467v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q2u1i")
+}],
+"loop": true,
+"name": &"angry",
+"speed": 30.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_jkdkr")
+}],
+"loop": true,
+"name": &"falling",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2pjfu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7fsxv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h7qg6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jx1x1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mdim0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aso03")
+}],
+"loop": true,
+"name": &"waiting",
+"speed": 20.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_maovs"]
+radius = 7.0
+height = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ao6cd"]
+radius = 80.0
+
+[sub_resource type="Curve" id="Curve_kn5om"]
+_data = [Vector2(0, 0), 0.0, 6.12894, 0, 0, Vector2(1, 0), -1.17363, 0.0, 0, 0]
+point_count = 2
+
+[node name="AirBall" type="CharacterBody2D"]
+script = ExtResource("1_quhk1")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_fo23t")
+animation = &"falling"
+autoplay = "waiting"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_maovs")
+
+[node name="Vision" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
+shape = SubResource("CircleShape2D_ao6cd")
+
+[node name="Alarm" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_4amm4")
+volume_db = -5.0
+max_distance = 400.0
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(0, 6)
+emitting = false
+amount = 16
+texture = ExtResource("5_eojnw")
+emission_shape = 3
+emission_rect_extents = Vector2(6, 1)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 2.0
+angle_min = -180.0
+angle_max = 180.0
+scale_amount_min = 0.5
+scale_amount_max = 0.75
+scale_amount_curve = SubResource("Curve_kn5om")
+
+[node name="GroundCast" type="RayCast2D" parent="."]
+target_position = Vector2(0, 16)
+
+[connection signal="body_entered" from="Vision" to="." method="_on_vision_body_entered"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dvutmqo5bfgru"]
+[gd_scene load_steps=35 format=3 uid="uid://dvutmqo5bfgru"]
 
 [ext_resource type="Script" path="res://editor.gd" id="1_1pbdi"]
 [ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_rnuw8"]
@@ -29,6 +29,10 @@
 [ext_resource type="PackedScene" uid="uid://4ctxnue57w2w" path="res://ui/tools/girder_tool.tscn" id="16_fx5rh"]
 [ext_resource type="Texture2D" uid="uid://cgcr4npbynbfj" path="res://enemies/jumpy/icon.png" id="21_7qj7l"]
 [ext_resource type="PackedScene" uid="uid://dxvjoeiqe237y" path="res://enemies/jumpy/jumpy.tscn" id="22_iriq5"]
+[ext_resource type="Texture2D" uid="uid://dfgnclbj6s7yq" path="res://enemies/airball/icon.png" id="23_efivm"]
+[ext_resource type="Texture2D" uid="uid://b5whaie5o15ww" path="res://objects/girder/movingIcon.png" id="23_vq380"]
+[ext_resource type="PackedScene" uid="uid://bj5lm3jvi1sps" path="res://enemies/airball/air_ball.tscn" id="24_p6pac"]
+[ext_resource type="PackedScene" uid="uid://b1sjrqilvamg0" path="res://objects/girder/moving_girder.tscn" id="24_rfvmr"]
 [ext_resource type="Texture2D" uid="uid://cxpadew1dakq" path="res://ui/numerals/plus16.png" id="26_5r5cs"]
 
 [node name="Editor" type="Node2D"]
@@ -116,6 +120,16 @@ scene = ExtResource("12_ngsgl")
 layout_mode = 2
 texture = ExtResource("21_7qj7l")
 scene = ExtResource("22_iriq5")
+
+[node name="MovingGirder" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("23_vq380")
+scene = ExtResource("24_rfvmr")
+
+[node name="AirBall" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("23_efivm")
+scene = ExtResource("24_p6pac")
 
 [node name="Crate" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
 layout_mode = 2

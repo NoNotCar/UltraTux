@@ -20,9 +20,9 @@ repeat_every = 480
 parallax = 0.5
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer/EndlessRow"]
-modulate = Color(0.313726, 0.313726, 0.313726, 1)
+modulate = Color(0.392157, 0.392157, 0.392157, 1)
 texture = ExtResource("1_pn2ic")
 offset = Vector2(0, -135)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color(0.501961, 0.501961, 0.501961, 1)
+color = Color(0.627451, 0.627451, 0.627451, 1)

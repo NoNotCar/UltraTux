@@ -40,6 +40,9 @@ func _physics_process(delta):
 	move_and_slide()
 	
 func squish(_tux: Tux):
+	kill()
+
+func kill():
 	var corpse = Corpse.instantiate()
 	corpse.flipped = direction == 1
 	corpse.position = position + Vector2.DOWN * 8

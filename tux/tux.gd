@@ -157,7 +157,7 @@ func _physics_process(delta):
 			velocity+=Vector2.DOWN*20
 			$Pound.play()
 		elif "hurts" in collider:
-			spike()
+			kill()
 			return
 	var f=not is_on_floor()
 	falling = f and last_falling
@@ -188,7 +188,7 @@ func _physics_process(delta):
 		else:
 			$Sprite.animation="sit"
 	if position.y>death_barrier:
-		die()
+		kill()
 		
 func exit_pipe(exit):
 	var target_pos = exit.position
@@ -255,10 +255,8 @@ func squish(_squisher):
 #func get_clouds():
 	#return $Clouds.n
 
-func spike():
-	die()
 
-func die():
+func kill():
 	disable_collision()
 	var deathTween = get_tree().create_tween()
 	deathTween.tween_property($Sprite,"scale",Vector2.ZERO,0.5)\
@@ -274,6 +272,7 @@ func collect_coins(coins: int):
 	if Globals.coins >= 100:
 		Globals.coins -= 100
 		Globals.lives += 1
+		$ExtraLife.play()
 
 func _on_deathTween_finished():
 	Globals.lives -= 1
