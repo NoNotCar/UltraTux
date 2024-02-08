@@ -1,15 +1,16 @@
 extends Node
 
-const star = "★"
+const star = "*"
+const MAX_STARS = 9
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if OS.is_debug_build():
 		$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/TestZone.visible = true
 	if Globals.classic_complete:
-		$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Classic.text += " ★"
-		if Globals.big_coins >= 5:
+		$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Classic.text += " " + star
+		if Globals.big_coins >= MAX_STARS * 0.5:
 			$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Classic.text += star
-		if Globals.big_coins >= 9:
+		if Globals.big_coins >= MAX_STARS:
 			$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Classic.text += star
 	$Level.load_level("res://levels/title/1-title.lvl")
 

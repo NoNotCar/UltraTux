@@ -38,6 +38,5 @@ func complete_level():
 	await $Victory.finished
 	await $Level.fade_out()
 	Globals.big_coins += ten_coins.reduce(func(acc: int, got: bool): return acc + (1 if got else 0), 0)
-	print(Globals.big_coins)
 	Globals.to_next_level()
 	
