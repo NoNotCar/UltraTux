@@ -4,6 +4,8 @@ var currentTool: EditorTool
 var enablePlacing = false
 var enableErasing = false
 var spos: Vector2i
+var on_hotbar = []
+var hotbar_names = []
 const FILE_DIALOG_SIZE = Vector2(600,400)
 const LayerButton = preload("res://ui/layer_button.tscn")
 
@@ -11,7 +13,20 @@ func select_tool(newTool: EditorTool):
 	if currentTool:
 		currentTool.is_selected = false
 	currentTool = newTool
-	newTool.is_selected = true
+	if not (newTool in on_hotbar or newTool.name in hotbar_names):
+		var dupe = newTool.duplicate()
+		$UI/Hotbar.add_child(dupe)
+		on_hotbar.append(dupe)
+		dupe.is_selected = true
+		currentTool = dupe
+		dupe.connect("selected", func (): select_tool(dupe))
+		hotbar_names.append(newTool.name)
+		if len(on_hotbar) > 10:
+			$UI/Hotbar.remove_child(on_hotbar.pop_front())
+			hotbar_names.pop_front()
+	else:
+		newTool.is_selected = true
+	$UI/FullTools.hide()
 	
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -53,7 +68,7 @@ func _unhandled_input(event):
 			currentTool.place_single(spos, $Level.current_layer)
 	elif event.is_action_pressed("editor_erase"):
 		enableErasing = true
-	elif event.is_action_released("editor_place"):
+	elif event.is_action_released("editor_place") and enablePlacing:
 		enablePlacing = false
 		var epos = Lib.grid_pos(get_global_mouse_position())
 		if currentTool and spos != null and spos != epos:
@@ -106,5 +121,10 @@ func _on_add_layer_pressed():
 
 func _on_switch_theme_gui_input(event):
 	if event.is_action_pressed("editor_place"):
-		$Level.current_layer.theme = "cave"
+		$Level.current_layer.theme = "underwater"
 		$Level.current_layer.load_theme()
+
+
+func _on_more_gui_input(event):
+	if event.is_action_pressed("editor_place"):
+		$UI/FullTools.show()

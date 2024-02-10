@@ -1,6 +1,6 @@
 extends Node
 
-
+const eighth = TAU / 8
 const  grid_offset = Vector2(8,8)
 func idiv(a: int, b: int):
 	return a/b+1 if a<0 else a/b
@@ -19,3 +19,22 @@ func grid_pos(pos: Vector2)->Vector2i:
 	
 func snap_to_grid(pos: Vector2) -> Vector2:
 	return Vector2(grid_pos(pos) * 16)
+	
+func int_angle(angle: float):
+	angle = fmod(angle, TAU)
+	if angle < 0:
+		angle += TAU
+	if angle < eighth * 7:
+		if angle > eighth * 5:
+			return 3
+		elif angle > eighth * 3:
+			return 2
+		elif angle > eighth:
+			return 1
+	return 0
+	
+func snap_angle(angle: float):
+	return int_angle(angle) * (TAU / 4)
+		
+		
+	

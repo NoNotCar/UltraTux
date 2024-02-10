@@ -6,6 +6,9 @@ func _ready():
 	reposition()
 	get_viewport().size_changed.connect(reposition)
 	
+func _exit_tree():
+	get_viewport().size_changed.disconnect(reposition)
+	
 func reposition():
 	var bounds = get_viewport_rect().size;
 	var cam = get_viewport().get_camera_2d()

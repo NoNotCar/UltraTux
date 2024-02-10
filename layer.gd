@@ -4,8 +4,12 @@ class_name Layer
 const terrains = {
 	"snow": {
 		"type": "ut",
-		"id": 1,
+		"id": 0,
 		"variants": 3
+	},
+	"seabed": {
+		"type": "ut",
+		"id": 1
 	},
 	"bluepipe": {
 		"type": "pipe",
@@ -39,6 +43,7 @@ func load_theme():
 	if max_height:
 		$TopBarrier.position = Vector2.UP*(max_height * 16 + 4)
 		$TopBarrier.show()
+		$TopBarrier/StaticBody2D/CollisionShape2D.disabled = false
 	else:
 		$TopBarrier.hide()
 			

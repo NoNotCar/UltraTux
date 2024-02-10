@@ -1,0 +1,137 @@
+[gd_scene load_steps=19 format=3 uid="uid://b3xe4wp1b1eb7"]
+
+[ext_resource type="Script" path="res://enemies/fish/pufferfish.gd" id="1_33xjj"]
+[ext_resource type="Texture2D" uid="uid://bci6fbdli4a2o" path="res://enemies/fish/pufferfish_swim.png" id="2_ry43k"]
+[ext_resource type="Texture2D" uid="uid://yr8roim0uegb" path="res://enemies/fish/pufferfish_inflate.png" id="3_283kf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pvwbx"]
+atlas = ExtResource("2_ry43k")
+region = Rect2(0, 0, 22, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67msw"]
+atlas = ExtResource("2_ry43k")
+region = Rect2(22, 0, 22, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukp5n"]
+atlas = ExtResource("2_ry43k")
+region = Rect2(44, 0, 22, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_25l0f"]
+atlas = ExtResource("2_ry43k")
+region = Rect2(66, 0, 22, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_twaxw"]
+atlas = ExtResource("3_283kf")
+region = Rect2(0, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_na2p2"]
+atlas = ExtResource("3_283kf")
+region = Rect2(24, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cyy2e"]
+atlas = ExtResource("3_283kf")
+region = Rect2(48, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wf7x3"]
+atlas = ExtResource("3_283kf")
+region = Rect2(72, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vmi6p"]
+atlas = ExtResource("3_283kf")
+region = Rect2(96, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_883u3"]
+atlas = ExtResource("3_283kf")
+region = Rect2(120, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mjq1j"]
+atlas = ExtResource("3_283kf")
+region = Rect2(144, 0, 24, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ib7v0"]
+atlas = ExtResource("3_283kf")
+region = Rect2(168, 0, 24, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_22a3j"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pvwbx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67msw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukp5n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_25l0f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_twaxw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_na2p2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cyy2e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wf7x3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vmi6p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_883u3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mjq1j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ib7v0")
+}],
+"loop": false,
+"name": &"inflate",
+"speed": 10.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_rd2go"]
+radius = 6.0
+height = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2k28p"]
+radius = 96.0
+
+[node name="Pufferfish" type="CharacterBody2D"]
+motion_mode = 1
+script = ExtResource("1_33xjj")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_22a3j")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_rd2go")
+
+[node name="Vision" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
+shape = SubResource("CircleShape2D_2k28p")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.6
+one_shot = true
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="body_entered" from="Vision" to="." method="_on_vision_body_entered"]
+[connection signal="body_exited" from="Vision" to="." method="_on_vision_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

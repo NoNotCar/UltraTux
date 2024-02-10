@@ -26,4 +26,5 @@ stream = ExtResource("2_5shf5")
 autoplay = true
 max_distance = 400.0
 
+[connection signal="area_entered" from="DeathZone" to="." method="_on_death_zone_area_entered"]
 [connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]

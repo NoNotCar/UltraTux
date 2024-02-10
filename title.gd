@@ -27,5 +27,5 @@ func _on_classic_pressed():
 
 
 func _on_test_zone_pressed():
-	Globals.current_level = "user://1-3.lvl"
+	Globals.current_level = "user://1-4.lvl"
 	Globals.start_game(Globals.GAME_MODE.SINGLE_STAGE)

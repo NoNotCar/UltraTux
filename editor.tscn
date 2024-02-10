@@ -1,8 +1,9 @@
-[gd_scene load_steps=35 format=3 uid="uid://dvutmqo5bfgru"]
+[gd_scene load_steps=40 format=3 uid="uid://dvutmqo5bfgru"]
 
 [ext_resource type="Script" path="res://editor.gd" id="1_1pbdi"]
 [ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_rnuw8"]
 [ext_resource type="Texture2D" uid="uid://b2c8wqwfpxmcy" path="res://ui/open.png" id="3_7offu"]
+[ext_resource type="Texture2D" uid="uid://d1es7v452wgtv" path="res://ui/more.png" id="3_3058l"]
 [ext_resource type="PackedScene" uid="uid://bmngluvyh6i2g" path="res://ui/terrain_tool.tscn" id="3_vkrg3"]
 [ext_resource type="Texture2D" uid="uid://cm1ax48yf3uqx" path="res://ui/save.png" id="4_q5obg"]
 [ext_resource type="Texture2D" uid="uid://b5pl42dwi4u24" path="res://tiles/snow/snowicon.png" id="4_skonm"]
@@ -16,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://b3qcciyddontm" path="res://enemies/snowball/snowball.tscn" id="9_3tgpu"]
 [ext_resource type="Texture2D" uid="uid://ch2j7y0ep8yfw" path="res://objects/warp/icon.png" id="9_fdega"]
 [ext_resource type="PackedScene" uid="uid://bxcyfp71fymag" path="res://objects/warp/pipe_entrance.tscn" id="10_1f3v6"]
+[ext_resource type="Texture2D" uid="uid://djynjdsuwhicf" path="res://tiles/rock/seabed_icon.png" id="11_0gwyg"]
 [ext_resource type="Texture2D" uid="uid://d1r44ci01w300" path="res://objects/coins/coinIcon.png" id="11_7qhdk"]
 [ext_resource type="Texture2D" uid="uid://drvd8x1a7hg1e" path="res://enemies/fish/fishIcon.png" id="11_7rhsc"]
 [ext_resource type="PackedScene" uid="uid://7ofhkyrk0lpi" path="res://objects/coins/coin.tscn" id="12_0tii7"]
@@ -33,7 +35,10 @@
 [ext_resource type="Texture2D" uid="uid://b5whaie5o15ww" path="res://objects/girder/movingIcon.png" id="23_vq380"]
 [ext_resource type="PackedScene" uid="uid://bj5lm3jvi1sps" path="res://enemies/airball/air_ball.tscn" id="24_p6pac"]
 [ext_resource type="PackedScene" uid="uid://b1sjrqilvamg0" path="res://objects/girder/moving_girder.tscn" id="24_rfvmr"]
+[ext_resource type="Texture2D" uid="uid://cx5fpg48ay23m" path="res://enemies/fish/pufferIcon.png" id="25_8w520"]
 [ext_resource type="Texture2D" uid="uid://cxpadew1dakq" path="res://ui/numerals/plus16.png" id="26_5r5cs"]
+[ext_resource type="PackedScene" uid="uid://b3xe4wp1b1eb7" path="res://enemies/fish/pufferfish.tscn" id="26_ha7ub"]
+[ext_resource type="PackedScene" uid="uid://4nnremoih8kd" path="res://ui/tools/spike_tool.tscn" id="35_47h0l"]
 
 [node name="Editor" type="Node2D"]
 script = ExtResource("1_1pbdi")
@@ -46,7 +51,7 @@ limit_bottom = 8
 
 [node name="UI" type="CanvasLayer" parent="."]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI"]
+[node name="Hotbar" type="HBoxContainer" parent="UI"]
 custom_minimum_size = Vector2(0, 32)
 anchors_preset = 10
 anchor_right = 1.0
@@ -55,105 +60,42 @@ grow_horizontal = 2
 theme_override_constants/separation = 4
 alignment = 1
 
-[node name="Open" type="TextureRect" parent="UI/HBoxContainer"]
+[node name="More" type="TextureRect" parent="UI/Hotbar"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("3_3058l")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Open" type="TextureRect" parent="UI/Hotbar"]
 layout_mode = 2
 mouse_filter = 0
 texture = ExtResource("3_7offu")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="Save" type="TextureRect" parent="UI/HBoxContainer"]
+[node name="Save" type="TextureRect" parent="UI/Hotbar"]
 layout_mode = 2
 mouse_filter = 0
 texture = ExtResource("4_q5obg")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="SwitchTheme" type="TextureRect" parent="UI/HBoxContainer"]
+[node name="SwitchTheme" type="TextureRect" parent="UI/Hotbar"]
 layout_mode = 2
 mouse_filter = 0
 texture = ExtResource("5_mhpyt")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="Snow" parent="UI/HBoxContainer" instance=ExtResource("3_vkrg3")]
-layout_mode = 2
-mouse_filter = 1
-texture = ExtResource("4_skonm")
-terrain = "snow"
-
-[node name="BluePipe" parent="UI/HBoxContainer" instance=ExtResource("3_vkrg3")]
-layout_mode = 2
-mouse_filter = 1
-texture = ExtResource("5_yi6m2")
-terrain = "bluepipe"
-
-[node name="PipeWarp" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
-layout_mode = 2
-texture = ExtResource("9_fdega")
-scene = ExtResource("10_1f3v6")
-
-[node name="Igloo" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
-layout_mode = 2
-texture = ExtResource("6_20r4w")
-scene = ExtResource("7_dil6n")
-
-[node name="Cage" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
-layout_mode = 2
-texture = ExtResource("13_dmuhs")
-scene = ExtResource("14_317ef")
-
-[node name="GirderTool" parent="UI/HBoxContainer" instance=ExtResource("16_fx5rh")]
-layout_mode = 2
-
-[node name="Snowball" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
-layout_mode = 2
-texture = ExtResource("8_6dvmb")
-scene = ExtResource("9_3tgpu")
-
-[node name="Fish" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
-layout_mode = 2
-texture = ExtResource("11_7rhsc")
-scene = ExtResource("12_ngsgl")
-
-[node name="Jumpy" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
-layout_mode = 2
-texture = ExtResource("21_7qj7l")
-scene = ExtResource("22_iriq5")
-
-[node name="MovingGirder" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
-layout_mode = 2
-texture = ExtResource("23_vq380")
-scene = ExtResource("24_rfvmr")
-
-[node name="AirBall" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
-layout_mode = 2
-texture = ExtResource("23_efivm")
-scene = ExtResource("24_p6pac")
-
-[node name="Crate" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
-layout_mode = 2
-texture = ExtResource("13_nurij")
-scene = ExtResource("14_h2mqu")
-allow_drag = true
-
-[node name="Coin" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
-layout_mode = 2
-texture = ExtResource("11_7qhdk")
-scene = ExtResource("12_0tii7")
-allow_drag = true
-
-[node name="TenCoin" parent="UI/HBoxContainer" instance=ExtResource("5_vl1mc")]
-layout_mode = 2
-texture = ExtResource("13_2417f")
-scene = ExtResource("14_cjxpq")
-
-[node name="Play" type="TextureRect" parent="UI/HBoxContainer"]
+[node name="Play" type="TextureRect" parent="UI/Hotbar"]
+custom_minimum_size = Vector2(80, 64)
 layout_mode = 2
 mouse_filter = 0
 texture = ExtResource("8_t3j5c")
 expand_mode = 2
-stretch_mode = 5
+stretch_mode = 4
 
 [node name="SaveDialog" type="FileDialog" parent="UI"]
 title = "Save Level"
@@ -189,10 +131,116 @@ icon = ExtResource("26_5r5cs")
 icon_alignment = 1
 expand_icon = true
 
-[connection signal="gui_input" from="UI/HBoxContainer/Open" to="." method="_on_open_gui_input"]
-[connection signal="gui_input" from="UI/HBoxContainer/Save" to="." method="_on_save_gui_input"]
-[connection signal="gui_input" from="UI/HBoxContainer/SwitchTheme" to="." method="_on_switch_theme_gui_input"]
-[connection signal="gui_input" from="UI/HBoxContainer/Play" to="." method="_on_play_gui_input"]
+[node name="FullTools" type="PanelContainer" parent="UI"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="GridContainer" type="GridContainer" parent="UI/FullTools"]
+layout_mode = 2
+columns = 8
+
+[node name="Snow" parent="UI/FullTools/GridContainer" instance=ExtResource("3_vkrg3")]
+layout_mode = 2
+mouse_filter = 1
+texture = ExtResource("4_skonm")
+terrain = "snow"
+
+[node name="Seabed" parent="UI/FullTools/GridContainer" instance=ExtResource("3_vkrg3")]
+layout_mode = 2
+mouse_filter = 1
+texture = ExtResource("11_0gwyg")
+terrain = "seabed"
+
+[node name="BluePipe" parent="UI/FullTools/GridContainer" instance=ExtResource("3_vkrg3")]
+layout_mode = 2
+mouse_filter = 1
+texture = ExtResource("5_yi6m2")
+terrain = "bluepipe"
+
+[node name="PipeWarp" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("9_fdega")
+scene = ExtResource("10_1f3v6")
+rotate = true
+
+[node name="Igloo" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("6_20r4w")
+scene = ExtResource("7_dil6n")
+
+[node name="Cage" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("13_dmuhs")
+scene = ExtResource("14_317ef")
+
+[node name="GirderTool" parent="UI/FullTools/GridContainer" instance=ExtResource("16_fx5rh")]
+layout_mode = 2
+
+[node name="Snowball" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("8_6dvmb")
+scene = ExtResource("9_3tgpu")
+
+[node name="Fish" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("11_7rhsc")
+scene = ExtResource("12_ngsgl")
+
+[node name="PufferFish" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("25_8w520")
+scene = ExtResource("26_ha7ub")
+
+[node name="Jumpy" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("21_7qj7l")
+scene = ExtResource("22_iriq5")
+
+[node name="MovingGirder" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("23_vq380")
+scene = ExtResource("24_rfvmr")
+
+[node name="AirBall" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("23_efivm")
+scene = ExtResource("24_p6pac")
+
+[node name="Crate" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("13_nurij")
+scene = ExtResource("14_h2mqu")
+allow_drag = true
+
+[node name="SpikeTool" parent="UI/FullTools/GridContainer" instance=ExtResource("35_47h0l")]
+layout_mode = 2
+
+[node name="Coin" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("11_7qhdk")
+scene = ExtResource("12_0tii7")
+allow_drag = true
+
+[node name="TenCoin" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("13_2417f")
+scene = ExtResource("14_cjxpq")
+
+[connection signal="gui_input" from="UI/Hotbar/More" to="." method="_on_more_gui_input"]
+[connection signal="gui_input" from="UI/Hotbar/Open" to="." method="_on_open_gui_input"]
+[connection signal="gui_input" from="UI/Hotbar/Save" to="." method="_on_save_gui_input"]
+[connection signal="gui_input" from="UI/Hotbar/SwitchTheme" to="." method="_on_switch_theme_gui_input"]
+[connection signal="gui_input" from="UI/Hotbar/Play" to="." method="_on_play_gui_input"]
 [connection signal="file_selected" from="UI/SaveDialog" to="." method="_on_save_dialog_file_selected"]
 [connection signal="file_selected" from="UI/OpenDialog" to="." method="_on_open_dialog_file_selected"]
 [connection signal="pressed" from="UI/Layers/AddLayer" to="." method="_on_add_layer_pressed"]

@@ -4,6 +4,7 @@ enum MODE {ENTRY_ONLY, EXIT_ONLY, ENTRY_EXIT}
 var mode = MODE.ENTRY_EXIT
 var pipe_layer = 0
 var dir = Vector2.DOWN
+const dirs = [Vector2.DOWN, Vector2.LEFT, Vector2.UP, Vector2.RIGHT]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if mode:
@@ -18,9 +19,11 @@ func _ready():
 
 
 func save_data():
-	return [0, mode, $NumberSelector.number]
+	return [Lib.int_angle(rotation), mode, $NumberSelector.number]
 	
 func load_data(data: Array):
+	rotation = data[0] * TAU / 4
+	dir = dirs[data[0]]
 	mode = data[1]
 	$ModeSprite.frame = data[1]
 	pipe_layer = data[2]

@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://1bqh8kykv7yk"]
+
+[ext_resource type="Script" path="res://themes/underwater/underwater.gd" id="1_pjtdi"]
+[ext_resource type="AudioStream" uid="uid://cfriqmrxhxask" path="res://themes/underwater/water.ogg" id="2_rnc0p"]
+[ext_resource type="PackedScene" uid="uid://jr7okk835dks" path="res://themes/bottom_parallax.tscn" id="3_5keoj"]
+[ext_resource type="PackedScene" uid="uid://k5j6cm7dii5q" path="res://common/endless_row.tscn" id="4_gy0oa"]
+[ext_resource type="Texture2D" uid="uid://vxglq5i5bmyl" path="res://themes/underwater/underwater.png" id="5_a32im"]
+
+[node name="Underwater" type="Node2D"]
+script = ExtResource("1_pjtdi")
+music = ExtResource("2_rnc0p")
+max_height = 16
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" parent="ParallaxBackground" instance=ExtResource("3_5keoj")]
+
+[node name="EndlessRow" parent="ParallaxBackground/ParallaxLayer" instance=ExtResource("4_gy0oa")]
+repeat_every = 480
+parallax = 0.5
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer/EndlessRow"]
+texture = ExtResource("5_a32im")
+offset = Vector2(0, -128)
+
+[node name="WaterFilter" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="WaterFilter"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+color = Color(0, 0.411765, 0.666667, 0.501961)
