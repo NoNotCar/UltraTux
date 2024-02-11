@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1ci57rhv70pu"]
+
+[ext_resource type="Texture2D" uid="uid://cok7wbfskl3nj" path="res://enemies/fireball/fireball.png" id="1_sjpko"]
+[ext_resource type="Script" path="res://enemies/fireball/fireball.gd" id="1_v64ok"]
+[ext_resource type="Material" uid="uid://i3f5urasrlur" path="res://common/unshaded.tres" id="2_dvxbu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6y384"]
+radius = 6.0
+
+[node name="Fireball" type="Area2D"]
+collision_layer = 7
+collision_mask = 7
+script = ExtResource("1_v64ok")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 5
+material = ExtResource("2_dvxbu")
+texture = ExtResource("1_sjpko")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6y384")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+autostart = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

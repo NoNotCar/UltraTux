@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d15xvl4h22qm4"]
+
+[ext_resource type="Script" path="res://common/switch_state.gd" id="1_ntxn7"]
+
+[node name="SwitchState" type="Node" groups=["SwitchStates"]]
+script = ExtResource("1_ntxn7")

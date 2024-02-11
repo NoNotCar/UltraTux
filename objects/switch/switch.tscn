@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0qfsktegqwpf"]
+
+[ext_resource type="Texture2D" uid="uid://djgu8ca3wecgm" path="res://objects/switch/switch.png" id="1_hoalu"]
+[ext_resource type="Script" path="res://objects/switch/switch.gd" id="1_l3uc7"]
+[ext_resource type="PackedScene" uid="uid://d15xvl4h22qm4" path="res://common/switch_state.tscn" id="2_yg6iy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_41c7n"]
+size = Vector2(16, 16)
+
+[node name="Switch" type="StaticBody2D"]
+script = ExtResource("1_l3uc7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_hoalu")
+hframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_41c7n")
+
+[node name="SwitchState" parent="." instance=ExtResource("2_yg6iy")]
+
+[connection signal="state_changed" from="SwitchState" to="." method="_on_switch_state_state_changed"]

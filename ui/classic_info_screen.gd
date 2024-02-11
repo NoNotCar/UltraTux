@@ -11,7 +11,9 @@ func _ready():
 	$CenterContainer/VBoxContainer/Lives/Number.number = Globals.lives
 
 
-
+func _input(event):
+	if event.is_action_pressed("jump"):
+		_on_timer_timeout()
 
 
 func _on_timer_timeout():

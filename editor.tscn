@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dvutmqo5bfgru"]
+[gd_scene load_steps=49 format=3 uid="uid://dvutmqo5bfgru"]
 
 [ext_resource type="Script" path="res://editor.gd" id="1_1pbdi"]
 [ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_rnuw8"]
@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://d1r44ci01w300" path="res://objects/coins/coinIcon.png" id="11_7qhdk"]
 [ext_resource type="Texture2D" uid="uid://drvd8x1a7hg1e" path="res://enemies/fish/fishIcon.png" id="11_7rhsc"]
 [ext_resource type="PackedScene" uid="uid://7ofhkyrk0lpi" path="res://objects/coins/coin.tscn" id="12_0tii7"]
+[ext_resource type="Texture2D" uid="uid://cgh6w2j2yl86y" path="res://tiles/brick/greyIcon.png" id="12_jykiu"]
 [ext_resource type="PackedScene" uid="uid://d21cr5pklt6yq" path="res://enemies/fish/fish.tscn" id="12_ngsgl"]
 [ext_resource type="Texture2D" uid="uid://cloigdeedcmwx" path="res://objects/coins/tenIcon.png" id="13_2417f"]
 [ext_resource type="Texture2D" uid="uid://ceyxbfu3knw8a" path="res://objects/cage/icon.png" id="13_dmuhs"]
@@ -39,6 +40,14 @@
 [ext_resource type="Texture2D" uid="uid://cxpadew1dakq" path="res://ui/numerals/plus16.png" id="26_5r5cs"]
 [ext_resource type="PackedScene" uid="uid://b3xe4wp1b1eb7" path="res://enemies/fish/pufferfish.tscn" id="26_ha7ub"]
 [ext_resource type="PackedScene" uid="uid://4nnremoih8kd" path="res://ui/tools/spike_tool.tscn" id="35_47h0l"]
+[ext_resource type="Texture2D" uid="uid://by4dx30tl5tgd" path="res://enemies/fireball/firebase.png" id="37_x0h4q"]
+[ext_resource type="PackedScene" uid="uid://dirnnobllg2h" path="res://enemies/fireball/fireball_launcher.tscn" id="38_qovw1"]
+[ext_resource type="Texture2D" uid="uid://cuvsayjhqfnv2" path="res://objects/switch/icon.png" id="39_cadaa"]
+[ext_resource type="PackedScene" uid="uid://b0qfsktegqwpf" path="res://objects/switch/switch.tscn" id="40_2w3m0"]
+[ext_resource type="Texture2D" uid="uid://husymg32h84i" path="res://objects/switch/switchBlockIcon.png" id="41_cch7v"]
+[ext_resource type="PackedScene" uid="uid://eww673ar4b3n" path="res://objects/switch/switch_block.tscn" id="42_gq4g2"]
+[ext_resource type="Texture2D" uid="uid://chusftfd77byi" path="res://enemies/nolok/icon.png" id="43_ob1fc"]
+[ext_resource type="PackedScene" uid="uid://b3wlj7j8rkukt" path="res://enemies/nolok/nolok.tscn" id="44_3714r"]
 
 [node name="Editor" type="Node2D"]
 script = ExtResource("1_1pbdi")
@@ -161,6 +170,12 @@ mouse_filter = 1
 texture = ExtResource("11_0gwyg")
 terrain = "seabed"
 
+[node name="GreyBrick" parent="UI/FullTools/GridContainer" instance=ExtResource("3_vkrg3")]
+layout_mode = 2
+mouse_filter = 1
+texture = ExtResource("12_jykiu")
+terrain = "greybrick"
+
 [node name="BluePipe" parent="UI/FullTools/GridContainer" instance=ExtResource("3_vkrg3")]
 layout_mode = 2
 mouse_filter = 1
@@ -224,6 +239,27 @@ allow_drag = true
 
 [node name="SpikeTool" parent="UI/FullTools/GridContainer" instance=ExtResource("35_47h0l")]
 layout_mode = 2
+
+[node name="FireballLauncher" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("37_x0h4q")
+scene = ExtResource("38_qovw1")
+
+[node name="Switch" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("39_cadaa")
+scene = ExtResource("40_2w3m0")
+
+[node name="SwitchBlock" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("41_cch7v")
+scene = ExtResource("42_gq4g2")
+allow_drag = true
+
+[node name="Nolok" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("43_ob1fc")
+scene = ExtResource("44_3714r")
 
 [node name="Coin" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
 layout_mode = 2

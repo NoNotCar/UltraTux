@@ -65,4 +65,6 @@ func load_theme(theme: String)->PackedScene:
 			return load("res://themes/cave/cave.tscn")
 		"underwater":
 			return load("res://themes/underwater/underwater.tscn")
+		"castle":
+			return load("res://themes/castle/castle.tscn")
 	return null

@@ -14,6 +14,7 @@ func bash(_tux: Tux):
 
 func pound(_tux: Tux):
 	kill()
+	return true
 
 func kill():
 	if breaking:

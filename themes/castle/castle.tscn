@@ -1,0 +1,40 @@
+[gd_scene load_steps=9 format=3 uid="uid://cft6na58detml"]
+
+[ext_resource type="Script" path="res://themes/theme.gd" id="1_b3p0b"]
+[ext_resource type="AudioStream" uid="uid://dfoop1jgrrh75" path="res://themes/castle/fortress.ogg" id="2_cf4db"]
+[ext_resource type="PackedScene" uid="uid://6vtsy4hr3gcq" path="res://themes/gradient_background.tscn" id="3_adx3y"]
+[ext_resource type="PackedScene" uid="uid://jr7okk835dks" path="res://themes/bottom_parallax.tscn" id="4_gtq00"]
+[ext_resource type="PackedScene" uid="uid://k5j6cm7dii5q" path="res://common/endless_row.tscn" id="5_mxsun"]
+[ext_resource type="Texture2D" uid="uid://b4ph5pd34i8nq" path="res://themes/cave/crazyPlanks.png" id="6_peqtv"]
+[ext_resource type="PackedScene" uid="uid://c8qhib2ak5x08" path="res://themes/castle/lava.tscn" id="7_bjrmg"]
+
+[sub_resource type="Gradient" id="Gradient_fpv0a"]
+colors = PackedColorArray(0, 0, 0, 1, 0.929412, 0.462745, 0.0784314, 1)
+
+[node name="Castle" type="Node2D"]
+script = ExtResource("1_b3p0b")
+music = ExtResource("2_cf4db")
+max_height = 16
+
+[node name="GradientBackground" parent="." instance=ExtResource("3_adx3y")]
+gradient = SubResource("Gradient_fpv0a")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+visible = false
+
+[node name="ParallaxLayer" parent="ParallaxBackground" instance=ExtResource("4_gtq00")]
+
+[node name="EndlessRow" parent="ParallaxBackground/ParallaxLayer" instance=ExtResource("5_mxsun")]
+repeat_every = 480
+parallax = 0.5
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer/EndlessRow"]
+modulate = Color(0.392157, 0.392157, 0.392157, 1)
+texture = ExtResource("6_peqtv")
+offset = Vector2(0, -135)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0.847059, 0.611765, 0.482353, 1)
+
+[node name="Lava" parent="." instance=ExtResource("7_bjrmg")]
+position = Vector2(0, -16)

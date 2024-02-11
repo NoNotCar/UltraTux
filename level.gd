@@ -6,6 +6,9 @@ var layers = {}
 var pipes = {}
 var current_layer: Layer
 const SILENT = -100.0
+var switch = false
+enum PENDING_SWITCH {NONE, TO_FALSE, TO_TRUE}
+var pending_switch = PENDING_SWITCH.NONE
 
 func fade_in():
 	var tween = create_tween()
@@ -89,16 +92,25 @@ func add_layer():
 func switch_layer(to: int):
 	var to_switch_to = layers.get(to)
 	if to_switch_to and to_switch_to != current_layer:
-		$Music.stop()
+		if to_switch_to.music != current_layer.music:
+			$Music.stop()
 		remove_child(current_layer)
 		set_layer(to_switch_to)
-		if not Globals.editing:
+		if not Globals.editing and not $Music.playing:
 			$Music.stream = current_layer.music
 			$Music.volume_db = 0.0
 			$Music.play()
 	return current_layer
 		
+func switch_switch():
+	pending_switch = PENDING_SWITCH.TO_FALSE if switch else PENDING_SWITCH.TO_TRUE
 	
-	
+func _process(delta):
+	if pending_switch != PENDING_SWITCH.NONE:
+		switch = false if pending_switch == PENDING_SWITCH.TO_FALSE else true
+		for ss in get_tree().get_nodes_in_group("SwitchStates"):
+			ss.change_state(switch)
+		pending_switch = PENDING_SWITCH.NONE
+		$Switch.play()
 
 	

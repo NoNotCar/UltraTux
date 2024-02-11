@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://dirnnobllg2h"]
+
+[ext_resource type="Script" path="res://enemies/fireball/fireball_launcher.gd" id="1_0klco"]
+[ext_resource type="Texture2D" uid="uid://by4dx30tl5tgd" path="res://enemies/fireball/firebase.png" id="1_dlw5n"]
+[ext_resource type="Material" uid="uid://i3f5urasrlur" path="res://common/unshaded.tres" id="3_2jqc4"]
+[ext_resource type="Texture2D" uid="uid://cok7wbfskl3nj" path="res://enemies/fireball/fireball.png" id="3_l03xk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0c1oq"]
+size = Vector2(16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1jtl0"]
+radius = 100.0
+
+[node name="FireballLauncher" type="StaticBody2D"]
+script = ExtResource("1_0klco")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_dlw5n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0c1oq")
+
+[node name="Launching" type="Sprite2D" parent="."]
+material = ExtResource("3_2jqc4")
+scale = Vector2(1e-05, 1e-05)
+texture = ExtResource("3_l03xk")
+
+[node name="Vision" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
+shape = SubResource("CircleShape2D_1jtl0")
+
+[connection signal="body_entered" from="Vision" to="." method="_on_vision_body_entered"]
+[connection signal="body_exited" from="Vision" to="." method="_on_vision_body_exited"]

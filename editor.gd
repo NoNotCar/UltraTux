@@ -75,6 +75,8 @@ func _unhandled_input(event):
 			currentTool.place_drag(spos, epos, $Level.current_layer)
 	elif event.is_action_released("editor_erase"):
 		enableErasing = false
+	elif event.is_action_pressed("editor_menu"):
+		$UI/FullTools.show()
 		
 	
 
@@ -121,7 +123,7 @@ func _on_add_layer_pressed():
 
 func _on_switch_theme_gui_input(event):
 	if event.is_action_pressed("editor_place"):
-		$Level.current_layer.theme = "underwater"
+		$Level.current_layer.theme = "castle"
 		$Level.current_layer.load_theme()
 
 

@@ -1,7 +1,7 @@
 extends Node
 
 const star = "*"
-const MAX_STARS = 9
+const MAX_STARS = 15
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if OS.is_debug_build():
@@ -27,5 +27,5 @@ func _on_classic_pressed():
 
 
 func _on_test_zone_pressed():
-	Globals.current_level = "user://1-4.lvl"
+	Globals.current_level = "user://1-5.lvl"
 	Globals.start_game(Globals.GAME_MODE.SINGLE_STAGE)

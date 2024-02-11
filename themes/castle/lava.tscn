@@ -1,0 +1,54 @@
+[gd_scene load_steps=10 format=3 uid="uid://c8qhib2ak5x08"]
+
+[ext_resource type="PackedScene" uid="uid://k5j6cm7dii5q" path="res://common/endless_row.tscn" id="1_g8724"]
+[ext_resource type="Script" path="res://themes/castle/lava.gd" id="1_lhsgg"]
+[ext_resource type="Shader" path="res://themes/castle/lava.gdshader" id="2_egqlj"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_fg2xg"]
+noise_type = 2
+frequency = 0.1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rctws"]
+width = 256
+height = 192
+noise = SubResource("FastNoiseLite_fg2xg")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1s7di"]
+shader = ExtResource("2_egqlj")
+shader_parameter/top = Color(1, 0.784314, 0.145098, 1)
+shader_parameter/mid1 = Color(1, 0.635294, 0.0784314, 1)
+shader_parameter/mid2 = Color(0.929412, 0.462745, 0.0784314, 1)
+shader_parameter/bottom = Color(0.776471, 0.270588, 0.141176, 1)
+shader_parameter/bubble = Color(0.556863, 0.145098, 0.113725, 1)
+shader_parameter/noise = SubResource("NoiseTexture2D_rctws")
+
+[sub_resource type="Gradient" id="Gradient_indxl"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_eojax"]
+gradient = SubResource("Gradient_indxl")
+width = 128
+height = 48
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_pffsu"]
+
+[node name="Lava" type="Node2D"]
+z_index = 10
+script = ExtResource("1_lhsgg")
+
+[node name="EndlessRow" parent="." instance=ExtResource("1_g8724")]
+repeat_every = 128
+
+[node name="ShaderRect" type="Sprite2D" parent="EndlessRow"]
+material = SubResource("ShaderMaterial_1s7di")
+texture = SubResource("GradientTexture2D_eojax")
+
+[node name="DeathZone" type="Area2D" parent="."]
+collision_layer = 7
+collision_mask = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
+position = Vector2(0, -16)
+shape = SubResource("WorldBoundaryShape2D_pffsu")
+
+[connection signal="area_entered" from="DeathZone" to="." method="_on_death_zone_area_entered"]
+[connection signal="body_entered" from="DeathZone" to="." method="_on_death_zone_body_entered"]

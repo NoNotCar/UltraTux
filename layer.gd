@@ -11,6 +11,10 @@ const terrains = {
 		"type": "ut",
 		"id": 1
 	},
+	"greybrick": {
+		"type": "ut",
+		"id": 2
+	},
 	"bluepipe": {
 		"type": "pipe",
 		"id": 0,

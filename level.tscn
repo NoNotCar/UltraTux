@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bt3lun5hkoyeq"]
+[gd_scene load_steps=3 format=3 uid="uid://bt3lun5hkoyeq"]
 
 [ext_resource type="Script" path="res://level.gd" id="1_fhian"]
+[ext_resource type="AudioStream" uid="uid://d140q3xqkyd7b" path="res://objects/switch/switch.wav" id="2_sr5bx"]
 
 [node name="Level" type="Node2D" groups=["Level"]]
 script = ExtResource("1_fhian")
@@ -16,3 +17,6 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
+
+[node name="Switch" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_sr5bx")

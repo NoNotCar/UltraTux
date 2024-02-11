@@ -143,8 +143,8 @@ func _physics_process(delta):
 		var collider = coll.get_collider()
 		var is_down = normal.dot(Vector2.UP)>0.2
 		if is_down and pounding and collider.has_method("pound"):
-			collider.pound(self)
-			pounding = 0.0 if input.y < 0.5 else FULL_POUND
+			var dest = collider.pound(self)
+			pounding = 0.0 if input.y < 0.5 or not dest else FULL_POUND
 			if not pounding:
 				$Pound.play()
 		elif is_down and collider.has_method("squish"):
