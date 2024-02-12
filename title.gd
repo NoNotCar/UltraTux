@@ -29,3 +29,7 @@ func _on_classic_pressed():
 func _on_test_zone_pressed():
 	Globals.current_level = "user://1-5.lvl"
 	Globals.start_game(Globals.GAME_MODE.SINGLE_STAGE)
+
+
+func _on_credits_pressed():
+	get_tree().change_scene_to_file("res://ui/credits.tscn")

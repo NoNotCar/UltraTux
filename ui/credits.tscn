@@ -1,0 +1,85 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2slekvd7swyu"]
+
+[ext_resource type="Script" path="res://ui/credits.gd" id="1_3wr5t"]
+
+[node name="Credits" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3wr5t")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+horizontal_scroll_mode = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_bottom = 32
+
+[node name="HBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="ScrollContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Credits"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CreditText" type="RichTextLabel" parent="ScrollContainer/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+bbcode_enabled = true
+text = "[center]
+[b]Programming, Sprites[/b]
+
+NoNotCar
+
+[b]Music[/b]
+
+Title: wansti (GPLv2 + CC-by-sa)
+Antarctic: [color=cyan][url=https://opengameart.org/users/wolfgang]Wolfgang[/url][/color] (CC0)
+Cave: wansti (GPLv2 + CC-by-sa)
+Underwater: Juhani Junkala (CC0)
+Castle: wansti (GPLv2 + CC-by-sa)
+Game Over: wansti (GPLv2 + CC-by-sa)
+
+[b]Sounds[/b]
+
+All from The Essential Retro Video Game Sound Effects Collection (Juhani Junkala, CC0), except:
+
+Extra Life: [color=cyan][url=https://github.com/SuperTux/supertux/blob/9b4eaeed047c2b202b4449a540832a5361b32cf5/data/AUTHORS#L117]possibly \"Nathan McCoy\"?[/url][/color]
+Level Complete: wansti
+
+[/center]"
+fit_content = true
+scroll_active = false
+
+[node name="Back" type="Button" parent="ScrollContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Return to Title"
+
+[connection signal="meta_clicked" from="ScrollContainer/MarginContainer/HBoxContainer/CreditText" to="." method="_on_rich_text_label_meta_clicked"]
+[connection signal="pressed" from="ScrollContainer/MarginContainer/HBoxContainer/Back" to="." method="_on_back_pressed"]
