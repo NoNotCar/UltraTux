@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkbb80vntsuap"]
+
+[ext_resource type="Script" path="res://ui/level_select/classic_level_select.gd" id="1_u8aib"]
+
+[node name="ClassicLevelSelect" type="AcceptDialog"]
+title = "Level Select"
+size = Vector2i(408, 353)
+ok_button_text = "Close"
+script = ExtResource("1_u8aib")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 5

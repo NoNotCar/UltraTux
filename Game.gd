@@ -2,7 +2,7 @@ extends Node2D
 
 const TuxScene = preload("res://tux/tux.tscn")
 # Called when the node enters the scene tree for the first time.
-var ten_coins = [false, false, false]
+var ten_coins: Array[bool] = [false, false, false]
 var time = 0.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,6 +37,5 @@ func complete_level():
 	$Victory.play()
 	await $Victory.finished
 	await $Level.fade_out()
-	Globals.big_coins += ten_coins.reduce(func(acc: int, got: bool): return acc + (1 if got else 0), 0)
-	Globals.to_next_level()
+	Globals.to_next_level(ten_coins)
 	

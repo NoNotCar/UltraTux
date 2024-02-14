@@ -1,15 +1,17 @@
 extends Node
 
-
+var current_manifest_id: String
+var manifest_root: String
 var current_level = ""
 var global_water_level: float
 var editing = true
 var lives = 10
 var classic_level = 1
 var big_coins = 0
-var classic_complete = false
 enum GAME_MODE {SINGLE_STAGE, CLASSIC}
 var game_mode: GAME_MODE = GAME_MODE.SINGLE_STAGE
+var levelGex = RegEx.create_from_string("([^\\/]+)\\.lvl$")
+var maniGex = RegEx.create_from_string("(.+)\\/[^\\/]+\\.json$")
 
 
 signal coins_updated
@@ -21,14 +23,17 @@ var coins = 0:
 func _ready():
 	AudioServer.set_bus_volume_db(0,-10)
 
-func start_game(mode: GAME_MODE):
+func start_game(manifest_path: String, mode: GAME_MODE):
+	var manifest = Saving.load_manifest(manifest_path)
+	current_manifest_id = manifest.id
+	manifest_root = maniGex.search(manifest_path).get_string(1)
 	game_mode = mode
 	editing = false
 	coins = 0
 	big_coins = 0
 	classic_level = 1
 	if mode == GAME_MODE.CLASSIC:
-		current_level = "res://levels/classic/1-1.lvl"
+		current_level = "%s/1-1.lvl" % manifest_root
 		lives = 10
 		get_tree().change_scene_to_file("res://ui/classic_info_screen.tscn")
 	else:
@@ -36,17 +41,18 @@ func start_game(mode: GAME_MODE):
 		get_tree().change_scene_to_file("res://game.tscn")
 	
 
-func to_next_level():
+func to_next_level(coins: Array[bool]):
+	if current_manifest_id:
+		var level_id = levelGex.search(current_level).get_string(1)
+		Saving.save_level_completion(current_manifest_id, level_id, coins)
 	match game_mode:
 		GAME_MODE.CLASSIC:
 			classic_level += 1
-			var possible_level = "res://levels/classic/%s-%s.lvl" % [1, classic_level]
+			var possible_level = "%s/%s-%s.lvl" % [manifest_root, 1, classic_level]
 			if FileAccess.file_exists(possible_level):
 				current_level = possible_level
 				get_tree().change_scene_to_file("res://ui/classic_info_screen.tscn")
 				return
-			else:
-				classic_complete = true
 	editing = true
 	get_tree().change_scene_to_file("res://title.tscn")
 

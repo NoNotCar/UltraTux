@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dxrddpcdh6rc1"]
+[gd_scene load_steps=5 format=3 uid="uid://dxrddpcdh6rc1"]
 
 [ext_resource type="Script" path="res://title.gd" id="1_ry2lq"]
 [ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_pb0s8"]
+[ext_resource type="PackedScene" uid="uid://bkbb80vntsuap" path="res://ui/level_select/classic_level_select.tscn" id="2_repn0"]
 [ext_resource type="AudioStream" uid="uid://divskmluo7rps" path="res://ui/intro.ogg" id="3_5u5ku"]
 
 [node name="Title" type="Node"]
@@ -39,6 +40,10 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "Classic"
 
+[node name="LevelSelect" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Level Select"
+
 [node name="TestZone" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
@@ -52,6 +57,8 @@ text = "Editor"
 layout_mode = 2
 text = "Credits"
 
+[node name="ClassicLevelSelect" parent="CanvasLayer" instance=ExtResource("2_repn0")]
+
 [node name="Level" parent="." instance=ExtResource("2_pb0s8")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -63,6 +70,7 @@ stream = ExtResource("3_5u5ku")
 autoplay = true
 
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Classic" to="." method="_on_classic_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/LevelSelect" to="." method="_on_level_select_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/TestZone" to="." method="_on_test_zone_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Editor" to="." method="_on_editor_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
