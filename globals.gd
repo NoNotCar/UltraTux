@@ -58,7 +58,8 @@ func to_next_level(coins: Array[bool]):
 				return
 		GAME_MODE.SINGLE_STAGE:
 			if current_manifest_id:
-				get_tree().change_scene_to_file("res://ui/level_select/classic_level_select.tscn")
+				editing = true
+				get_tree().change_scene_to_file("res://ui/level_select/level_select.tscn")
 				return
 	editing = true
 	get_tree().change_scene_to_file("res://title.tscn")

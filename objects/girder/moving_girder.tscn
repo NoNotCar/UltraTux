@@ -21,11 +21,11 @@ shape = SubResource("RectangleShape2D_q8l20")
 one_way_collision = true
 
 [node name="LeftCast" type="RayCast2D" parent="."]
-position = Vector2(-20, 0)
+position = Vector2(-28, 0)
 target_position = Vector2(-8, 0)
 
 [node name="RightCast" type="RayCast2D" parent="."]
-position = Vector2(20, 0)
+position = Vector2(28, 0)
 target_position = Vector2(8, 0)
 
 [node name="SwitchZone" type="Area2D" parent="."]
