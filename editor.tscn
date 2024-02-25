@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://dvutmqo5bfgru"]
+[gd_scene load_steps=51 format=3 uid="uid://dvutmqo5bfgru"]
 
 [ext_resource type="Script" path="res://editor.gd" id="1_1pbdi"]
 [ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_rnuw8"]
@@ -7,10 +7,10 @@
 [ext_resource type="PackedScene" uid="uid://bmngluvyh6i2g" path="res://ui/terrain_tool.tscn" id="3_vkrg3"]
 [ext_resource type="Texture2D" uid="uid://cm1ax48yf3uqx" path="res://ui/save.png" id="4_q5obg"]
 [ext_resource type="Texture2D" uid="uid://b5pl42dwi4u24" path="res://tiles/snow/snowicon.png" id="4_skonm"]
-[ext_resource type="Texture2D" uid="uid://da434f1or7fn8" path="res://themes/antarctic/icon.png" id="5_mhpyt"]
 [ext_resource type="PackedScene" uid="uid://ges81is1xgqf" path="res://ui/object_tool.tscn" id="5_vl1mc"]
 [ext_resource type="Texture2D" uid="uid://gaj2o10xqdg" path="res://tiles/pipe/blueicon.png" id="5_yi6m2"]
 [ext_resource type="Texture2D" uid="uid://d3shcuadayn3h" path="res://objects/spawns/iglooIcon.png" id="6_20r4w"]
+[ext_resource type="Texture2D" uid="uid://c2pakrw0dm1tl" path="res://themes/switch_theme.png" id="6_6651q"]
 [ext_resource type="PackedScene" uid="uid://b2o3hi54g7cx6" path="res://objects/spawns/igloo.tscn" id="7_dil6n"]
 [ext_resource type="Texture2D" uid="uid://1clkjyucer1o" path="res://enemies/snowball/icon.png" id="8_6dvmb"]
 [ext_resource type="Texture2D" uid="uid://dhka36oph3d8l" path="res://ui/play.png" id="8_t3j5c"]
@@ -26,6 +26,7 @@
 [ext_resource type="Texture2D" uid="uid://cloigdeedcmwx" path="res://objects/coins/tenIcon.png" id="13_2417f"]
 [ext_resource type="Texture2D" uid="uid://ceyxbfu3knw8a" path="res://objects/cage/icon.png" id="13_dmuhs"]
 [ext_resource type="Texture2D" uid="uid://cfix1sjtqjndh" path="res://objects/blocks/crate.png" id="13_nurij"]
+[ext_resource type="Texture2D" uid="uid://cm28mqgccvuln" path="res://tiles/rock/backwall_icon.png" id="13_xkk4n"]
 [ext_resource type="PackedScene" uid="uid://bseen7li3ld5h" path="res://objects/cage/cage.tscn" id="14_317ef"]
 [ext_resource type="PackedScene" uid="uid://csi5suuqq0k8c" path="res://objects/coins/ten_coin.tscn" id="14_cjxpq"]
 [ext_resource type="PackedScene" uid="uid://d1yby3xo7nv8j" path="res://objects/blocks/crate.tscn" id="14_h2mqu"]
@@ -48,6 +49,7 @@
 [ext_resource type="PackedScene" uid="uid://eww673ar4b3n" path="res://objects/switch/switch_block.tscn" id="42_gq4g2"]
 [ext_resource type="Texture2D" uid="uid://chusftfd77byi" path="res://enemies/nolok/icon.png" id="43_ob1fc"]
 [ext_resource type="PackedScene" uid="uid://b3wlj7j8rkukt" path="res://enemies/nolok/nolok.tscn" id="44_3714r"]
+[ext_resource type="PackedScene" uid="uid://tx2s4rdqpdyo" path="res://ui/switch_theme_dialog.tscn" id="49_abkx0"]
 
 [node name="Editor" type="Node2D"]
 script = ExtResource("1_1pbdi")
@@ -94,7 +96,7 @@ stretch_mode = 5
 [node name="SwitchTheme" type="TextureRect" parent="UI/Hotbar"]
 layout_mode = 2
 mouse_filter = 0
-texture = ExtResource("5_mhpyt")
+texture = ExtResource("6_6651q")
 expand_mode = 2
 stretch_mode = 5
 
@@ -175,6 +177,12 @@ layout_mode = 2
 mouse_filter = 1
 texture = ExtResource("12_jykiu")
 terrain = "greybrick"
+
+[node name="BackWall" parent="UI/FullTools/GridContainer" instance=ExtResource("3_vkrg3")]
+layout_mode = 2
+mouse_filter = 1
+texture = ExtResource("13_xkk4n")
+terrain = "backwall"
 
 [node name="BluePipe" parent="UI/FullTools/GridContainer" instance=ExtResource("3_vkrg3")]
 layout_mode = 2
@@ -271,6 +279,8 @@ allow_drag = true
 layout_mode = 2
 texture = ExtResource("13_2417f")
 scene = ExtResource("14_cjxpq")
+
+[node name="SwitchThemeDialog" parent="UI" instance=ExtResource("49_abkx0")]
 
 [connection signal="gui_input" from="UI/Hotbar/More" to="." method="_on_more_gui_input"]
 [connection signal="gui_input" from="UI/Hotbar/Open" to="." method="_on_open_gui_input"]

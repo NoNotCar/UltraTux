@@ -87,6 +87,7 @@ func _on_play_gui_input(event):
 		$Level.save(fname)
 		Globals.current_level = fname
 		Globals.editing = false
+		Globals.game_mode = Globals.GAME_MODE.TESTING
 		get_tree().change_scene_to_file("res://game.tscn")
 		
 
@@ -123,8 +124,7 @@ func _on_add_layer_pressed():
 
 func _on_switch_theme_gui_input(event):
 	if event.is_action_pressed("editor_place"):
-		$Level.current_layer.theme = "castle"
-		$Level.current_layer.load_theme()
+		$UI/SwitchThemeDialog.popup_centered()
 
 
 func _on_more_gui_input(event):

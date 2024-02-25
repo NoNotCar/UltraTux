@@ -18,5 +18,5 @@ func _process(delta):
 
 
 func _on_pressed():
-	Globals.current_level = "res://levels/classic/%s.lvl" % level
-	Globals.start_game("res://levels/classic/manifest.json", Globals.GAME_MODE.SINGLE_STAGE)
+	Globals.current_level = "%s/%s.lvl" % [Globals.manifest_root, level]
+	Globals.start_game( Globals.GAME_MODE.SINGLE_STAGE)

@@ -1,14 +1,15 @@
-extends AcceptDialog
+extends Control
 
 const lvlButton = preload("res://ui/level_select/classic_level_button.tscn")
 
-func show_for_id(id: String):
-	for c in $GridContainer.get_children():
-		c.queue_free()
-	var complete = Saving.get_level_completion(id)
+func _ready():
+	var complete = Saving.get_level_completion(Globals.current_manifest_id)
 	for lvl in complete.keys():
 		var lb = lvlButton.instantiate()
 		lb.level = lvl
 		lb.coins = complete[lvl]
-		$GridContainer.add_child(lb)
-	popup_centered()
+		%LevelGrid.add_child(lb)
+
+
+func _on_back_button_pressed():
+	get_tree().change_scene_to_file("res://title.tscn")

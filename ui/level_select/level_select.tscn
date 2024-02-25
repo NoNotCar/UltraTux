@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://bvcerhe6b04li"]
+
+[ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="1_36l3n"]
+[ext_resource type="Script" path="res://ui/level_select/level_select.gd" id="1_gpxa5"]
+[ext_resource type="AudioStream" uid="uid://bw1gv6pnvgn5x" path="res://ui/level_select/level_select.ogg" id="2_l3kr5"]
+[ext_resource type="PackedScene" uid="uid://bkbb80vntsuap" path="res://ui/level_select/classic_level_select.tscn" id="2_nakbf"]
+
+[node name="LevelSelect" type="Node"]
+script = ExtResource("1_gpxa5")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ClassicLevelSelect" parent="UI" instance=ExtResource("2_nakbf")]
+
+[node name="Level" parent="." instance=ExtResource("1_36l3n")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_l3kr5")
+volume_db = -7.0
+autoplay = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -160)
+zoom = Vector2(3, 3)
+limit_bottom = 8

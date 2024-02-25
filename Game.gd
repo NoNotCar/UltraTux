@@ -23,7 +23,7 @@ func spawn_tux():
 	$TuxCam.target = tux
 
 func _input(event):
-	if Globals.game_mode == Globals.GAME_MODE.SINGLE_STAGE and event.is_action_pressed("exit_testing"):
+	if Globals.game_mode == Globals.GAME_MODE.TESTING and event.is_action_pressed("exit_testing"):
 		get_tree().change_scene_to_file("res://editor.tscn")
 		
 func collect_ten_coin(n: int):

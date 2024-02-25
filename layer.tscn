@@ -1,12 +1,41 @@
-[gd_scene load_steps=15 format=3 uid="uid://0tudryuah0em"]
+[gd_scene load_steps=18 format=3 uid="uid://0tudryuah0em"]
 
 [ext_resource type="Script" path="res://layer.gd" id="1_sbcnp"]
+[ext_resource type="Texture2D" uid="uid://dpkgn2r5a2sy0" path="res://tiles/rock/backwall.png" id="2_4k1hf"]
 [ext_resource type="Texture2D" uid="uid://d1kf5sqnppsv5" path="res://tiles/snow/snow.png" id="2_wgeic"]
 [ext_resource type="Texture2D" uid="uid://xx6s7cbjkbdv" path="res://tiles/rock/seabed.png" id="3_0ovdt"]
 [ext_resource type="Texture2D" uid="uid://d3u1jtx4odym1" path="res://tiles/pipe/blue.png" id="3_cf08o"]
 [ext_resource type="Texture2D" uid="uid://d4a40qdld4mpi" path="res://tiles/brick/greybrick.png" id="4_ialny"]
 [ext_resource type="PackedScene" uid="uid://k5j6cm7dii5q" path="res://common/endless_row.tscn" id="4_ij480"]
 [ext_resource type="Texture2D" uid="uid://day8dn4irpr27" path="res://tiles/void.png" id="5_lysy5"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cuuni"]
+texture = ExtResource("2_4k1hf")
+texture_region_size = Vector2i(8, 8)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+9:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_5iv73"]
+tile_size = Vector2i(8, 8)
+sources/0 = SubResource("TileSetAtlasSource_cuuni")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_41df0"]
 resource_name = "snow"
@@ -376,6 +405,11 @@ normal = Vector2(0, 1)
 
 [node name="Layer" type="Node2D"]
 script = ExtResource("1_sbcnp")
+
+[node name="Back8" type="TileMap" parent="."]
+z_index = -10
+tile_set = SubResource("TileSet_5iv73")
+format = 2
 
 [node name="Terrain8" type="TileMap" parent="."]
 z_index = 1

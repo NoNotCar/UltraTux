@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://cky0damatw6yw"]
+
+[ext_resource type="PackedScene" uid="uid://cw5vt43r3r4hg" path="res://themes/antarctic/antarctic.tscn" id="1_fby72"]
+[ext_resource type="AudioStream" uid="uid://7vgkbjkexugo" path="res://themes/antarctic/night.ogg" id="2_t54ys"]
+
+[sub_resource type="Gradient" id="Gradient_0m8tn"]
+colors = PackedColorArray(0, 0.184314, 0.12549, 1, 0, 0, 0, 1)
+
+[node name="Antarctic Night" instance=ExtResource("1_fby72")]
+music = ExtResource("2_t54ys")
+
+[node name="GradientBackground" parent="." index="0"]
+gradient = SubResource("Gradient_0m8tn")
+
+[node name="Sprite2D" parent="ParallaxBackground/ParallaxLayer/EndlessRow" index="0"]
+modulate = Color(0.501407, 0.501406, 0.501406, 1)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." index="3"]
+color = Color(0.501961, 0.501961, 0.501961, 1)

@@ -2,20 +2,52 @@
 
 [ext_resource type="Script" path="res://ui/level_select/classic_level_select.gd" id="1_u8aib"]
 
-[node name="ClassicLevelSelect" type="AcceptDialog"]
-title = "Level Select"
-size = Vector2i(408, 353)
-ok_button_text = "Close"
-script = ExtResource("1_u8aib")
-
-[node name="GridContainer" type="GridContainer" parent="."]
+[node name="ClassicLevelSelect" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 8.0
-offset_right = -8.0
-offset_bottom = -49.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_u8aib")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -45.5
+offset_right = 45.5
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "Level Select"
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LevelGrid" type="GridContainer" parent="CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
 columns = 5
+
+[node name="BackButton" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -4.0
+offset_top = -8.0
+offset_right = 4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Back"
+
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

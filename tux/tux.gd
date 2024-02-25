@@ -34,6 +34,8 @@ func _physics_process(delta):
 		return
 	var input = Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	for dir in pipe_entry.keys():
+		if input.x and not (immersed or is_on_floor()):
+			continue
 		if input.dot(dir) > 0.5:
 			entering_pipe = true
 			pipe_layer = pipe_entry[dir]

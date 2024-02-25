@@ -8,7 +8,7 @@ var editing = true
 var lives = 10
 var classic_level = 1
 var big_coins = 0
-enum GAME_MODE {SINGLE_STAGE, CLASSIC}
+enum GAME_MODE {SINGLE_STAGE, TESTING, CLASSIC}
 var game_mode: GAME_MODE = GAME_MODE.SINGLE_STAGE
 var levelGex = RegEx.create_from_string("([^\\/]+)\\.lvl$")
 var maniGex = RegEx.create_from_string("(.+)\\/[^\\/]+\\.json$")
@@ -22,11 +22,14 @@ var coins = 0:
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	AudioServer.set_bus_volume_db(0,-10)
-
-func start_game(manifest_path: String, mode: GAME_MODE):
+	
+func load_manifest(manifest_path: String):
 	var manifest = Saving.load_manifest(manifest_path)
 	current_manifest_id = manifest.id
 	manifest_root = maniGex.search(manifest_path).get_string(1)
+	return manifest
+
+func start_game(mode: GAME_MODE):
 	game_mode = mode
 	editing = false
 	coins = 0
@@ -53,6 +56,10 @@ func to_next_level(coins: Array[bool]):
 				current_level = possible_level
 				get_tree().change_scene_to_file("res://ui/classic_info_screen.tscn")
 				return
+		GAME_MODE.SINGLE_STAGE:
+			if current_manifest_id:
+				get_tree().change_scene_to_file("res://ui/level_select/classic_level_select.tscn")
+				return
 	editing = true
 	get_tree().change_scene_to_file("res://title.tscn")
 
@@ -67,6 +74,8 @@ func load_theme(theme: String)->PackedScene:
 	match theme:
 		"antarctic":
 			return load("res://themes/antarctic/antarctic.tscn")
+		"antarctic_night":
+			return load("res://themes/antarctic/antarctic_night.tscn")
 		"cave":
 			return load("res://themes/cave/cave.tscn")
 		"underwater":

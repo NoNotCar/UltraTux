@@ -57,7 +57,8 @@ func load_level(level: String):
 			loading_layer = int(thing.lstrip("layer"))
 			layers[loading_layer] = current_layer
 			current_layer.theme = f.get_pascal_string()
-		elif thing.ends_with(".tscn"):
+		elif thing.ends_with(".tscn") or Registry.objects.has(thing):
+			thing = Registry.objects.get(thing, thing)
 			var scene = objectCache.get(thing, load(thing))
 			objectCache[thing] = scene
 			var inst = current_layer.spawn_object(scene, Vector2i(f.get_64(), f.get_64()))
