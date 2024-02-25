@@ -18,7 +18,7 @@ var height_limit = 0.0:
 			limit_top = -1e6
 const ARROW_GROW=0.2
 const K_OFF = 32.0
-const MAX_HEIGHT = 16 * 16
+const MAX_HEIGHT = 17 * 16
 #var cam_offset = Vector2.ZERO
 # Called when the  node enters the scene tree for the first time.
 func _ready():

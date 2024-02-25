@@ -13,7 +13,7 @@ func reposition():
 	var bounds = get_viewport_rect().size;
 	var cam = get_viewport().get_camera_2d()
 	var zoom = cam.zoom.x
-	motion_offset = Vector2.DOWN * (bounds.y*(motion_scale.y/zoom) + 8)
+	motion_offset = Vector2.DOWN * (bounds.y*(motion_scale.y/zoom) + 8 * motion_scale.y)
 
 
 

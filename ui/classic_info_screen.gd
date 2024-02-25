@@ -8,6 +8,8 @@ func _ready():
 	if result:
 		$CenterContainer/VBoxContainer/Level/WorldDigit.digit = int(result.get_string(1))
 		$CenterContainer/VBoxContainer/Level/LevelDigit.digit = int(result.get_string(2))
+	else:
+		$CenterContainer/VBoxContainer/Level.hide()
 	$CenterContainer/VBoxContainer/Lives/Number.number = Globals.lives
 
 

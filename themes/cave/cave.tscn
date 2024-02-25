@@ -22,7 +22,7 @@ parallax = 0.5
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer/EndlessRow"]
 modulate = Color(0.392157, 0.392157, 0.392157, 1)
 texture = ExtResource("1_pn2ic")
-offset = Vector2(0, -135)
+offset = Vector2(0, -136)
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color(0.627451, 0.627451, 0.627451, 1)
