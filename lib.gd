@@ -35,6 +35,9 @@ func int_angle(angle: float):
 	
 func snap_angle(angle: float):
 	return int_angle(angle) * (TAU / 4)
-		
+
+const WATER_DAMPING = 0.1
+func water_damp(body: CharacterBody2D, delta: float):
+	body.velocity *= pow(WATER_DAMPING, delta)
 		
 	

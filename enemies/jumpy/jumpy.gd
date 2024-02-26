@@ -19,10 +19,12 @@ func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
-
 	else:
 		velocity += (JUMP_VELOCITY + randf_range(-10, 10)) * get_floor_normal()
 		$AnimatedSprite2D.play("jump")
+	
+	if Globals.get_water_depth(position) > 0:
+		Lib.water_damp(self, delta)
 
 
 	move_and_slide()

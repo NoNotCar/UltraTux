@@ -28,3 +28,18 @@ func save_level_completion(id: String, lvl: String, coins: Array[bool]):
 	save_file.set_value("levels", lvl, progress)
 	save_file.save(path)
 	
+func get_all_files(path: String, target_name:= "", files := []):
+	var dir = DirAccess.open(path)
+	dir.list_dir_begin()
+	var file_name = dir.get_next()
+	while file_name != "":
+		if dir.current_is_dir():
+			files = get_all_files(path + "/" + file_name, target_name, files)
+		else:
+			if target_name and file_name != target_name:
+				file_name = dir.get_next()
+				continue
+			files.append(path + "/" + file_name)
+		file_name = dir.get_next()
+	return files
+	

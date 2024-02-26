@@ -8,15 +8,13 @@ func _ready():
 
 
 
-	
-func bash(_tux: Tux):
-	kill()
+
 
 func pound(_tux: Tux):
-	kill()
+	impact()
 	return true
 
-func kill():
+func impact():
 	if breaking:
 		return
 	breaking = true

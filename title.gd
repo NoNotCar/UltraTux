@@ -1,28 +1,49 @@
 extends Node
 
-const star = "*"
 const MAX_STARS = 15
 const FILE_DIALOG_SIZE = Vector2(600,400)
+const CLASSIC_MANIFEST = "res://levels/classic/manifest.json"
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#if Globals.classic_complete:
-		#$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Classic.text += " " + star
-		#if Globals.big_coins >= MAX_STARS * 0.5:
-			#$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Classic.text += star
-		#if Globals.big_coins >= MAX_STARS:
-			#$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/Classic.text += star
+	if not OS.has_feature("web"):
+		$CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/MainButtons/Quit.show()
+	var classic_progress = Saving.get_level_completion("classic")
+	if classic_progress.has("1-5"):
+		%Stars/Star1.show()
+		var total_coins = 0
+		for lvl in classic_progress.values():
+			for coin in lvl:
+				if coin:
+					total_coins += 1
+		if total_coins >= MAX_STARS * 0.5:
+			%Stars/Star2.show()
+		if total_coins >= MAX_STARS:
+			%Stars/Star3.show()
 	$Level.load_level("res://levels/title/1-title.lvl")
+	var manifests = Saving.get_all_files("res://levels", "manifest.json")
+	manifests.append_array(Saving.get_all_files("user://", "manifest.json"))
+	for m in manifests:
+		if m!=CLASSIC_MANIFEST:
+			var loaded = Globals.load_manifest(m)
+			var button = Button.new()
+			button.text = loaded.name
+			%BonusOptions.add_child(button)
+			%BonusOptions.move_child(button, 0)
+			button.pressed.connect(load_manifest.bind(m))
 
 func load_manifest(path: String):
 	var manifest = Globals.load_manifest(path)
 	if manifest.mode == "classic":
 		if Saving.get_level_completion(manifest.id).size():
 			%MainButtons.hide()
+			%BonusOptions.hide()
 			%GameOptions.show()
 		else:
 			_on_from_start_pressed()
+	elif manifest.mode == "bonus":
+		_on_level_select_pressed()
 			
-
+		
 
 
 func _on_editor_pressed():
@@ -31,7 +52,7 @@ func _on_editor_pressed():
 
 
 func _on_classic_pressed():
-	load_manifest("res://levels/classic/manifest.json")
+	load_manifest(CLASSIC_MANIFEST)
 
 
 func _on_credits_pressed():
@@ -55,6 +76,7 @@ func _on_load_level_pressed():
 	$CanvasLayer/LoadLevelDialog.popup_centered(FILE_DIALOG_SIZE)
 
 func _on_load_level_dialog_file_selected(path):
+	Globals.clear_manifest()
 	Globals.current_level = path
 	Globals.start_game(Globals.GAME_MODE.SINGLE_STAGE)
 
@@ -64,3 +86,19 @@ func _on_load_level_dialog_file_selected(path):
 func _on_bonus_back_pressed():
 	%MainButtons.show()
 	%BonusOptions.hide()
+
+
+func _on_options_pressed():
+	%MainButtons.hide()
+	%ActualOptions.show()
+	
+
+
+func _on_actual_options_confirmed():
+	%MainButtons.show()
+	%ActualOptions.hide()
+
+
+
+func _on_quit_pressed():
+	get_tree().quit()

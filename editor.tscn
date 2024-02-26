@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://dvutmqo5bfgru"]
+[gd_scene load_steps=52 format=3 uid="uid://dvutmqo5bfgru"]
 
 [ext_resource type="Script" path="res://editor.gd" id="1_1pbdi"]
 [ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_rnuw8"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://b5pl42dwi4u24" path="res://tiles/snow/snowicon.png" id="4_skonm"]
 [ext_resource type="PackedScene" uid="uid://ges81is1xgqf" path="res://ui/object_tool.tscn" id="5_vl1mc"]
 [ext_resource type="Texture2D" uid="uid://gaj2o10xqdg" path="res://tiles/pipe/blueicon.png" id="5_yi6m2"]
+[ext_resource type="Texture2D" uid="uid://b602pomie0d2r" path="res://ui/download.png" id="6_1nf36"]
 [ext_resource type="Texture2D" uid="uid://d3shcuadayn3h" path="res://objects/spawns/iglooIcon.png" id="6_20r4w"]
 [ext_resource type="Texture2D" uid="uid://c2pakrw0dm1tl" path="res://themes/switch_theme.png" id="6_6651q"]
 [ext_resource type="PackedScene" uid="uid://b2o3hi54g7cx6" path="res://objects/spawns/igloo.tscn" id="7_dil6n"]
@@ -90,6 +91,13 @@ stretch_mode = 5
 layout_mode = 2
 mouse_filter = 0
 texture = ExtResource("4_q5obg")
+expand_mode = 2
+stretch_mode = 5
+
+[node name="Download" type="TextureRect" parent="UI/Hotbar"]
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("6_1nf36")
 expand_mode = 2
 stretch_mode = 5
 
@@ -285,6 +293,7 @@ scene = ExtResource("14_cjxpq")
 [connection signal="gui_input" from="UI/Hotbar/More" to="." method="_on_more_gui_input"]
 [connection signal="gui_input" from="UI/Hotbar/Open" to="." method="_on_open_gui_input"]
 [connection signal="gui_input" from="UI/Hotbar/Save" to="." method="_on_save_gui_input"]
+[connection signal="gui_input" from="UI/Hotbar/Download" to="." method="_on_download_gui_input"]
 [connection signal="gui_input" from="UI/Hotbar/SwitchTheme" to="." method="_on_switch_theme_gui_input"]
 [connection signal="gui_input" from="UI/Hotbar/Play" to="." method="_on_play_gui_input"]
 [connection signal="file_selected" from="UI/SaveDialog" to="." method="_on_save_dialog_file_selected"]

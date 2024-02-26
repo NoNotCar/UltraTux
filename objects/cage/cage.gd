@@ -2,14 +2,7 @@ extends StaticBody2D
 
 var broken = false
 
-	
-func bash(_tux: Tux):
-	kill()
-
-func pound(_tux: Tux):
-	kill()
-
-func kill():
+func impact():
 	if broken:
 		return
 	broken = true

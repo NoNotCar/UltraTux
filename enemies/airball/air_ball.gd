@@ -18,8 +18,16 @@ static var hurts = true
 
 const Explosion = preload("res://common/explosion.tscn")
 
+var active = false
+func start():
+	active = true
+
 func _physics_process(delta):
+	if not active:
+		return
+	var is_underwater = Globals.get_water_depth(position) > 0
 	if crashing:
+		$Bubbles.emitting = false
 		velocity += Vector2.DOWN * gravity * delta
 		if is_on_floor():
 			kill()
@@ -43,6 +51,10 @@ func _physics_process(delta):
 		if correction.length() > MAX_ACCEL:
 			correction = correction.normalized() * MAX_ACCEL
 		velocity += correction * delta
+		$Bubbles.emitting = is_underwater
+	if is_underwater:
+		Lib.water_damp(self,delta)
+	else:
 		velocity *= pow(AIR_RESISTANCE, delta)
 	move_and_slide()
 

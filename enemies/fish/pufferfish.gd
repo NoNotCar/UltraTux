@@ -11,16 +11,21 @@ var last_error = Vector2.ZERO
 @onready var home = position
 var firing = false
 var dying = false
-const AIR_RESISTANCE = 0.4
+const WATER_RESISTANCE = 0.4
+static var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 const Bubble = preload("res://enemies/fish/puffer_bubble.tscn")
 
 static var hurts = true
 
+var active = false
+func start():
+	active = true
 
 func _physics_process(delta):
-	if dying:
+	if dying or not active:
 		return
-	if not firing:
+	var depth = Globals.get_water_depth(position)
+	if not firing and depth > 0:
 		var target_position:Vector2
 		if chasing:
 			target_position = chasing.position
@@ -40,7 +45,9 @@ func _physics_process(delta):
 		if correction.length() > MAX_ACCEL:
 			correction = correction.normalized() * MAX_ACCEL
 		velocity += correction * delta
-	velocity *= pow(AIR_RESISTANCE, delta)
+	if depth <= 0:
+		velocity += Vector2.DOWN * gravity * delta
+	velocity *= pow(WATER_RESISTANCE, delta)
 	move_and_slide()
 
 

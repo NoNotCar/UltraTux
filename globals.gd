@@ -2,6 +2,8 @@ extends Node
 
 var current_manifest_id: String
 var manifest_root: String
+var manifest_name: String
+var manifest_mode: String
 var current_level = ""
 var global_water_level: float
 var editing = true
@@ -20,14 +22,21 @@ var coins = 0:
 		coins = value
 		emit_signal("coins_updated", value)
 # Called when the node enters the scene tree for the first time.
-func _ready():
-	AudioServer.set_bus_volume_db(0,-10)
+
 	
 func load_manifest(manifest_path: String):
 	var manifest = Saving.load_manifest(manifest_path)
 	current_manifest_id = manifest.id
 	manifest_root = maniGex.search(manifest_path).get_string(1)
+	manifest_name = manifest.name
+	manifest_mode = manifest.mode
 	return manifest
+	
+func clear_manifest():
+	current_manifest_id = ""
+	manifest_root = ""
+	manifest_name = ""
+	manifest_mode = ""
 
 func start_game(mode: GAME_MODE):
 	game_mode = mode

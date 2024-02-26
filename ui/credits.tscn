@@ -51,14 +51,15 @@ unique_name_in_owner = true
 layout_mode = 2
 bbcode_enabled = true
 text = "[center]
-[b]Programming, Sprites[/b]
+[b]Programming, Sprites, Level Design[/b]
 
 NoNotCar
 
 [b]Music[/b]
 
 Title: wansti (GPLv2 + CC-by-sa)
-Antarctic: [color=cyan][url=https://opengameart.org/users/wolfgang]Wolfgang[/url][/color] (CC0)
+Antarctic (Day): [color=cyan][url=https://opengameart.org/users/wolfgang]Wolfgang[/url][/color] (CC0)
+Antarctic (Night): wansti (GPLv2 + CC-by-sa)
 Cave: wansti (GPLv2 + CC-by-sa)
 Underwater: Juhani Junkala (CC0)
 Castle: wansti (GPLv2 + CC-by-sa)

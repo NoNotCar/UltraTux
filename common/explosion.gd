@@ -20,6 +20,8 @@ func _process(delta):
 func _on_death_zone_body_entered(body):
 	if body.has_method("kill"):
 		body.call_deferred("kill")
+	elif body.has_method("impact"):
+		body.call_deferred("impact")
 		
 
 

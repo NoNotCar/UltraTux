@@ -149,15 +149,22 @@ func _physics_process(delta):
 			pounding = 0.0 if input.y < 0.5 or not dest else FULL_POUND
 			if not pounding:
 				$Pound.play()
+		elif is_down and pounding and collider.has_method("impact"):
+			collider.impact()
+			pounding = 0.0
+			if not pounding:
+				$Pound.play()
 		elif is_down and collider.has_method("squish"):
 			collider.squish(self)
 			if not (jump or pounding):
 				velocity+=Vector2.UP*40
 				jump=3
-		elif normal.dot(Vector2.DOWN)>0.5 and collider.has_method("bash"):
+		elif not immersed and normal.dot(Vector2.DOWN)>0.5 and collider.has_method("bash"):
 			collider.bash(self)
 			velocity+=Vector2.DOWN*20
 			$Pound.play()
+		elif not immersed and normal.dot(Vector2.DOWN)>0.5 and collider.has_method("impact"):
+			collider.impact()
 		elif "hurts" in collider:
 			kill()
 			return
@@ -259,6 +266,8 @@ func squish(_squisher):
 
 
 func kill():
+	if entering_pipe:
+		return
 	disable_collision()
 	var deathTween = get_tree().create_tween()
 	deathTween.tween_property($Sprite,"scale",Vector2.ZERO,0.5)\

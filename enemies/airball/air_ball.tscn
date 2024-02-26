@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://bj5lm3jvi1sps"]
+[gd_scene load_steps=24 format=3 uid="uid://bj5lm3jvi1sps"]
 
 [ext_resource type="Texture2D" uid="uid://bubh2w07yj1tl" path="res://enemies/airball/airballAngry.png" id="1_n60k8"]
 [ext_resource type="Script" path="res://enemies/airball/air_ball.gd" id="1_quhk1"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cxrneddk11ybh" path="res://enemies/airball/airball.png" id="3_fs317"]
 [ext_resource type="AudioStream" uid="uid://bh8tnd4hqcrah" path="res://enemies/airball/alarm.wav" id="4_4amm4"]
 [ext_resource type="Texture2D" uid="uid://c15xkckcto311" path="res://enemies/airball/blackSmoke.png" id="5_eojnw"]
+[ext_resource type="Texture2D" uid="uid://k13e4jwedh2h" path="res://common/smallBubble.png" id="7_vnpan"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rt74k"]
 atlas = ExtResource("1_n60k8")
@@ -128,10 +129,11 @@ script = ExtResource("1_quhk1")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_fo23t")
-animation = &"falling"
+animation = &"waiting"
 autoplay = "waiting"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CapsuleShape2D_maovs")
 
 [node name="Vision" type="Area2D" parent="."]
@@ -139,6 +141,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Vision"]
+visible = false
 shape = SubResource("CircleShape2D_ao6cd")
 
 [node name="Alarm" type="AudioStreamPlayer2D" parent="."]
@@ -158,6 +161,22 @@ gravity = Vector2(0, 0)
 initial_velocity_max = 2.0
 angle_min = -180.0
 angle_max = 180.0
+scale_amount_min = 0.5
+scale_amount_max = 0.75
+scale_amount_curve = SubResource("Curve_kn5om")
+
+[node name="Bubbles" type="CPUParticles2D" parent="."]
+position = Vector2(0, 7)
+emitting = false
+amount = 16
+texture = ExtResource("7_vnpan")
+emission_shape = 3
+emission_rect_extents = Vector2(6, 1)
+direction = Vector2(0, 1)
+spread = 20.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 12.0
+initial_velocity_max = 16.0
 scale_amount_min = 0.5
 scale_amount_max = 0.75
 scale_amount_curve = SubResource("Curve_kn5om")

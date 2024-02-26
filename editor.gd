@@ -76,7 +76,7 @@ func _unhandled_input(event):
 	elif event.is_action_released("editor_erase"):
 		enableErasing = false
 	elif event.is_action_pressed("editor_menu"):
-		$UI/FullTools.show()
+		$UI/FullTools.visible = not $UI/FullTools.visible 
 		
 	
 
@@ -95,6 +95,18 @@ func _on_play_gui_input(event):
 func _on_save_gui_input(event):
 	if event.is_action_pressed("editor_place"):
 		$UI/SaveDialog.popup_centered(FILE_DIALOG_SIZE)
+		
+
+func _on_download_gui_input(event):
+	if event.is_action_pressed("editor_place"):
+		if OS.has_feature('web'):
+			var fname = "user://temp.lvl"
+			$Level.save(fname)
+			var f = FileAccess.open(fname, FileAccess.READ)
+			JavaScriptBridge.download_buffer(f.get_buffer(f.get_length()), "level.lvl")
+		else:
+			OS.shell_open(OS.get_user_data_dir())
+			
 
 
 func _on_open_gui_input(event):
@@ -130,3 +142,5 @@ func _on_switch_theme_gui_input(event):
 func _on_more_gui_input(event):
 	if event.is_action_pressed("editor_place"):
 		$UI/FullTools.show()
+
+

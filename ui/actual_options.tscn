@@ -1,0 +1,31 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqh34xadnv5yv"]
+
+[ext_resource type="Script" path="res://ui/actual_options.gd" id="1_vwyo6"]
+
+[node name="ActualOptions" type="VBoxContainer"]
+script = ExtResource("1_vwyo6")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+text = "Volume"
+
+[node name="Volume" type="HSlider" parent="HBoxContainer"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="FullScreen" type="CheckButton" parent="."]
+layout_mode = 2
+text = "Fullscreen"
+
+[node name="Confirm" type="Button" parent="."]
+layout_mode = 2
+text = "Confirm"
+
+[connection signal="value_changed" from="HBoxContainer/Volume" to="." method="_on_volume_value_changed"]
+[connection signal="pressed" from="Confirm" to="." method="_on_confirm_pressed"]
