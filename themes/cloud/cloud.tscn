@@ -1,0 +1,30 @@
+[gd_scene load_steps=8 format=3 uid="uid://c74cxblr7v31n"]
+
+[ext_resource type="Script" path="res://themes/theme.gd" id="1_tus1l"]
+[ext_resource type="AudioStream" uid="uid://5si4ei1ntxh5" path="res://themes/antarctic/moving.ogg" id="2_8gub5"]
+[ext_resource type="PackedScene" uid="uid://6vtsy4hr3gcq" path="res://themes/gradient_background.tscn" id="3_tcec3"]
+[ext_resource type="PackedScene" uid="uid://jr7okk835dks" path="res://themes/bottom_parallax.tscn" id="4_3edpk"]
+[ext_resource type="PackedScene" uid="uid://k5j6cm7dii5q" path="res://common/endless_row.tscn" id="5_2el05"]
+[ext_resource type="Texture2D" uid="uid://lcsldehglnjf" path="res://themes/cloud/cloudbase.png" id="6_7wgnk"]
+
+[sub_resource type="Gradient" id="Gradient_tcypy"]
+colors = PackedColorArray(0.580392, 0.992157, 1, 1, 0.0470588, 0.945098, 1, 1)
+
+[node name="Cloud" type="Node2D"]
+script = ExtResource("1_tus1l")
+music = ExtResource("2_8gub5")
+
+[node name="GradientBackground" parent="." instance=ExtResource("3_tcec3")]
+gradient = SubResource("Gradient_tcypy")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" parent="ParallaxBackground" instance=ExtResource("4_3edpk")]
+
+[node name="EndlessRow" parent="ParallaxBackground/ParallaxLayer" instance=ExtResource("5_2el05")]
+repeat_every = 480
+parallax = 0.5
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer/EndlessRow"]
+texture = ExtResource("6_7wgnk")
+offset = Vector2(0, -60)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://tx2s4rdqpdyo"]
+[gd_scene load_steps=8 format=3 uid="uid://tx2s4rdqpdyo"]
 
 [ext_resource type="Script" path="res://ui/switch_theme_dialog.gd" id="1_wvycn"]
 [ext_resource type="Texture2D" uid="uid://da434f1or7fn8" path="res://themes/antarctic/icon.png" id="2_sis6n"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bir561mn1bmk1" path="res://themes/cave/icon.png" id="4_uvgwp"]
 [ext_resource type="Texture2D" uid="uid://daxsj3yo6v5t2" path="res://themes/underwater/icon.png" id="5_om72x"]
 [ext_resource type="Texture2D" uid="uid://baevy21dk7slt" path="res://themes/castle/icon.png" id="6_00ir7"]
+[ext_resource type="Texture2D" uid="uid://b1rf28qj173x" path="res://themes/cloud/cloud_icon_dark.png" id="7_3yq1k"]
 
 [node name="SwitchThemeDialog" type="AcceptDialog"]
 title = "Switch Theme"
@@ -49,8 +50,15 @@ text = "Castle"
 icon = ExtResource("6_00ir7")
 expand_icon = true
 
+[node name="CloudNight" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Cloud (Night)"
+icon = ExtResource("7_3yq1k")
+expand_icon = true
+
 [connection signal="pressed" from="VBoxContainer/Antarctic" to="." method="_on_antarctic_pressed"]
 [connection signal="pressed" from="VBoxContainer/AntarcticNight" to="." method="_on_antarctic_night_pressed"]
 [connection signal="pressed" from="VBoxContainer/Cave" to="." method="_on_cave_pressed"]
 [connection signal="pressed" from="VBoxContainer/Undersea" to="." method="_on_undersea_pressed"]
 [connection signal="pressed" from="VBoxContainer/Castle" to="." method="_on_castle_pressed"]
+[connection signal="pressed" from="VBoxContainer/CloudNight" to="." method="_on_cloud_night_pressed"]

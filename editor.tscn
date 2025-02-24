@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://dvutmqo5bfgru"]
+[gd_scene load_steps=54 format=3 uid="uid://dvutmqo5bfgru"]
 
 [ext_resource type="Script" path="res://editor.gd" id="1_1pbdi"]
 [ext_resource type="PackedScene" uid="uid://bt3lun5hkoyeq" path="res://level.tscn" id="2_rnuw8"]
@@ -41,6 +41,8 @@
 [ext_resource type="Texture2D" uid="uid://cx5fpg48ay23m" path="res://enemies/fish/pufferIcon.png" id="25_8w520"]
 [ext_resource type="Texture2D" uid="uid://cxpadew1dakq" path="res://ui/numerals/plus16.png" id="26_5r5cs"]
 [ext_resource type="PackedScene" uid="uid://b3xe4wp1b1eb7" path="res://enemies/fish/pufferfish.tscn" id="26_ha7ub"]
+[ext_resource type="Texture2D" uid="uid://c6h2k8hu2j5g4" path="res://enemies/snowball/bouncing_icon.png" id="26_udpd0"]
+[ext_resource type="PackedScene" uid="uid://bub812dt7gwam" path="res://enemies/snowball/bouncing_snowball.tscn" id="27_0por7"]
 [ext_resource type="PackedScene" uid="uid://4nnremoih8kd" path="res://ui/tools/spike_tool.tscn" id="35_47h0l"]
 [ext_resource type="Texture2D" uid="uid://by4dx30tl5tgd" path="res://enemies/fireball/firebase.png" id="37_x0h4q"]
 [ext_resource type="PackedScene" uid="uid://dirnnobllg2h" path="res://enemies/fireball/fireball_launcher.tscn" id="38_qovw1"]
@@ -118,14 +120,14 @@ stretch_mode = 4
 
 [node name="SaveDialog" type="FileDialog" parent="UI"]
 title = "Save Level"
-size = Vector2i(392, 159)
+size = Vector2i(392, 175)
 ok_button_text = "Save"
 access = 1
 filters = PackedStringArray("*.lvl ; Level Files")
 
 [node name="OpenDialog" type="FileDialog" parent="UI"]
 title = "Open a File"
-size = Vector2i(392, 159)
+size = Vector2i(392, 175)
 ok_button_text = "Open"
 file_mode = 0
 access = 1
@@ -221,6 +223,11 @@ layout_mode = 2
 layout_mode = 2
 texture = ExtResource("8_6dvmb")
 scene = ExtResource("9_3tgpu")
+
+[node name="BouncingSnowball2" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
+layout_mode = 2
+texture = ExtResource("26_udpd0")
+scene = ExtResource("27_0por7")
 
 [node name="Fish" parent="UI/FullTools/GridContainer" instance=ExtResource("5_vl1mc")]
 layout_mode = 2

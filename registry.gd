@@ -39,6 +39,7 @@ const objects = {
 	"pipe_entrance": "res://objects/warp/pipe_entrance.tscn",
 	"airball": "res://enemies/airball/air_ball.tscn",
 	"snowball": "res://enemies/snowball/snowball.tscn",
+	"bouncing_snowball": "res://enemies/snowball/bouncing_snowball.tscn",
 	"fireball_launcher": "res://enemies/fireball/fireball_launcher.tscn",
 	"fish": "res://enemies/fish/fish.tscn",
 	"pufferfish": "res://enemies/fish/pufferfish.tscn",

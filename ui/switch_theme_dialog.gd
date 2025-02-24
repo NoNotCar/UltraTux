@@ -34,3 +34,7 @@ func _on_undersea_pressed():
 
 func _on_castle_pressed():
 	switch("castle")
+
+
+func _on_cloud_night_pressed() -> void:
+	switch("cloud_night")

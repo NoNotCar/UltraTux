@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://xqq1rdt0xhy0"
+path="res://.godot/imported/Flying High.ogg-1bafafb7b41e3f2c1fd833f46e72d39c.oggvorbisstr"
+
+[deps]
+
+source_file="res://themes/cloud/Flying High.ogg"
+dest_files=["res://.godot/imported/Flying High.ogg-1bafafb7b41e3f2c1fd833f46e72d39c.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=68.533
+bpm=0
+beat_count=0
+bar_beats=4
