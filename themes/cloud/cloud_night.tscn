@@ -12,5 +12,9 @@ music = ExtResource("2_wuchj")
 gradient = ExtResource("2_qel3f")
 
 [node name="Sprite2D" parent="ParallaxBackground/ParallaxLayer/EndlessRow" index="0"]
+self_modulate = Color(0.501961, 0.501961, 0.501961, 1)
 texture = ExtResource("3_yv3f3")
 offset = Vector2(0, -42.5)
+
+[node name="CanvasModulate" type="CanvasModulate" parent="." index="2"]
+color = Color(0.501961, 0.501961, 0.501961, 1)

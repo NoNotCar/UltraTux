@@ -112,6 +112,10 @@ layout_mode = 2
 layout_mode = 2
 text = "From Start"
 
+[node name="FromWorld2" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/GameOptions"]
+layout_mode = 2
+text = "From World 2"
+
 [node name="LevelSelect" type="Button" parent="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/GameOptions"]
 layout_mode = 2
 text = "Level Select"
@@ -158,6 +162,7 @@ autoplay = true
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/MainButtons/Credits" to="." method="_on_credits_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/MainButtons/Quit" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/GameOptions/FromStart" to="." method="_on_from_start_pressed"]
+[connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/GameOptions/FromWorld2" to="." method="_on_from_world_2_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/GameOptions/LevelSelect" to="." method="_on_level_select_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/BonusOptions/LoadLevel" to="." method="_on_load_level_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/VBoxContainer/BonusOptions/Back" to="." method="_on_bonus_back_pressed"]

@@ -9,6 +9,7 @@ var global_water_level: float
 var editing = true
 var lives = 10
 var classic_level = 1
+var classic_world = 1
 var big_coins = 0
 enum GAME_MODE {SINGLE_STAGE, TESTING, CLASSIC}
 var game_mode: GAME_MODE = GAME_MODE.SINGLE_STAGE
@@ -38,14 +39,15 @@ func clear_manifest():
 	manifest_name = ""
 	manifest_mode = ""
 
-func start_game(mode: GAME_MODE):
+func start_game(mode: GAME_MODE, start_world = 1):
 	game_mode = mode
 	editing = false
 	coins = 0
 	big_coins = 0
 	classic_level = 1
+	classic_world = start_world
 	if mode == GAME_MODE.CLASSIC:
-		current_level = "%s/1-1.lvl" % manifest_root
+		current_level = "%s/%s-1.lvl" % [manifest_root, start_world]
 		lives = 10
 		get_tree().change_scene_to_file("res://ui/classic_info_screen.tscn")
 	else:
@@ -60,7 +62,7 @@ func to_next_level(coins: Array[bool]):
 	match game_mode:
 		GAME_MODE.CLASSIC:
 			classic_level += 1
-			var possible_level = "%s/%s-%s.lvl" % [manifest_root, 1, classic_level]
+			var possible_level = "%s/%s-%s.lvl" % [manifest_root, classic_world, classic_level]
 			if FileAccess.file_exists(possible_level):
 				current_level = possible_level
 				get_tree().change_scene_to_file("res://ui/classic_info_screen.tscn")

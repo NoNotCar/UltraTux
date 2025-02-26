@@ -66,6 +66,10 @@ func _on_level_select_pressed():
 
 func _on_from_start_pressed():
 	Globals.start_game(Globals.GAME_MODE.CLASSIC)
+	
+	
+func _on_from_world_2_pressed() -> void:
+	Globals.start_game(Globals.GAME_MODE.CLASSIC, 2)
 
 
 func _on_bonus_levels_pressed():

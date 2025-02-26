@@ -14,6 +14,10 @@ const terrains = {
 		"type": "ut",
 		"id": 2
 	},
+	"cloud": {
+		"type": "ut",
+		"id": 3
+	},
 	"bluepipe": {
 		"type": "pipe",
 		"id": 0,
@@ -40,6 +44,7 @@ const objects = {
 	"airball": "res://enemies/airball/air_ball.tscn",
 	"snowball": "res://enemies/snowball/snowball.tscn",
 	"bouncing_snowball": "res://enemies/snowball/bouncing_snowball.tscn",
+	"bouncing_spawner": "res://enemies/snowball/bouncing_spawner.tscn",
 	"fireball_launcher": "res://enemies/fireball/fireball_launcher.tscn",
 	"fish": "res://enemies/fish/fish.tscn",
 	"pufferfish": "res://enemies/fish/pufferfish.tscn",

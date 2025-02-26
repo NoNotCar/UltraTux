@@ -18,6 +18,7 @@ const Corpse = preload("res://enemies/snowball/snowball_corpse.tscn")
 
 func start():
 	active = true
+	$AnimatedSprite2D.flip_h = direction == -1
 
 func flip_direction():
 	if flip_cooldown:
@@ -30,6 +31,9 @@ func flip_direction():
 
 func _physics_process(delta):
 	if !active: return
+	if position.y > 48:
+		queue_free()
+		
 	flip_cooldown = max(0, flip_cooldown - delta)
 	if is_on_wall():
 		flip_direction()
@@ -60,5 +64,7 @@ func kill():
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if $AnimatedSprite2D.animation == "bounce" and is_on_floor():
-		velocity += (JUMP_VELOCITY + randf_range(-20, 20)) * get_floor_normal()
 		velocity.x = SPEED * (randf_range(0.8, 1.0) + momentum * 0.1) * direction
+		velocity += (JUMP_VELOCITY + randf_range(-20, 20)) * get_floor_normal()
+		if sign(velocity.x) != direction:
+			flip_direction()
